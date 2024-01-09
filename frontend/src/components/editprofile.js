@@ -116,7 +116,7 @@ const EDITPROFILE = ({ user }) => {
                                 id="gender"
                                 placeholder="Select gender"
                                 value={gender}
-                                onChange={e => setGender(e.target.value === 'male')}
+                                onChange={e => setGender(e.target.value === true)}
                             >
                                 <option value={true}>Male</option>
                                 <option value={false}>Female</option>

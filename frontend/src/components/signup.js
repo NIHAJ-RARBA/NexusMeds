@@ -131,20 +131,33 @@ const SIGNUP = () => {
                     />
                 </FormGroup>
 
-                <FormGroup>
-                    <Label for="gender">Gender</Label>
-                    <Input
-                        type="select"
-                        name="gender"
-                        id="gender"
-                        placeholder="Select gender"
-                        value={gender}
-                        onChange={e => setGender(e.target.value === 'male')}
-                    >
-                        <option value={true}>Male</option>
-                        <option value={false}>Female</option>
-                    </Input>
-                </FormGroup>
+                    <FormGroup>
+                        <Label for="gender">Gender</Label>
+                        <div>
+                            <Label check>
+                                <Input
+                                    type="radio"
+                                    name="gender"
+                                    value={true}
+                                    checked={gender === true}
+                                    onChange={e => setGender(true)}
+                                />{' '}
+                                Male
+                            </Label>
+                        </div>
+                        <div>
+                            <Label check>
+                                <Input
+                                    type="radio"
+                                    name="gender"
+                                    value={false}
+                                    checked={gender === false}
+                                    onChange={e => setGender(false)}
+                                />{' '}
+                                Female
+                            </Label>
+                        </div>
+                    </FormGroup>
 
             </Form>
             
