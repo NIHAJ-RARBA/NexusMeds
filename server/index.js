@@ -4,6 +4,9 @@ import cors from "cors";
 import pool from "./DB.js";
 
 
+//amit added this by git
+
+
 
 // middleware
 app.use(cors());
