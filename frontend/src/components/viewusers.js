@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import EDITPROFILE from "./editprofile";
+
 const VIEWUSERS = () => {
 
     const editProfileVisible = false;
@@ -29,6 +30,7 @@ const VIEWUSERS = () => {
             });
 
             setuserList(userList.filter(user => user.user_id !== id));
+            getUsers();
         } catch (error) {
             console.error(error.message);
         }
