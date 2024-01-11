@@ -18,7 +18,7 @@ import {
 const EDITPROFILE = ({ user }) => {
 
     const [person_id, setPerson_id] = useState(user ? user.person_id || "" : "");
-    const [gender, setGender] = useState(user ? user.gender || "" : "" );
+    const [gender, setGender] = useState(user ? user.gender || false : false);
 
     const [fullname, setFullname] = useState(user ? user.fullname || "" : "");
     const [email, setEmail] = useState(user ? user.email || "" : "");
@@ -29,6 +29,7 @@ const EDITPROFILE = ({ user }) => {
     const [_address, setAddress] = useState(user ? user._address || "" : "");
 
     
+
 
 
     // set the state of the modal
@@ -44,25 +45,25 @@ const EDITPROFILE = ({ user }) => {
 
     const updateProfile = async () => {
         try {
-        // Convert empty strings to null for boolean fields
-        const body = {
-            person_id,
-            fullname,
-            email,
-            phone,
-            date_of_birth,
-            profilepicture,
-            _address,
-            gender: gender === '' ? false : gender === 'true',
-        };
-            console.log('Updating profile with data:', body);
-    
+            // Convert empty strings to null for boolean fields
+            const body = {
+                person_id,
+                fullname,
+                email,
+                phone,
+                gender,
+                date_of_birth,
+                profilepicture,
+                _address,
+            };
+            
             const response = await fetch(`http://localhost:5000/users/${user.person_id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body)
+                body: JSON.stringify(body),
             });
-    
+            
+            console.log('Updating profile with data:', body);
             console.log('Response from server:', response);
     
             window.location = "/viewusers";
@@ -70,6 +71,7 @@ const EDITPROFILE = ({ user }) => {
             console.error('Error updating profile:', error.message);
         }
     };
+    
     
 
 
@@ -110,18 +112,37 @@ const EDITPROFILE = ({ user }) => {
 
                         <FormGroup>
                             <Label for="gender">Gender</Label>
-                            <Input
-                                type="select"
-                                name="gender"
-                                id="gender"
-                                placeholder="Select gender"
-                                value={gender}
-                                onChange={e => setGender(e.target.value === true)}
-                            >
-                                <option value={true}>Male</option>
-                                <option value={false}>Female</option>
-                            </Input>
+
+                            <div>
+                            <Label check>
+                                <Input
+                                    type="radio"
+                                    name="gender"
+                                    value={true}
+                                    checked={gender === true}
+                                    onChange={e => setGender(true)}
+                                />{' '}
+                                Male
+                            </Label>
+                        </div>
+                        <div>
+                            <Label check>
+                                <Input
+                                    type="radio"
+                                    name="gender"
+                                    value={false}
+                                    checked={gender === false}
+                                    onChange={e => setGender(false)}
+                                />{' '}
+                                Female
+                            </Label>
+                        </div>
+
                         </FormGroup>
+
+
+                        
+
                     </Form>
                 </ModalBody>
                 <ModalFooter>
