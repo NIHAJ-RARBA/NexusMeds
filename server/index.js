@@ -1,10 +1,13 @@
 import express from "express";
 const app = express();
 import cors from "cors";
-import pool from "./DB.js";
 
 
-//amit added this by git
+// routers
+
+import medicineRouter from "./Routers/medicineRouter.js";
+import userRouter from "./Routers/userRouter.js";
+
 
 
 
@@ -13,91 +16,94 @@ app.use(cors());
 app.use(express.json());
 
 
-// ROUTES
+app.use('/medicine', medicineRouter);
+app.use('/user', userRouter);
+
 
 // create a task
 
-app.post("/users", async (req, res) => {
-    try {
-      const { email, phone, fullname, date_of_birth, gender, _address } = req.body;
-      const newUser = await pool.query(
-        "INSERT INTO person (email, phone, fullname, date_of_birth, gender, _address) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
-        [email, phone, fullname, date_of_birth, gender, _address]
-      );
+
+// app.post("/users", async (req, res) => {
+//     try {
+//       const { email, phone, fullname, date_of_birth, gender, _address } = req.body;
+//       const newUser = await pool.query(
+//         "INSERT INTO person (email, phone, fullname, date_of_birth, gender, _address) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
+//         [email, phone, fullname, date_of_birth, gender, _address]
+//       );
   
-      res.json(newUser.rows[0]);
-      console.log(req.body);
-    } catch (error) {
-      console.error(error.message);
-      res.status(500).send("Internal Server Error");
-    }
-  });
+//       res.json(newUser.rows[0]);
+//       console.log(req.body);
+//     } catch (error) {
+//       console.error(error.message);
+//       res.status(500).send("Internal Server Error");
+//     }
+//   });
   
 
 
-// update a task
+// // update a task
 
-app.put("/users/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { email, phone, fullname, date_of_birth, gender, _address } = req.body;
-        const updateUser = await pool.query(
-            "UPDATE person SET email = $1, phone = $2, fullname = $3, date_of_birth = $4, gender = $5, _address = $6 WHERE person_id = $7 RETURNING *",
-            [email, phone, fullname, date_of_birth, gender, _address, id]
-        );
+// app.put("/users/:id", async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const { email, phone, fullname, date_of_birth, gender, _address } = req.body;
+//         const updateUser = await pool.query(
+//             "UPDATE person SET email = $1, phone = $2, fullname = $3, date_of_birth = $4, gender = $5, _address = $6 WHERE person_id = $7 RETURNING *",
+//             [email, phone, fullname, date_of_birth, gender, _address, id]
+//         );
 
-        res.json({ message: "User was updated", user: updateUser.rows[0] });
-    } catch (error) {
-        console.log(error.message);
-    }
-});
+//         res.json({ message: "User was updated", user: updateUser.rows[0] });
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// });
 
-// delete a task
+// // delete a task
 
-app.delete("/users/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const deleteUser = await pool.query("DELETE FROM person WHERE person_id = $1", [id]);
+// app.delete("/users/:id", async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const deleteUser = await pool.query("DELETE FROM person WHERE person_id = $1", [id]);
 
-        res.json({ message: "User was deleted" });
-    } catch (error) {
-        console.log(error.message);
-    }
-});
+//         res.json({ message: "User was deleted" });
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// });
 
-// get all tasks
+// // get all tasks
 
-app.get("/users", async(req, res) => {
-    try {
-        const allTasks = await pool.query("SELECT * FROM person");
-        res.json(allTasks.rows);
-        console.log(allTasks.rows);
-    } catch (error) {
-        console.log(error.message);
-    }
-});
+// app.get("/users", async(req, res) => {
+//     try {
+//         const allTasks = await pool.query("SELECT * FROM person");
+//         res.json(allTasks.rows);
+//         console.log(allTasks.rows);
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// });
 
 
-// get a task
+// // get a task
 
-app.get("/users/:id", async(req, res) => {
-    try {
-        const {id} = req.params;
-        const { email, phone, fullname, date_of_birth, gender, _address } = req.body;
-        const newUser = await pool.query(
-            "SELECT * FROM person WHERE person_id = ($1)",
-             [id]
-             );
+// app.get("/users/:id", async(req, res) => {
+//     try {
+//         const {id} = req.params;
+//         const { email, phone, fullname, date_of_birth, gender, _address } = req.body;
+//         const newUser = await pool.query(
+//             "SELECT * FROM person WHERE person_id = ($1)",
+//              [id]
+//              );
         
-        res.json(newUser.rows[0]); 
-        console.log(newUser.rows[0]);
-        console.log(req.params);
+//         res.json(newUser.rows[0]); 
+//         console.log(newUser.rows[0]);
+//         console.log(req.params);
 
-    } catch (error) {
-        console.log(error.message);
-        console.log(error.params);
-    }
-})
+//     } catch (error) {
+//         console.log(error.message);
+//         console.log(error.params);
+//     }
+// })
 
 
 
