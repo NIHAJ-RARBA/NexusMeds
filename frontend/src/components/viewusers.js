@@ -22,7 +22,7 @@ const VIEWUSERS = () => {
     };
 
 
-``
+
     const deleteUser = async (id) => {
         try {
             const deleteUser = await fetch(`http://localhost:5000/users/${id}`, {
