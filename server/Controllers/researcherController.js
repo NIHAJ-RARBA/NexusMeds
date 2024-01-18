@@ -16,7 +16,7 @@ export const createResearcher = async (req, res) => {
         const { email, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isApproved } = req.body;
 
         const newResearcher = await client.query(
-            "INSERT INTO Researcher (email, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isApproved) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;",
+            "INSERT INTO Researcher (email, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isApproved) VALUES (uuid_generate_v4(),$1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;",
             [email, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isApproved]
         );
 
