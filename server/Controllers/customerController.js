@@ -14,13 +14,11 @@ export const getAllCustomers = async (req, res) => {
 }
 
 export const createCustomer = async (req, res) => {
-
     try {
         const { email, phone, customer_name, date_of_birth, image, gender, address, billing_address } = req.body;
 
-
         const newCustomer = await client.query(
-            "INSERT INTO customer (email, phone, customer_name, date_of_birth,image, gender, address, billing_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
+            "INSERT INTO customer (customer_id, email, phone, customer_name, date_of_birth, image, gender, address, billing_address) VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
             [email, phone, customer_name, date_of_birth, image, gender, address, billing_address]
         );
 
@@ -28,11 +26,11 @@ export const createCustomer = async (req, res) => {
         console.log(req.body);
 
     } catch (error) {
-
         console.error(error.message);
         res.status(500).send("Internal Server Error");
     }
-}
+};
+
 
 export const getCustomerById = async (req, res) => {
     try {
