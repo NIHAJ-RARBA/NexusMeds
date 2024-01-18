@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";-- add extension for generating uuid
+
 CREATE TABLE Manufacturer(
   
   manufacturer_id SERIAL PRIMARY KEY,
@@ -41,9 +43,12 @@ CREATE TABLE Chemical(
 );
 
 CREATE TABLE Customer (
-    customer_id SERIAL UNIQUE,
+    customer_id UUID UNIQUE DEFAULT UUID_generate_v4(),
     email VARCHAR(100) NOT NULL,
     phone VARCHAR(15) NOT NULL,
+    password VARCHAR(500) NOT NULL,
+
+
     customer_name VARCHAR(100) NOT NULL,
     date_of_birth DATE,
     image VARCHAR(500),
@@ -56,9 +61,12 @@ CREATE TABLE Customer (
 
 CREATE TABLE Researcher (
 
-	researcher_id SERIAL UNIQUE,
+	researcher_id UUID UNIQUE DEFAULT UUID_generate_v4(),
 	email VARCHAR(100) NOT NULL,
 	phone VARCHAR(15) NOT NULL,
+  password VARCHAR(500) NOT NULL,
+
+
 	researcher_name VARCHAR(100) NOT NULL,
 	date_of_birth DATE,
 	image VARCHAR(500),
@@ -79,8 +87,8 @@ CREATE TABLE MedicineChemical (
 CREATE TABLE Cart (
     cart_id SERIAL PRIMARY KEY,
     isCustomer BOOLEAN, -- 'researcher' or 'customer'
-    customer_id INTEGER REFERENCES Customer(customer_id) ,
-    researcher_id INTEGER REFERENCES Researcher(researcher_id)
+    customer_id UUID REFERENCES Customer(customer_id) ,
+    researcher_id UUID REFERENCES Researcher(researcher_id)
 );
 
 CREATE TABLE Orders (
