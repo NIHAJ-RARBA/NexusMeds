@@ -6,8 +6,9 @@ import cors from "cors";
 // routers
 
 import medicineRouter from "./Routers/medicineRouter.js";
-import userRouter from "./Routers/userRouter.js";
-
+import customerRouter from "./Routers/customerRouter.js";
+import chemicalRouter from "./Routers/chemicalRouter.js";
+import researcherRouter from "./Routers/researcherRouter.js";
 
 
 
@@ -17,7 +18,9 @@ app.use(express.json());
 
 
 app.use('/medicine', medicineRouter);
-app.use('/user', userRouter);
+app.use('/customer', customerRouter);
+app.use('/chemical', chemicalRouter);
+app.use('/researcher', researcherRouter);
 
 
 // create a task
