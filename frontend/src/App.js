@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, link } from 'react-router-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Navigate } from 'react-router-dom';
 
 import HOMEPAGE from './components/homepage';
 import SIGNIN from './components/signin';
