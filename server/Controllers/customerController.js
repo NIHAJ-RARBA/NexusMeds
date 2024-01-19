@@ -13,29 +13,32 @@ export const getAllCustomers = async (req, res) => {
     }
 }
 
-export const createCustomer = async (req, res) => {
+// used before. no longer in use
+
+
+// export const createCustomer = async (req, res) => {
+//     try {
+//         const { email, phone, customer_name, date_of_birth, image, gender, address, billing_address } = req.body;
+
+//         const newCustomer = await client.query(
+//             "INSERT INTO customer (customer_id, email, phone, customer_name, date_of_birth, image, gender, address, billing_address) VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
+//             [email, phone, customer_name, date_of_birth, image, gender, address, billing_address]
+//         );
+
+//         res.json(newCustomer.rows[0]);
+//         console.log(req.body);
+
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).send("Internal Server Error");
+//     }
+// };
+
+
+export const getCustomerByEmail = async (req, res) => {
     try {
-        const { email, phone, customer_name, date_of_birth, image, gender, address, billing_address } = req.body;
-
-        const newCustomer = await client.query(
-            "INSERT INTO customer (customer_id, email, phone, customer_name, date_of_birth, image, gender, address, billing_address) VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
-            [email, phone, customer_name, date_of_birth, image, gender, address, billing_address]
-        );
-
-        res.json(newCustomer.rows[0]);
-        console.log(req.body);
-
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
-    }
-};
-
-
-export const getCustomerById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const customer = await client.query("SELECT * FROM customer WHERE customer_id = $1", [id]);
+        const { email } = req.params;
+        const customer = await client.query("SELECT * FROM customer WHERE email = $1", [email]);
 
         res.json(customer.rows[0]);
 

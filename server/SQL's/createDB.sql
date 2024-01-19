@@ -1,4 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";-- add extension for generating uuid
+CREATE DATABASE NEXUSMEDS;
 
 CREATE TABLE Manufacturer(
   
@@ -158,3 +159,9 @@ CREATE TABLE InventoryLog (
     added_quantity numeric(5,0)
 );
 
+
+CREATE TABLE Admins (
+    admin_id SERIAL PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(500) NOT NULL
+);

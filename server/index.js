@@ -9,6 +9,9 @@ import medicineRouter from "./Routers/medicineRouter.js";
 import customerRouter from "./Routers/customerRouter.js";
 import chemicalRouter from "./Routers/chemicalRouter.js";
 import researcherRouter from "./Routers/researcherRouter.js";
+import jwtAuthRouter from "./Routers/jwtAuthRouter.js";
+import router from "./Routers/adminRouter.js";
+
 
 
 
@@ -16,7 +19,8 @@ import researcherRouter from "./Routers/researcherRouter.js";
 app.use(cors());
 app.use(express.json());
 
-
+app.use('/auth', jwtAuthRouter);
+app.use('/admin', router);
 app.use('/medicine', medicineRouter);
 app.use('/customer', customerRouter);
 app.use('/chemical', chemicalRouter);

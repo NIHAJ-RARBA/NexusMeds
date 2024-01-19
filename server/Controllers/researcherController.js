@@ -11,27 +11,29 @@ export const getAllResearchers = async (req, res) => {
     }
 };
 
-export const createResearcher = async (req, res) => {
+// used before, no longer in use
+
+// export const createResearcher = async (req, res) => {
+//     try {
+//         const { email, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isApproved } = req.body;
+
+//         const newResearcher = await client.query(
+//             "INSERT INTO Researcher (email, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isApproved) VALUES (uuid_generate_v4(),$1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;",
+//             [email, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isApproved]
+//         );
+
+//         res.json(newResearcher.rows[0]);
+//         console.log(req.body);
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).send("Internal Server Error");
+//     }
+// };
+
+export const getResearcherByEmail = async (req, res) => {
     try {
-        const { email, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isApproved } = req.body;
-
-        const newResearcher = await client.query(
-            "INSERT INTO Researcher (email, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isApproved) VALUES (uuid_generate_v4(),$1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;",
-            [email, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isApproved]
-        );
-
-        res.json(newResearcher.rows[0]);
-        console.log(req.body);
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
-    }
-};
-
-export const getResearcherById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const researcher = await client.query("SELECT * FROM Researcher WHERE researcher_id = $1", [id]);
+        const { email } = req.params;
+        const researcher = await client.query("SELECT * FROM Researcher WHERE email = $1", [email]);
 
         res.json(researcher.rows[0]);
     } catch (error) {

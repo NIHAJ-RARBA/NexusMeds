@@ -18,7 +18,7 @@ VALUES
 INSERT INTO Chemical (chem_name, image, iupac_name, manufacturer_id, parent_chemical_id, chemical_formula, description, molecular_weight, price)
 VALUES 
   ('Chemical1', 'chemical1_image.jpg', 'IUPAC1', 1, null, 'C6H12O6', 'Description1', 180.156, 25.99),
-  ('Chemical2', 'chemical2_image.jpg', 'IUPAC2', 2, 1, 'C8H10N4O2', 'Description2', 194.190, 35.75),
+  ('Chemical2', 'chemical2_image.jpg', 'IUPAC2', 2, null, 'C8H10N4O2', 'Description2', 194.190, 35.75),
   ('Chemical3', 'chemical3_image.jpg', 'IUPAC3', 3, null, 'C10H16N2O3S', 'Description3', 275.358, 42.50);
 	
 	
@@ -51,25 +51,25 @@ VALUES
 -- Insert dummy data into Cart table for Customers
 INSERT INTO Cart (isCustomer, customer_id, researcher_id)
 VALUES 
-  (true, 'ef3bf2f7-e284-4502-9b10-2acded5a8b8a', null),
-  (true, '69c01d8c-bd7b-48e0-a23d-40463b2896e3', null),
-  (true, 'd51fe764-b1a9-4b2c-9b3e-26b2df5588c4', null);
+  (true, '445642fb-0a72-4d56-a890-ad6efd42e1ca', null),
+  (true, 'a03fb5ce-7a34-43ae-833e-b275b256b16f', null),
+  (true, '851b3e16-e9fb-4c48-b309-09ec4132fffd', null);
 
 -- Insert dummy data into Cart table for Researchers
 INSERT INTO Cart (isCustomer, customer_id, researcher_id)
 VALUES 
-  (false, null, '968d0d79-e570-45ff-8bc1-d8ffff630aab'),
-  (false, null, '852ad127-70ff-4c12-8e57-cce2e86b11d6'),
-  (false, null, '6d71f4eb-7751-4d53-86e5-dfa67f737c65');
+  (false, null, '66f202c5-b095-43c0-b46f-3dd58ee80dec'),
+  (false, null, '23aab687-0fe6-49f4-bffa-edd4c975e4bd'),
+  (false, null, 'cf9ac740-4082-4aeb-addc-40460011b836');
 
--- Insert dummy data into Orders table for Customers
+Insert dummy data into Orders table for Customers
 INSERT INTO Orders (shipment_date, status, price, order_date, cart_id)
 VALUES 
   ('2024-01-20', true, 35.99, '2024-01-15', 1),
   ('2024-01-22', false, 20.75, '2024-01-18', 2),
   ('2024-01-25', true, 15.99, '2024-01-20', 3);
 
--- Insert dummy data into Orders table for Researchers
+Insert dummy data into Orders table for Researchers
 INSERT INTO Orders (shipment_date, status, price, order_date, cart_id)
 VALUES 
   ('2024-01-23', false, 40.50, '2024-01-19', 4),
@@ -130,4 +130,8 @@ VALUES
   (3, 3, 3, '2024-01-20', 15);
 
 
+INSERT INTO Admins (admin_id, email, password)
+VALUES 
+  (1, 'a1@email.com', '123'),
+  (2, 'a2@gmail.com', '123');
 
