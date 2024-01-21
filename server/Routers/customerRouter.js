@@ -16,7 +16,7 @@ import {
 
 router.get('/getAll', getAllCustomers);
 // router.post('/create', createCustomer);
-router.get('/:email', getCustomerByEmail);
+router.get('/:email', getCustomerByEmail); 
 router.put('/update/:id', updateCustomerById);
 router.delete('/delete/:id', deleteCustomerById);
 

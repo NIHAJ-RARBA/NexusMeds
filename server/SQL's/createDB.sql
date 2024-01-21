@@ -47,7 +47,7 @@ CREATE TABLE Customer (
     customer_id UUID UNIQUE DEFAULT UUID_generate_v4(),
     email VARCHAR(100) NOT NULL,
     phone VARCHAR(15) NOT NULL,
-    password VARCHAR(500) NOT NULL,
+    password TEXT NOT NULL,
 
 
     customer_name VARCHAR(100) NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE Researcher (
 	researcher_id UUID UNIQUE DEFAULT UUID_generate_v4(),
 	email VARCHAR(100) NOT NULL,
 	phone VARCHAR(15) NOT NULL,
-  password VARCHAR(500) NOT NULL,
+  password TEXT NOT NULL,
 
 
 	researcher_name VARCHAR(100) NOT NULL,
