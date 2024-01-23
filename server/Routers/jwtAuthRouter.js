@@ -17,6 +17,9 @@ router.post("/register/customer", validinfo, async (req, res) => {
     
     try {
 
+        // console.log(req.body);
+
+
         // 1. destructure the req.body (email, password, phone, customer_name, d.o.b, image, gender, address, billing_address)
         const { email, password, phone, customer_name, date_of_birth, image, gender, address, billing_address } = req.body;
 
@@ -63,6 +66,8 @@ router.post("/login/customer", validinfo, async (req, res) => {
     
     try {
 
+        // console.log(req.body);
+        
         // 1. destructure the req.body
 
         const { email, password } = req.body;
@@ -87,6 +92,7 @@ router.post("/login/customer", validinfo, async (req, res) => {
 
         const token = jwTokenGenerator(user.rows[0].customer_id);
 
+        // console.log(token);
         res.json({ token });
         
     } catch (error) {

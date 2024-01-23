@@ -22,9 +22,9 @@ app.use(express.json());
 app.use('/auth', jwtAuthRouter);
 app.use('/admin', router);
 app.use('/medicine', medicineRouter);
-app.use('/customer', customerRouter);
+app.use('/customer', customerRouter); // "customer/" is for dashboard
 app.use('/chemical', chemicalRouter);
-app.use('/researcher', researcherRouter);
+app.use('/researcher', researcherRouter);// "researcher/" is for dashboard
 
 
 // create a task
