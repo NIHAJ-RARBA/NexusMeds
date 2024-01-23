@@ -109,13 +109,24 @@ CREATE TABLE Payment (
 );
 
 
-CREATE TABLE CartProduct (
+CREATE TABLE CartMedicine (
 
     cart_id INTEGER REFERENCES Cart(cart_id),
     medicine_id INTEGER REFERENCES medicine(medicine_id),
-    chemical_id INTEGER REFERENCES Chemical(chemical_id),
-    PRIMARY KEY (cart_id, medicine_id,chemical_id)
+    quantity INTEGER DEFAULT 0,
+    PRIMARY KEY (cart_id, medicine_id)
 );
+
+CREATE TABLE CartChemical (
+
+    cart_id INTEGER REFERENCES Cart(cart_id),
+    chemical_id INTEGER REFERENCES chemical(chemical_id),
+    quantity INTEGER DEFAULT 0,
+    PRIMARY KEY (cart_id, chemical_id)
+);
+
+ALTER TABLE Cart
+ADD COLUMN cart_status BOOLEAN DEFAULT false;
 
 
 

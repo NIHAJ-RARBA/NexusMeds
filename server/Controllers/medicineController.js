@@ -13,6 +13,24 @@ export const getAllMedicines = async (req, res) => {
         console.log(error.message);
     }
 };
+
+export const getMedicineByIsOTC = async (req, res) => {
+
+    try {
+        const { isOTC } = req.params;
+
+        let sql = "SELECT * FROM medicine WHERE isOTC = $1";
+
+        const medicine = await client.query(sql, [isOTC]);
+
+        res.status(200).json(medicine.rows);
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
 export const createMedicine = async (req, res) => {
     try {
         const {
@@ -98,3 +116,44 @@ export const deleteMedicineById = async (req, res) => {
         console.log(error.message);
     }
 }
+
+export const getMedicineManufacturerById = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+
+        let sql = "SELECT M.manufacturer_name\
+        FROM medicine MED JOIN manufacturer M\
+        ON MED.manufacturer_id = M.manufacturer_id\
+        WHERE MED.medicine_id = $1";
+
+
+        const manufacturer = await client.query(sql, [id]);
+
+        res.status(200).json(manufacturer.rows);
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const getChemicalByMedicineId = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+
+        let sql = "SELECT C.*\
+        FROM medicinechemical MC JOIN chemical C\
+        ON MC.chemical_id = C.chemical_id\
+        WHERE medicine_id = $1 \
+        ORDER BY C.chemical_id";
+
+        const chemical = await client.query(sql, [id]);
+
+        res.status(200).json(chemical.rows);
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
