@@ -13,6 +13,7 @@ import jwtAuthRouter from "./Routers/jwtAuthRouter.js";
 import router from "./Routers/adminRouter.js";
 import searchRouter from "./Routers/searchRouter.js";
 import cartRouter from "./Routers/cartRouter.js";
+import orderRouter from "./Routers/orderRouter.js";
 
 
 
@@ -29,6 +30,7 @@ app.use('/chemical', chemicalRouter);
 app.use('/researcher', researcherRouter);
 app.use('/search', searchRouter);
 app.use('/cart', cartRouter);
+app.use('/order', orderRouter);
 
 
 // create a task
