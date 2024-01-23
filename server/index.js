@@ -11,6 +11,8 @@ import chemicalRouter from "./Routers/chemicalRouter.js";
 import researcherRouter from "./Routers/researcherRouter.js";
 import jwtAuthRouter from "./Routers/jwtAuthRouter.js";
 import router from "./Routers/adminRouter.js";
+import searchRouter from "./Routers/searchRouter.js";
+import cartRouter from "./Routers/cartRouter.js";
 
 
 
@@ -24,7 +26,9 @@ app.use('/admin', router);
 app.use('/medicine', medicineRouter);
 app.use('/customer', customerRouter); // "customer/" is for dashboard
 app.use('/chemical', chemicalRouter);
-app.use('/researcher', researcherRouter);// "researcher/" is for dashboard
+app.use('/researcher', researcherRouter);
+app.use('/search', searchRouter);
+app.use('/cart', cartRouter);
 
 
 // create a task
