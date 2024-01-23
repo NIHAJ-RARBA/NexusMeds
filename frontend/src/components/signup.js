@@ -56,7 +56,7 @@ const SIGNUP = ({setAuth}) => {
                 console.log(parseRes.token);
                 setAuth(true);
                 // toast.success("Registered Successfully");
-                // window.location = "/dashboard";
+                window.location = "/dashboard";
             } else {
                 console.log(parseRes);
                 setAuth(false);

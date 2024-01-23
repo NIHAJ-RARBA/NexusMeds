@@ -58,7 +58,7 @@ const DASHBOARD = ({setAuth}) => {
         <div className="DASHBOARD">
             {/* Displaying the variable values */}
             <h3 className='mt-5'>Dashboard</h3>
-            <h4 style={{paddingTop: '10px'}}>Welcome, {customer_name} !</h4>
+            <h4 style={{paddingT: '10px'}}>Welcome, {customer_name} !</h4>
             <button onClick={e => logout(e)} className="btn btn-primary">Logout</button>
 
             <p>Gender: {gender}</p>

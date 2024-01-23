@@ -39,15 +39,14 @@ const SIGNIN = ({setAuth}) => {
 
     const onSave = async (e) => {
 
-        // notify();
-        // <ToastContainer />
-
+        notify();
+        <ToastContainer />
         e.preventDefault();
 
         try {
             const body = { email, password };
             console.log('Signing in with: ', body);
-    
+            
             const response = await fetch(`http://localhost:5000/auth/login/customer`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -55,6 +54,7 @@ const SIGNIN = ({setAuth}) => {
             });
             
             const parseRes = await response.json();
+            console.log(parseRes.token);
             
 
             if (parseRes.token) {
@@ -67,7 +67,6 @@ const SIGNIN = ({setAuth}) => {
                 // window.location = "/dashboard";
                 setAuth(true);
                 
-                <ToastContainer />
                 toast.success("Registered Successfully");
                 console.log("Signed in successfully");
 
@@ -77,7 +76,6 @@ const SIGNIN = ({setAuth}) => {
                 console.log(parseRes);
                 setAuth(false);
                 toast.error(parseRes);
-                <ToastContainer />
             }
 
             

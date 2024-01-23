@@ -54,7 +54,7 @@ router.post("/register/customer", validinfo, async (req, res) => {
         
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).send("Server error jwtRouter");
     }
 
 });
@@ -66,7 +66,7 @@ router.post("/login/customer", validinfo, async (req, res) => {
     
     try {
 
-        // console.log(req.body);
+        console.log(req.body);
         
         // 1. destructure the req.body
 
@@ -89,15 +89,15 @@ router.post("/login/customer", validinfo, async (req, res) => {
         }
 
         // 4. give them the jwt token
-
+        
         const token = jwTokenGenerator(user.rows[0].customer_id);
 
-        // console.log(token);
+        console.log(token);
         res.json({ token });
         
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).send("Server error jwtRouter");
     }
 
 });
