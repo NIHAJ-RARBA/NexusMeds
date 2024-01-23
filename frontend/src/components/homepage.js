@@ -1,4 +1,5 @@
 import React from "react";
+import VIEWMEDICINES from "./medicine/viewmedicines";
 
 
 const HOMEPAGE = () => {
@@ -11,6 +12,7 @@ const HOMEPAGE = () => {
 
             <br />
             <h4> See pages </h4>
+            <container>
             <br />
             <button className="btn btn-warning " onClick={() => {
                 window.location.href = "/viewusers";
@@ -45,8 +47,9 @@ const HOMEPAGE = () => {
             }
 
             }> See home page </button>
+</container>
 
-
+            <VIEWMEDICINES />
         </div>
     );
 };

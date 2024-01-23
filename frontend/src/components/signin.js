@@ -41,7 +41,7 @@ const SIGNIN = ({setAuth}) => {
 
         // notify();
         // <ToastContainer />
-        
+
         e.preventDefault();
 
         try {
@@ -67,6 +67,7 @@ const SIGNIN = ({setAuth}) => {
                 // window.location = "/dashboard";
                 setAuth(true);
                 
+                <ToastContainer />
                 toast.success("Registered Successfully");
                 console.log("Signed in successfully");
 
@@ -76,6 +77,7 @@ const SIGNIN = ({setAuth}) => {
                 console.log(parseRes);
                 setAuth(false);
                 toast.error(parseRes);
+                <ToastContainer />
             }
 
             

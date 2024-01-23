@@ -11,6 +11,10 @@ import EDITPROFILE from './components/editprofile';
 import VIEWUSERS from './components/viewusers';
 import DASHBOARD from './components/dashboard';
 
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import './App.css';
 
 
