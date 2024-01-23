@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 
 import {
     Button,
@@ -14,41 +16,57 @@ import {
 } from 'reactstrap';
 
 
-const SIGNUP = () => {
+const SIGNUP = ({setAuth}) => {
 
 
-    // const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("");
     // const [confirmpassword, setConfirmPassword] = useState("");
 
     const [gender, setGender] = useState("");
 
-    const [fullname, setFullname] = useState("");
+    const [customer_name, setFullName] = useState("");
     const [email, setEmail] = useState("");
 
     const [phone, setPhone] = useState("");
     const [date_of_birth, setdate_of_birth] = useState("");
-    const [profilepicture, setProfilepicture] = useState("");
-    const [_address, setAddress] = useState("");
+    const [image, setImage] = useState("");
+    const [address, setAddress] = useState("");
+    const [billing_address, setBillingAddress] = useState("");
 
 
-    const onSave = () => {
-        addProfile();
-    };
 
-    const addProfile = async () => {
+
+    const onSave = async (e) => {
+        
+        e.preventDefault();
         try {
-            const body = { fullname, email, phone, date_of_birth , profilepicture, _address, gender };
-            console.log('Updating profile with data:', body);
+            const body = { customer_name, email, password, phone, date_of_birth , image, address, gender, billing_address };
+            console.log('Creating profile with data:', body);
     
-            const response = await fetch(`http://localhost:5000/users`, {
+            const response = await fetch(`http://localhost:5000/auth/register/customer`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
-    
+            
+            const parseRes = await response.json();
+
+            if (parseRes.token) {
+                localStorage.setItem("token", parseRes.token);
+                console.log(parseRes.token);
+                setAuth(true);
+                // toast.success("Registered Successfully");
+                // window.location = "/dashboard";
+            } else {
+                console.log(parseRes);
+                setAuth(false);
+                // toast.error(parseRes);
+            }
+
+
+
             console.log('Response from server:', response);
     
-            window.location = "/viewusers";
         } catch (error) {
             console.error('Error updating profile:', error.message);
         }
@@ -56,18 +74,22 @@ const SIGNUP = () => {
     };
 
     return (
+        <div>
+        <div style={{ fontSize: '22px', paddingBottom: '30px', paddingTop: '20px'}}>
+            <Link to="/signin"><b>Already have an account? Sign In</b></Link>
+        </div>
         <div className="SIGNUP" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '80%', margin: '0 auto' }}>
             <Form style={{ width: '70%', margin: '0 auto' }}>
                 
                 <FormGroup>
-                    <Label for="fullname">Full Name</Label>
+                    <Label for="customer_name">Full Name</Label>
                     <Input
                         type="text"
-                        name="fullname"
-                        id="fullname"
+                        name="customer_name"
+                        id="customer_name"
                         placeholder="Enter your full name"
-                        value={fullname}
-                        onChange={e => setFullname(e.target.value)}
+                        value={customer_name}
+                        onChange={e => setFullName(e.target.value)}
                     />
                 </FormGroup>
 
@@ -84,6 +106,22 @@ const SIGNUP = () => {
                 </FormGroup>
 
                 <FormGroup>
+                    <Label for="password">Password</Label>
+                    <Input
+                        type="text"
+                        name="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                    />
+                </FormGroup>
+
+                {/* // add a gap between them */}
+
+            
+
+                <FormGroup style={{ paddingTop: '80px' }}>
                     <Label for="phone">Phone</Label>
                     <Input
                         type="text"
@@ -108,25 +146,25 @@ const SIGNUP = () => {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="profilepicture">Profile Picture</Label>
+                    <Label for="image">Profile Picture</Label>
                     <Input
                         type="text"
-                        name="profilepicture"
-                        id="profilepicture"
+                        name="image"
+                        id="image"
                         placeholder="Enter your profile picture"
-                        value={profilepicture}
-                        onChange={e => setProfilepicture(e.target.value)}
+                        value={image}
+                        onChange={e => setImage(e.target.value)}
                     />
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="_address">Address</Label>
+                    <Label for="address">Address</Label>
                     <Input
                         type="text"
-                        name="_address"
-                        id="_address"
+                        name="address"
+                        id="address"
                         placeholder="Enter your address"
-                        value={_address}
+                        value={address}
                         onChange={e => setAddress(e.target.value)}
                     />
                 </FormGroup>
@@ -159,9 +197,25 @@ const SIGNUP = () => {
                         </div>
                     </FormGroup>
 
+
+                    <FormGroup>
+                    <Label for="billing_address">Billing Address</Label>
+                    <Input
+                        type="text"
+                        name="billing_address"
+                        id="billing_address"
+                        placeholder="Enter your billing_address"
+                        value={billing_address}
+                        onChange={e => setBillingAddress(e.target.value)}
+                    />
+                </FormGroup>
+
+
+
+            <Button className="btn btn-success" onClick={onSave} style={{ fontSize: '18px', width: '100%' }}>Sign Up</Button>
             </Form>
-            
-            <Button className="btn btn-warning" onClick={onSave} style={{ fontSize: '30px' }}>Add</Button>
+
+            </div>
         </div>
     );
 };

@@ -2,16 +2,54 @@ import React from 'react';
 import { Routes, link } from 'react-router-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Redirect, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 import HOMEPAGE from './components/homepage';
 import SIGNIN from './components/signin';
 import SIGNUP from './components/signup';
 import EDITPROFILE from './components/editprofile';
 import VIEWUSERS from './components/viewusers';
+import DASHBOARD from './components/dashboard';
+
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import './App.css';
 
+
+
 function App() {
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const setAuth = (boolean) => {
+    console.log('Setting auth to:', boolean);
+    setIsAuthenticated(boolean);
+  };
+
+  const isAuth = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/auth/verify", {
+        method: "GET",
+        headers: { token: localStorage.token }
+      });
+
+      const parseRes = await response.json();
+
+      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+
+    }
+    catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    isAuth();
+  }, []);
+
+
 
   
 
@@ -20,13 +58,43 @@ function App() {
     <div className="App">
       <h1 className="text-center mt-5">NEXUSMEDS</h1>
       <Router>
-        <Routes>
-          <Route path="/" element={<HOMEPAGE />} />
-          <Route path="/signin" element={<SIGNIN />} />
-          <Route path="/signup" element={<SIGNUP />} />
-          <Route path="/editprofile" element={<EDITPROFILE />} />
-          <Route path="/viewusers" element={<VIEWUSERS />} />
-        </Routes>
+      <Routes>
+      <Route path="/" element={<HOMEPAGE />} />
+      <Route
+        path="/signin"
+        element={
+          !isAuthenticated ? (
+            <SIGNIN setAuth={setAuth} />
+          ) : (
+            <Navigate to="/dashboard" />
+          )
+        }
+      />
+      <Route 
+      path="/signup" 
+      element={
+        
+        !isAuthenticated ? (
+          <SIGNUP setAuth={setAuth} />
+        ) : (
+          <Navigate to="/dashboard" />
+        )
+
+      } 
+      />
+      <Route path="/editprofile" element={<EDITPROFILE />} />
+      <Route path="/viewusers" element={<VIEWUSERS />} />
+      <Route
+        path="/dashboard"
+        element={
+          isAuthenticated ? (
+            <DASHBOARD setAuth={setAuth} />
+          ) : (
+            <Navigate to="/signin" />
+          )
+        }
+      />
+    </Routes>
       </Router>
 
 

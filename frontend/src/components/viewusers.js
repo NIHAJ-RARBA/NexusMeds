@@ -11,7 +11,7 @@ const VIEWUSERS = () => {
     const getUsers = async () => {
 
         try {
-            const response = await fetch("http://localhost:5000/users");
+            const response = await fetch("http://localhost:5000/customer/getall");
             const jsonData = await response.json();
 
             setuserList(jsonData);
@@ -23,14 +23,14 @@ const VIEWUSERS = () => {
 
 
 
-    const deleteUser = async (id) => {
+    const deleteUser = async (email) => {
         try {
-            const deleteUser = await fetch(`http://localhost:5000/users/${id}`, {
+            const deleteUser = await fetch(`http://localhost:5000/customer/delete/${email}`, {
                 method: "DELETE"
             });
 
-            setuserList(userList.filter(user => user.user_id !== id));
             getUsers();
+            setuserList(userList.filter(user => user.email !== email));
         } catch (error) {
             console.error(error.message);
         }
@@ -53,7 +53,7 @@ const VIEWUSERS = () => {
                     <tr>
                         <th>Username</th>
                         <th>Email</th>
-                        <th>Edit</th>
+                        {/* <th>Edit</th> */}
                         <th>Delete</th>
                     </tr>
                 </thead>
@@ -62,16 +62,16 @@ const VIEWUSERS = () => {
 
                     {userList.map(user => (
                         <tr key={user.user_id}>
-                            <td>{user.fullname} <br/>{user.profile_pic}</td>
+                            <td>{user.customer_name} <br/>{user.profile_pic}</td>
                             <td>{user.email}</td>
 
-                            <td>
+                            {/* <td>
                                 <td className="btn btn-warning">
                                     <EDITPROFILE user={user} />
                                 </td>
-                            </td>                            
+                            </td>                             */}
                             <td>
-                                <button className="btn btn-danger" onClick={() => deleteUser(user.person_id)}>Delete</button>
+                                <button className="btn btn-danger" onClick={() => deleteUser(user.email)}>Delete</button>
                             </td>
                         </tr>
                     ))}

@@ -68,10 +68,10 @@ export const updateCustomerById = async (req, res) => {
     }
 };
 
-export const deleteCustomerById = async (req, res) => {
+export const deleteCustomerByEmail = async (req, res) => {
     try {
-        const { id } = req.params;
-        const deleteCustomer = await client.query("DELETE FROM customer WHERE customer_id = $1", [id]);
+        const { email } = req.params;
+        const deleteCustomer = await client.query("DELETE FROM customer WHERE email = $1", [email]);
 
         res.json({ message: "User was deleted" });
 

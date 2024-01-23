@@ -10,7 +10,7 @@ import {
     // createCustomer,
     getCustomerByEmail,
     updateCustomerById,
-    deleteCustomerById
+    deleteCustomerByEmail
 } from '../Controllers/customerController.js';
 
 
@@ -18,17 +18,17 @@ router.get('/getAll', getAllCustomers);
 // router.post('/create', createCustomer);
 router.get('/:email', getCustomerByEmail); 
 router.put('/update/:id', updateCustomerById);
-router.delete('/delete/:id', deleteCustomerById);
+router.delete('/delete/:email', deleteCustomerByEmail);
 
 
-router.get('/dashboard', authorize, async (req, res) => {
+router.post('/', authorize, async (req, res) => {
     try {
-        // req.user has the payload
-        const user = await client.query("SELECT customer_name FROM customer WHERE customer_id = $1",
+        
+        const user = await client.query("SELECT customer_name, email, phone, date_of_birth, image, gender, address, billing_address FROM customer WHERE customer_id = $1",
             [req.user.id]);
 
-
-        res.json({ researcher_name: "hi" });
+        res.json(user.rows[0]);
+        console.log(user.rows[0]);
 
     } catch (error) {
         console.error(error.message);

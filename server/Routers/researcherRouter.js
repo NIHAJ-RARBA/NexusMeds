@@ -20,10 +20,10 @@ router.get('/:email', getResearcherByEmail);
 router.put('/update/:id', updateResearcherById);
 router.delete('/delete/:id', deleteResearcherById);
 
-router.get('/', authorize, async (req, res) => {
+router.post('/', authorize, async (req, res) => {
     try {
         // req.user has the payload
-        const user = await client.query("SELECT researcher_name FROM researcher WHERE researcher_id = $1",
+        const user = await client.query("SELECT researcher_name, email, phone, date_of_birth, image, gender, address, billing_address FROM researcher WHERE researcher_id = $1",
             [req.user.id]);
 
         res.json(user.rows[0]);
