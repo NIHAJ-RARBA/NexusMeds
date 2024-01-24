@@ -176,3 +176,70 @@ CREATE TABLE Admins (
     email VARCHAR(100) NOT NULL,
     password VARCHAR(500) NOT NULL
 );
+
+
+-- alters
+
+
+ALTER TABLE chemical
+ALTER COLUMN description TYPE TEXT;
+
+ALTER TABLE chemical
+ALTER COLUMN image TYPE TEXT;
+
+ALTER TABLE chemical
+ALTER COLUMN chemical_formula TYPE TEXT;
+
+ALTER TABLE customer
+ALTER COLUMN image TYPE TEXT;
+
+ALTER TABLE customer
+ALTER COLUMN address TYPE TEXT;
+
+ALTER TABLE customer
+ALTER COLUMN billing_address TYPE TEXT;
+
+ALTER TABLE deliveryservice
+ALTER COLUMN address TYPE TEXT;
+
+ALTER TABLE manufacturer
+ALTER COLUMN address TYPE TEXT;
+
+ALTER TABLE manufacturer
+ALTER COLUMN manufacturer_name TYPE TEXT;
+
+ALTER TABLE medicine
+ALTER COLUMN med_name TYPE TEXT;
+
+ALTER TABLE medicine
+ALTER COLUMN image TYPE TEXT;
+
+ALTER TABLE medicine
+ALTER COLUMN generic_name TYPE TEXT;
+
+
+ALTER TABLE medicine
+ALTER COLUMN indication TYPE TEXT;
+
+
+ALTER TABLE medicine
+ALTER COLUMN dosage TYPE TEXT;
+
+
+ALTER TABLE medicine
+ALTER COLUMN cautions TYPE TEXT;
+
+
+ALTER TABLE researcher
+ALTER COLUMN image TYPE TEXT;
+
+ALTER TABLE researcher
+ALTER COLUMN address TYPE TEXT;
+
+ALTER TABLE researcher
+ALTER COLUMN billing_address TYPE TEXT;
+
+
+
+
+
