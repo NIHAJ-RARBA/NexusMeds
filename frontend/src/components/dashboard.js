@@ -59,7 +59,14 @@ const DASHBOARD = ({setAuth}) => {
             {/* Displaying the variable values */}
             <h3 className='mt-5'>Dashboard</h3>
             <h4 style={{paddingT: '10px'}}>Welcome, {customer_name} !</h4>
-            <button onClick={e => logout(e)} className="btn btn-primary">Logout</button>
+
+            
+            <div className="button-container">
+                <button onClick={e => logout(e)} className="btn btn-primary" style={{ marginRight: '10px' }}>Logout</button>
+                <button className="btn btn-warning" onClick={() => {
+                    window.location.href = "/";
+                }}>See Home Page</button>
+            </div>
 
             <p>Gender: {gender}</p>
             <p>Email: {email}</p>
@@ -72,6 +79,9 @@ const DASHBOARD = ({setAuth}) => {
 
             <p>Address: {address}</p>
             <p>Billing Address: {billing_address}</p>
+
+
+
         </div>
     )
 };
