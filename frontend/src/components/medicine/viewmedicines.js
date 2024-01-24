@@ -31,18 +31,18 @@ const VIEWMEDICINES = () => {
                 {medicineList.map(medicine => (
                     <div key={medicine.medicine_id} className="medicine-box" style={{ border: "1px solid black", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)", display: "inline-block", margin: "10px", width: "30%" }}>
                         <h3>{medicine.med_name}</h3>
-                        <img src={medicine.image} alt={medicine.medicine_name} />
-                        <p>Generic Name: {medicine.generic_name}</p>
-                        <p>Package Type: {medicine.package_type}</p>
-                        <p>Price: {medicine.price}</p>
-                        <p>Available as: {medicine.med_form}</p>
-                        <p>Company: {medicine.manufacturer_id}</p>
-                        <p>Manufacturing Date: {medicine.manufacturing_date}</p>
-                        <p>Indication: {medicine.indication}</p>
-                        <p>Dosage: {medicine.dosage}</p>
-                        <p>Dosage Strength: {medicine.dosagestrength}</p>
+                        <img src={medicine.image} alt={medicine.image} style={{ maxWidth: '50%', height: 'auto' }}/>
+                        <p><b>Generic Name:</b> {medicine.generic_name}</p>
+                        <p><b>Package Type:</b> {medicine.package_type}</p>
+                        <p><b>Price: </b>{medicine.price}</p>
+                        <p><b>Available as:</b> {medicine.med_form}</p>
+                        <p><b>Company:</b> {medicine.manufacturer_id}</p>
+                        <p><b>Manufacturing Date:</b> {medicine.manufacturing_date}</p>
+                        <p><b>Indication:</b> {medicine.indication}</p>
+                        <p><b>Dosage: </b>{medicine.dosage}</p>
+                        <p><b>Dosage Strength: </b>{medicine.dosagestrength}</p>
                         {/* <button className="btn btn-danger" onClick={() => deleteUser(medicine.medicine_name)}>Delete</button> */}
-                        <p>Cautions: {medicine.cautions}</p>
+                        <p><b>Cautions: </b>{medicine.cautions}</p>
                     </div>
                 ))}
             </div>
