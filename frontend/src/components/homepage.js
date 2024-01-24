@@ -16,7 +16,6 @@ const HOMEPAGE = () => {
             <br />
             <button className="btn btn-warning " onClick={() => {
                 window.location.href = "/viewusers";
-                localStorage.removeItem("token");
             }
             }> See All Users </button>
 
@@ -24,7 +23,6 @@ const HOMEPAGE = () => {
             <br />
             <button className="btn btn-warning" onClick={() => {
                 window.location.href = "/signup";
-                localStorage.removeItem("token");
             }
             }> Sign Up </button>
 
@@ -33,9 +31,19 @@ const HOMEPAGE = () => {
       <br />
       <button className="btn btn-warning" onClick={() => {
         window.location.href = "/signin";
-        localStorage.removeItem("token");
       }
       }> Sign In </button>
+
+<br />
+            <br />
+            <button className="btn btn-warning" onClick={() => {
+
+                window.location.href = "/dashboard";
+            }
+
+            }> Dashboard </button>
+
+
 
 
             <br />
