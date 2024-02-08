@@ -19,7 +19,6 @@ import {
 
 const SIGNIN = ({setAuth}) => {
 
-        
 
     // const [password, setPassword] = useState("");
     // const [confirmpassword, setConfirmPassword] = useState("");
@@ -65,7 +64,7 @@ const SIGNIN = ({setAuth}) => {
                 // window.location = "/dashboard";
                 setAuth(true);
                 
-                toast.success("Registered Successfully");
+                toast.success("Signed in Successfully");
                 console.log("Signed in successfully");
 
             }
