@@ -240,6 +240,56 @@ ALTER TABLE researcher
 ALTER COLUMN billing_address TYPE TEXT;
 
 
+--CASCADE added
 
+ALTER TABLE medicine
+DROP CONSTRAINT IF EXISTS fk_medicine_manufacturer,
+ADD CONSTRAINT fk_medicine_manufacturer FOREIGN KEY (manufacturer_id) REFERENCES Manufacturer(manufacturer_id) ON DELETE CASCADE;
 
+ALTER TABLE Chemical
+DROP CONSTRAINT IF EXISTS fk_chemical_manufacturer,
+ADD CONSTRAINT fk_chemical_manufacturer FOREIGN KEY (manufacturer_id) REFERENCES Manufacturer(manufacturer_id) ON DELETE CASCADE;
 
+ALTER TABLE MedicineChemical
+DROP CONSTRAINT IF EXISTS fk_medicinechemical_medicine,
+ADD CONSTRAINT fk_medicinechemical_medicine FOREIGN KEY (medicine_id) REFERENCES medicine(medicine_id) ON DELETE CASCADE;
+
+ALTER TABLE MedicineChemical
+DROP CONSTRAINT IF EXISTS fk_medicinechemical_chemical,
+ADD CONSTRAINT fk_medicinechemical_chemical FOREIGN KEY (chemical_id) REFERENCES Chemical(chemical_id) ON DELETE CASCADE;
+
+ALTER TABLE Cart
+DROP CONSTRAINT IF EXISTS fk_cart_customer,
+ADD CONSTRAINT fk_cart_customer FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON DELETE CASCADE;
+
+ALTER TABLE Cart
+DROP CONSTRAINT IF EXISTS fk_cart_researcher,
+ADD CONSTRAINT fk_cart_researcher FOREIGN KEY (researcher_id) REFERENCES Researcher(researcher_id) ON DELETE CASCADE;
+
+ALTER TABLE Orders
+DROP CONSTRAINT IF EXISTS fk_orders_cart,
+ADD CONSTRAINT fk_orders_cart FOREIGN KEY (cart_id) REFERENCES Cart(cart_id) ON DELETE CASCADE;
+
+ALTER TABLE Payment
+DROP CONSTRAINT IF EXISTS fk_payment_orders,
+ADD CONSTRAINT fk_payment_orders FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE;
+
+ALTER TABLE DeliveryService
+DROP CONSTRAINT IF EXISTS fk_deliveryservice_orders,
+ADD CONSTRAINT fk_deliveryservice_orders FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE;
+
+ALTER TABLE Inventory
+DROP CONSTRAINT IF EXISTS fk_inventory_medicine,
+ADD CONSTRAINT fk_inventory_medicine FOREIGN KEY (medicine_id) REFERENCES medicine(medicine_id) ON DELETE CASCADE;
+
+ALTER TABLE Inventory
+DROP CONSTRAINT IF EXISTS fk_inventory_chemical,
+ADD CONSTRAINT fk_inventory_chemical FOREIGN KEY (chemical_id) REFERENCES Chemical(chemical_id) ON DELETE CASCADE;
+
+ALTER TABLE InventoryLog
+DROP CONSTRAINT IF EXISTS fk_inventorylog_medicine,
+ADD CONSTRAINT fk_inventorylog_medicine FOREIGN KEY (medicine_id) REFERENCES medicine(medicine_id) ON DELETE SET NULL;
+
+ALTER TABLE InventoryLog
+DROP CONSTRAINT IF EXISTS fk_inventorylog_chemical,
+ADD CONSTRAINT fk_inventorylog_chemical FOREIGN KEY (chemical_id) REFERENCES Chemical(chemical_id) ON DELETE SET NULL;
