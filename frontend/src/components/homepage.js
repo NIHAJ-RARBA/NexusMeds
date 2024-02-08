@@ -2,7 +2,7 @@ import React from "react";
 import VIEWMEDICINES from "./medicine/viewmedicines";
 
 
-const HOMEPAGE = () => {
+const HOMEPAGE = ({medID, chemID}) => {
 
 
 
@@ -48,7 +48,8 @@ const HOMEPAGE = () => {
 
 </container>
 
-            <VIEWMEDICINES />
+            <VIEWMEDICINES medID={medID}/>
+            {/* // <VIEWCHEMISTS chemID={chemID}/> */}
         </div>
     );
 };

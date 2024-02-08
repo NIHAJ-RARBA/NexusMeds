@@ -10,6 +10,8 @@ import SIGNUP from './components/signup';
 import EDITPROFILE from './components/editprofile';
 import VIEWUSERS from './components/viewusers';
 import DASHBOARD from './components/dashboard';
+import NAVBAR from './components/navbar';
+import MEDSPECIFIC from './components/medicine/specificMedicine';
 
 
 
@@ -22,6 +24,8 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [medID, setMedID] = useState(0);
+  const [chemId, setChemId] = useState(0);
 
   const setAuth = (boolean) => {
     console.log('Setting auth to:', boolean);
@@ -51,55 +55,60 @@ function App() {
 
 
 
-  
 
-  
+
   return (
-    <div className="App">
-      <h1 className="text-center mt-5">NEXUSMEDS</h1>
+    <div className="App" style={{ fontFamily: 'Roboto Mono, monospace', fontFamily: 'Roboto Slab, serif' }}>
+      {/* <h1 className="text-center mt-5">NEXUSMEDS</h1> */}
+      <NAVBAR />
+      <div style={{ marginTop: '115px' }}>
       <ToastContainer />
       <Router>
-      <Routes>
-      <Route path="/" element={<HOMEPAGE />} />
-      <Route
-        path="/signin"
-        element={
-          !isAuthenticated ? (
-            <SIGNIN setAuth={setAuth} />
-          ) : (
-            <Navigate to="/dashboard" />
-          )
-        }
-      />
-      <Route 
-      path="/signup" 
-      element={
-        
-        !isAuthenticated ? (
-          <SIGNUP setAuth={setAuth} />
-        ) : (
-          <Navigate to="/dashboard" />
-        )
+        <Routes>
+          <Route path="/" element={<HOMEPAGE />} />
+          <Route
+            path="/signin"
+            element={
+              !isAuthenticated ? (
+                <SIGNIN setAuth={setAuth} />
+              ) : (
+                <Navigate to="/dashboard" />
+              )
+            }
+          />
+          <Route
+            path="/signup"
+            element={
 
-      } 
-      />
-      <Route path="/editprofile" element={<EDITPROFILE />} />
-      <Route path="/viewusers" element={<VIEWUSERS />} />
-      <Route
-        path="/dashboard"
-        element={
-          isAuthenticated ? (
-            <DASHBOARD setAuth={setAuth} />
-          ) : (
-            <Navigate to="/signin" />
-          )
-        }
-      />
-    </Routes>
+              !isAuthenticated ? (
+                <SIGNUP setAuth={setAuth} />
+              ) : (
+                <Navigate to="/dashboard" />
+              )
+
+            }
+          />
+          <Route path="/editprofile" element={<EDITPROFILE />} />
+
+          <Route path="/viewusers" element={<VIEWUSERS />} />
+          <Route
+            path="/dashboard"
+            element={
+              isAuthenticated ? (
+                <DASHBOARD setAuth={setAuth} />
+              ) : (
+                <Navigate to="/signin" />
+              )
+            }
+          />
+
+          <Route path="/specificmedicine" element={<MEDSPECIFIC />} />
+
+        </Routes>
       </Router>
 
 
-
+      </div>
 
     </div>
   );
