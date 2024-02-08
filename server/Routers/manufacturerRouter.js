@@ -5,7 +5,7 @@ const router = express.Router();
 
 import {
     getManufacturerById
-    } from "../Controllers/manufacturerController.js";
+} from "../Controllers/manufacturerController.js";
 
 router.get('/:id', getManufacturerById);
 

@@ -24,8 +24,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [medID, setMedID] = useState(0);
-  const [chemId, setChemId] = useState(0);
+
 
   const setAuth = (boolean) => {
     console.log('Setting auth to:', boolean);
@@ -102,7 +101,7 @@ function App() {
             }
           />
 
-          <Route path="/specificmedicine" element={<MEDSPECIFIC />} />
+          <Route path="/specificmedicine/:id" element={<MEDSPECIFIC />} />
 
         </Routes>
       </Router>

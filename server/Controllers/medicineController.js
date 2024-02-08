@@ -67,7 +67,8 @@ export const getMedicineById = async (req, res) => {
     try {
         const { id } = req.params;
         const medicine = await client.query("SELECT * FROM medicine WHERE medicine_id = $1", [id]);
-
+        
+        console.log(medicine.rows[0]);
         res.status(200).json(medicine.rows[0]);
     } catch (error) {
         console.log(error.message);
