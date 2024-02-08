@@ -14,6 +14,7 @@ import router from "./Routers/adminRouter.js";
 import searchRouter from "./Routers/searchRouter.js";
 import cartRouter from "./Routers/cartRouter.js";
 import orderRouter from "./Routers/orderRouter.js";
+import manufacturerRouter from "./Routers/manufacturerRouter.js";
 
 
 
@@ -31,6 +32,7 @@ app.use('/researcher', researcherRouter);
 app.use('/search', searchRouter);
 app.use('/cart', cartRouter);
 app.use('/order', orderRouter);
+app.use('/manufacturer', manufacturerRouter);
 
 
 // create a task

@@ -6,7 +6,7 @@ export const getAllMedicines = async (req, res) => {
     try {
         const result = await client.query('SELECT * FROM medicine');
         res.status(200).json(result.rows);
-        console.log(result.rows);
+        //console.log(result.rows);
     } catch (error) {
 
         res.status(500).json({ error: error });
