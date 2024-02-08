@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import {
@@ -15,6 +17,7 @@ import {
     FormGroup
 } from 'reactstrap';
 
+// toast.configure();
 
 const SIGNUP = ({setAuth}) => {
 
@@ -55,12 +58,11 @@ const SIGNUP = ({setAuth}) => {
                 localStorage.setItem("token", parseRes.token);
                 console.log(parseRes.token);
                 setAuth(true);
-                // toast.success("Registered Successfully");
-                window.location = "/dashboard";
+                toast.success("Registered Successfully");
             } else {
                 console.log(parseRes);
                 setAuth(false);
-                // toast.error(parseRes);
+                toast.error(parseRes);
             }
 
 

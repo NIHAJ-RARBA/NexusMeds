@@ -14,6 +14,8 @@ import DASHBOARD from './components/dashboard';
 
 
 import './App.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -55,6 +57,7 @@ function App() {
   return (
     <div className="App">
       <h1 className="text-center mt-5">NEXUSMEDS</h1>
+      <ToastContainer />
       <Router>
       <Routes>
       <Route path="/" element={<HOMEPAGE />} />

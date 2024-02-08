@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import {
     Button,
@@ -34,13 +36,9 @@ const SIGNIN = ({setAuth}) => {
     const [address, setAddress] = useState("");
     const [billing_address, setBillingAddress] = useState("");
 
-    const notify = () => toast("Wow so easy!");
-
 
     const onSave = async (e) => {
 
-        notify();
-        <ToastContainer />
         e.preventDefault();
 
         try {
@@ -121,7 +119,7 @@ const SIGNIN = ({setAuth}) => {
 
             </Form>
             
-            <div><Button className="btn btn-warning" onClick={onSave} style={{ fontSize: '30px' }}>Add</Button></div>
+            <div><Button className="btn btn-warning" onClick={onSave} style={{ fontSize: '30px' }}>LOGIN</Button></div>
             
         </div>
 
@@ -132,7 +130,6 @@ const SIGNIN = ({setAuth}) => {
             <br />
             <button className="btn btn-warning" onClick={() => {
                 window.location.href = "/viewusers";
-                localStorage.removeItem("token");
             }
             }> See All Users </button>
 
@@ -140,7 +137,6 @@ const SIGNIN = ({setAuth}) => {
             <br />
             <button className="btn btn-warning" onClick={() => {
                 window.location.href = "/signup";
-                localStorage.removeItem("token");
             }
             }> Sign Up </button>
 
@@ -158,7 +154,7 @@ const SIGNIN = ({setAuth}) => {
             <br />
             <button className="btn btn-warning" onClick={() => {
 
-                localStorage.removeItem("token");
+
                 window.location.href = "/";
             }
 

@@ -46,15 +46,6 @@ const HOMEPAGE = () => {
 
 
 
-            <br />
-            <br />
-            <button className="btn btn-warning" onClick={() => {
-
-                localStorage.removeItem("token");
-                window.location.href = "/";
-            }
-
-            }> See home page </button>
 </container>
 
             <VIEWMEDICINES />
