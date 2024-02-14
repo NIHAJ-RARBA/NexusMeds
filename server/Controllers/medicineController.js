@@ -158,3 +158,35 @@ export const getChemicalByMedicineId = async (req, res) => {
     }
 }
 
+export const getAllIndications = async (_, res) => {
+    try {
+        const result = await client.query(`
+            SELECT INITCAP(TRIM(unnest(string_to_array(indication, ',')))) AS indication, COUNT(*) AS num_medicines
+            FROM medicine
+            WHERE indication IS NOT NULL
+            GROUP BY unnest(string_to_array(indication, ','))
+            ORDER BY num_medicines DESC
+        `);
+        res.status(200).json(result.rows);
+        //console.log(result.rows);
+    } catch (error) {
+        res.status(500).json({ error: error });
+        console.log(error.message);
+    }
+};
+
+
+export const getMedicineByIndication = async (req, res) => {
+    try {
+        const { isOTC, indication } = req.params;
+
+        let sql = "SELECT * FROM medicine WHERE isOTC = $1 AND $2 LIKE '%' || indication || '%'";
+
+        const medicine = await client.query(sql, [isOTC, `%${indication}%`]);
+
+        res.status(200).json(medicine.rows);
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}

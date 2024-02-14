@@ -12,12 +12,14 @@ import VIEWUSERS from './components/viewusers';
 import DASHBOARD from './components/dashboard';
 import NAVBAR from './components/navbar';
 import MEDSPECIFIC from './components/medicine/specificMedicine';
+import VIEWOTC from './components/medicine/viewOTC';
 
 
 
 import './App.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import VIEWPRESCRIPTIONMEDS from './components/medicine/viewPrescriptionMeds';
 
 
 
@@ -47,15 +49,15 @@ function App() {
       console.error(error.message);
     }
   };
-
+  
   useEffect(() => {
     isAuth();
   }, []);
-
-
-
-
-
+  
+  
+  
+  
+  
   return (
     <div className="App" style={{ fontFamily: 'Roboto Mono, monospace', fontFamily: 'Roboto Slab, serif' }}>
       {/* <h1 className="text-center mt-5">NEXUSMEDS</h1> */}
@@ -64,6 +66,8 @@ function App() {
       <ToastContainer />
       <Router>
         <Routes>
+      <Route path="/otcmeds" element={<VIEWOTC />} />
+      <Route path="/prescriptionmeds" element={<VIEWPRESCRIPTIONMEDS />} />
           <Route path="/" element={<HOMEPAGE />} />
           <Route
             path="/signin"
