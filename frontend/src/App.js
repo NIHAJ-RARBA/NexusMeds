@@ -111,7 +111,7 @@ function App() {
             }
           />
 
-          <Route path="/specificmedicine/:id" element={<MEDSPECIFIC />} />
+          <Route path="/specificmedicine/:id" element={<MEDSPECIFIC isLoggedIn={isAuthenticated} setAuth={setAuth}/>} />
 
         </Routes>
       </Router>

@@ -15,7 +15,7 @@ export const addToCart = async (req, res) => {
                 FROM cart\
                 WHERE (customer_id = $1 OR researcher_id = $1)\
                     AND cart_status = false\
-            )',
+            )`,
             [user_id]
         );
 
@@ -51,6 +51,8 @@ export const addToCart = async (req, res) => {
         //let existCart = carts.rows.length > 0 ? true : false;
 
         if (isCustomer === true) {
+
+            console.log("cart");
             const cartMedicines = await client.query(
                 'SELECT * FROM cartMedicine WHERE cart_id = $1',
                 [cart.rows[0].cart_id]
