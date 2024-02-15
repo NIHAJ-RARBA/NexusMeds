@@ -15,7 +15,7 @@ export const addToCart = async (req, res) => {
                 FROM cart\
                 WHERE (customer_id = $1 OR researcher_id = $1)\
                     AND cart_status = false\
-            )`,
+            )',
             [user_id]
         );
 
