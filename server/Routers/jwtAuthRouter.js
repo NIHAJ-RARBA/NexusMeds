@@ -19,9 +19,17 @@ router.post("/register/customer", validinfo, async (req, res) => {
 
         // console.log(req.body);
 
-
+        var image = req.body.image;
         // 1. destructure the req.body (email, password, phone, customer_name, d.o.b, image, gender, address, billing_address)
-        const { email, password, phone, customer_name, date_of_birth, image, gender, address, billing_address } = req.body;
+        const { email, password, phone, customer_name, date_of_birth, gender, address, billing_address } = req.body;
+
+
+        if (image == '' || image === null)
+        {
+            image = "https://winaero.com/blog/wp-content/uploads/2018/08/Windows-10-user-icon-big.png";
+        }
+
+        console.log(image);
 
         // 2. check if user exists (if user exists then throw error)
 
@@ -111,6 +119,11 @@ router.post("/register/researcher", validinfo, async (req, res) => {
 
         // 1. destructure the req.body (email, password, phone, researcher_name, d.o.b, image, gender, address, billing_address)
         const { email, password, phone, researcher_name, date_of_birth, image, gender, address, billing_address } = req.body;
+
+        if (image === null)
+        {
+            image = "https://i.pinimg.com/564x/81/8a/1b/818a1b89a57c2ee0fb7619b95e11aebd.jpg";
+        }
 
         // 2. check if user exists (if user exists then throw error)
 

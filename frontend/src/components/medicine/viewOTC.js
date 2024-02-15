@@ -7,41 +7,52 @@ import { useParams } from "react-router-dom";
 import MEDSPECIFIC from "./specificMedicine";
 
 
-const VIEWMEDICINES = () => {
+const VIEWOTC = () => {
     
+    const indication = useParams();
+
     const [medicineList, setmedicineList] = useState([]);
 
-
-
-    const getMedicines = async () => {
-
+    const getMedicinesByIndication = async (indication) => {
         try {
-            const response = await fetch("http://localhost:5000/medicine/getall");
+            const response = await fetch(`http://localhost:5000/medicine/isOTC/true/indications/${indication}`);
             const jsonData = await response.json();
-
+            
+            console.log('Medicines for indication:', indication, jsonData);
             setmedicineList(jsonData);
-        }
-        catch (error) {
+        } catch (error) {
             console.error(error.message);
         }
+
+
     };
+
+
+
 
     const gotoSpecificMedicine = (medicine_id) => {
         console.log('Going to specific medicine with id:', medicine_id);
         window.location = `/specificmedicine/${medicine_id}`;
-
     };
 
+
+
     useEffect(() => {
-        getMedicines();
+        getMedicinesByIndication(indication.indication);
+
+        // getIndications();
     }, []);
 
 
     return (
-        <div className="VIEWMEDICINES">
-            
 
-            <h2 className="text-center mt-5"><u> All Medicines</u></h2>
+
+
+        //show the list of indications in a tiled way using cards
+
+
+        <div className="VIEWOTC">
+
             <div className="medicine-list">
                 {medicineList.map(medicine => (
                     <div key={medicine.medicine_id} className="medicine-box" onClick={() => gotoSpecificMedicine(medicine.medicine_id)} style={{ border: "1px solid black", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)", display: "inline-block", margin: "10px", width: "30%" }}>
@@ -58,7 +69,10 @@ const VIEWMEDICINES = () => {
                 ))}
             </div>
         </div>
+        
+
+
     );
 };
 
-export default VIEWMEDICINES;
+export default VIEWOTC;

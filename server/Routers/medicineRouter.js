@@ -9,7 +9,9 @@ import {
   deleteMedicineById,
   getMedicineManufacturerById,
   getChemicalByMedicineId,
-  getMedicineByIsOTC
+  getMedicineByIsOTC,
+  getAllIndications,
+  getMedicineByIndication
 } from '../Controllers/medicineController.js';
 
 
@@ -21,6 +23,8 @@ router.delete('/delete/:id', deleteMedicineById);
 router.get('/manufacturer/:id', getMedicineManufacturerById);
 router.get('/chemical/:id', getChemicalByMedicineId);
 router.get('/isOTC/:isOTC', getMedicineByIsOTC);
+router.get('/isOTC/:isOTC/indications', getAllIndications);
+router.get('/isOTC/:isOTC/indications/:indication', getMedicineByIndication);
 
 
 export default router;

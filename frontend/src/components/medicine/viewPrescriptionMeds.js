@@ -7,16 +7,14 @@ import { useParams } from "react-router-dom";
 import MEDSPECIFIC from "./specificMedicine";
 
 
-const VIEWMEDICINES = () => {
+const VIEWPRESCRIPTIONMEDS = () => {
     
     const [medicineList, setmedicineList] = useState([]);
-
-
 
     const getMedicines = async () => {
 
         try {
-            const response = await fetch("http://localhost:5000/medicine/getall");
+            const response = await fetch("http://localhost:5000/medicine/isOTC/false");
             const jsonData = await response.json();
 
             setmedicineList(jsonData);
@@ -32,16 +30,18 @@ const VIEWMEDICINES = () => {
 
     };
 
+    
+
     useEffect(() => {
         getMedicines();
     }, []);
 
 
     return (
-        <div className="VIEWMEDICINES">
+        <div className="VIEWPRESCRIPTIONMEDS">
             
 
-            <h2 className="text-center mt-5"><u> All Medicines</u></h2>
+            <h2 className="text-center mt-5"><u> Prescription Medicines</u></h2>
             <div className="medicine-list">
                 {medicineList.map(medicine => (
                     <div key={medicine.medicine_id} className="medicine-box" onClick={() => gotoSpecificMedicine(medicine.medicine_id)} style={{ border: "1px solid black", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)", display: "inline-block", margin: "10px", width: "30%" }}>
@@ -61,4 +61,4 @@ const VIEWMEDICINES = () => {
     );
 };
 
-export default VIEWMEDICINES;
+export default VIEWPRESCRIPTIONMEDS;
