@@ -13,6 +13,7 @@ import DASHBOARD from './components/dashboard';
 import NAVBAR from './components/navbar';
 import MEDSPECIFIC from './components/medicine/specificMedicine';
 import VIEWOTC from './components/medicine/viewOTC';
+import INDICATIONS from './components/medicine/otcIndications';
 
 
 
@@ -20,6 +21,7 @@ import './App.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import VIEWPRESCRIPTIONMEDS from './components/medicine/viewPrescriptionMeds';
+import SorryPage from './components/sorry';
 
 
 
@@ -61,12 +63,16 @@ function App() {
   return (
     <div className="App" style={{ fontFamily: 'Roboto Mono, monospace', fontFamily: 'Roboto Slab, serif' }}>
       {/* <h1 className="text-center mt-5">NEXUSMEDS</h1> */}
-      <NAVBAR />
+      <br></br>
+      <NAVBAR isLoggedIn={isAuthenticated} setAuth={setAuth}/>
+      
       <div style={{ marginTop: '115px' }}>
       <ToastContainer />
       <Router>
         <Routes>
-      <Route path="/otcmeds" element={<VIEWOTC />} />
+      <Route path="/viewotc" element={<INDICATIONS />} />
+      <Route path="/sorry" element={<SorryPage />} />
+      <Route path="/viewotc/:indication" element={<VIEWOTC />} />
       <Route path="/prescriptionmeds" element={<VIEWPRESCRIPTIONMEDS />} />
           <Route path="/" element={<HOMEPAGE />} />
           <Route

@@ -33,10 +33,10 @@ export const getMedicineByIsOTC = async (req, res) => {
 
 export const createMedicine = async (req, res) => {
     try {
+        var image = req.body.image;
         const {
             med_name,
             price,
-            image,
             generic_name,
             package_type,
             med_form,
@@ -48,10 +48,16 @@ export const createMedicine = async (req, res) => {
             cautions
         } = req.body;
 
+        if (image === null || image === "" || image === undefined || image === '' || image === " ") {
+            image = "https://cdn.bcm.edu/sites/default/files/styles/full_width_component_image_standard/public/2022-06/pill.jpg?itok=ujCSjMfD"
+        }
+
         const newMedicine = await client.query(
             "INSERT INTO medicine (med_name, price, image, generic_name, package_type, med_form, isOTC, manufacturer_id, indication, dosage, dosageStrength, cautions) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *;",
             [med_name, price, image, generic_name, package_type, med_form, isOTC, manufacturer_id, indication, dosage, dosageStrength, cautions]
         );
+
+
 
         res.json(newMedicine.rows[0]);
         console.log(req.body);
@@ -180,10 +186,11 @@ export const getMedicineByIndication = async (req, res) => {
     try {
         const { isOTC, indication } = req.params;
 
-        let sql = "SELECT * FROM medicine WHERE isOTC = $1 AND $2 LIKE '%' || indication || '%'";
+        let sql = `SELECT * FROM medicine WHERE isOTC = $1 AND upper(indication) LIKE upper('%' || $2 || '%');`;
 
-        const medicine = await client.query(sql, [isOTC, `%${indication}%`]);
+        const medicine = await client.query(sql, [isOTC, indication]);
 
+        console.log(medicine.rows);
         res.status(200).json(medicine.rows);
 
     } catch (error) {

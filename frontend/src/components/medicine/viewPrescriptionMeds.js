@@ -30,6 +30,8 @@ const VIEWPRESCRIPTIONMEDS = () => {
 
     };
 
+    
+
     useEffect(() => {
         getMedicines();
     }, []);
@@ -49,13 +51,9 @@ const VIEWPRESCRIPTIONMEDS = () => {
                         <p><b>Package Type:</b> {medicine.package_type}</p>
                         <p><b>Price: </b>{medicine.price}</p>
                         <p><b>Available as:</b> {medicine.med_form}</p>
-                        <p><b>Company:</b> {medicine.manufacturer_id}</p>
-                        <p><b>Manufacturing Date:</b> {medicine.manufacturing_date}</p>
-                        <p><b>Indication:</b> {medicine.indication}</p>
-                        <p><b>Dosage: </b>{medicine.dosage}</p>
+                        
                         <p><b>Dosage Strength: </b>{medicine.dosagestrength}</p>
-                        {/* <button className="btn btn-danger" onClick={() => deleteUser(medicine.medicine_name)}>Delete</button> */}
-                        <p><b>Cautions: </b>{medicine.cautions}</p>
+
                     </div>
                 ))}
             </div>
