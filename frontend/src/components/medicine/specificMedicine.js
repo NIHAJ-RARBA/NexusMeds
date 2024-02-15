@@ -2,7 +2,32 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Container, Row, Col, Button } from 'reactstrap';
 
-const MEDSPECIFIC = () => {
+const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
+
+    const loggedIn = isLoggedIn;
+
+    const [customer_id, setCustomerId] = useState("");
+    
+    const getProfile = async () => {
+        try {
+            const res = await fetch(`http://localhost:5000/customer/`, {
+                method: "POST",
+                headers: { token: localStorage.token }
+            });
+
+            const parseRes = await res.json();
+            // console.log(parseRes);
+            // console.log(parseRes.customer_id);
+
+            setCustomerId(parseRes.customer_id);
+            
+
+            
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     const id = useParams();
     const [medicine, setMedicine] = useState({});
     const [manufacturer, setManufacturer] = useState('');
@@ -25,12 +50,37 @@ const MEDSPECIFIC = () => {
     };
 
     useEffect(() => {
+        getProfile();
+        // console.log(customer_id);
         getMedicine();
     }, []);
 
-    const addToCart = () => {
+    const addToCart = async () => {
         // Implement add to cart functionality here
         console.log(`Added ${quantity} ${medicine.med_name}(s) to cart`);
+
+        const data = {
+            user_id: customer_id,
+            product_id: id.id,
+            quantity: quantity
+        };
+
+        try {
+            const response = await fetch("http://localhost:5000/cart/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    
+                },
+                body: JSON.stringify(data)
+            });
+
+            const parseRes = await response.json();
+            console.log(parseRes);
+        } catch (error) {
+            console.error(error.message);
+        }
+
     };
 
     return (

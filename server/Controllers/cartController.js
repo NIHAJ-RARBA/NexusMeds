@@ -28,28 +28,34 @@ export const addToCart = async (req, res) => {
 
     try {
         const { user_id, product_id, quantity } = req.body;
+        
+        console.log(req.body);
 
         const cart = await client.query(
-            'SELECT *\
+            `SELECT *\
             FROM CART\
             WHERE cart_id = (\
                 SELECT cart_id\
                 FROM cart\
                 WHERE (customer_id = $1 OR researcher_id = $1)\
                     AND cart_status = false\
-            )',
+            )`,
             [user_id]
         );
+        
 
-        console.log(cart.rows[0].cart_id);
-
+        
         let isCustomer;
-
+        
         if (cart.rows.length > 0) {
             isCustomer = cart.rows[0].iscustomer === true;
         } else {
             isCustomer = false;
         }
+        
+        console.log(isCustomer === true);
+        
+        console.log(cart.rows[0].cart_id);
 
         // if(cart.rows[0].iscustomer===true){
 
@@ -63,6 +69,8 @@ export const addToCart = async (req, res) => {
         //let existCart = carts.rows.length > 0 ? true : false;
 
         if (isCustomer === true) {
+
+            console.log("cart");
             const cartMedicines = await client.query(
                 'SELECT * FROM cartMedicine WHERE cart_id = $1',
                 [cart.rows[0].cart_id]

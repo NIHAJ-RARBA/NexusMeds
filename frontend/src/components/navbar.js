@@ -21,7 +21,7 @@ const NAVBAR = ({isLoggedIn, setAuth}) => {
             });
 
             const parseRes = await res.json();
-            console.log(parseRes);
+            // console.log(parseRes);
 
             setCustomerName(parseRes.customer_name);
             
