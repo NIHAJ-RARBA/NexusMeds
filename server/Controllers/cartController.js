@@ -1,35 +1,13 @@
+import { create } from 'domain';
 import client from '../DB.js';
-
-export const createCart = async (req, res) => {
-
-
-    try {
-        const { user_id, isCustomer } = req.body;
-
-        console.log(isCustomer)
-
-        const newCart = await client.query(
-            // Add your query here based on the condition
-            isCustomer === true ? 'INSERT INTO cart (iscustomer,customer_id,researcher_id) VALUES ($1,$2,$3) RETURNING *' : 'INSERT INTO cart (iscustomer,researcher_id, customer_id) VALUES ($1, $2,$3) RETURNING *',
-            [isCustomer, user_id, null]
-        );
-
-        res.json(newCart.rows);
-        console.log('new cart created');
-        console.log(newCart.rows);
-
-    } catch (error) {
-        console.log(error.message);
-    }
-
-}
 
 export const addToCart = async (req, res) => {
 
     try {
         const { user_id, product_id, quantity } = req.body;
+        let isCustomer;
 
-        const cart = await client.query(
+        let cart = await client.query(
             'SELECT *\
             FROM CART\
             WHERE cart_id = (\
@@ -41,15 +19,25 @@ export const addToCart = async (req, res) => {
             [user_id]
         );
 
+        if (cart.rows.length === 0) {
+
+            console.log('inside create cart');
+
+            const Customer = await client.query(
+                'SELECT * FROM CUSTOMER WHERE customer_id = $1',
+                [user_id]
+            );
+
+            isCustomer = Customer.rows.length > 0 ? true : false;
+            
+            //create cart is function
+            cart = await client.query('SELECT * FROM create_cart($1, $2)', [user_id, isCustomer]);
+            console.log(cart);
+
+        }
+
         console.log(cart.rows[0].cart_id);
 
-        let isCustomer;
-
-        if (cart.rows.length > 0) {
-            isCustomer = cart.rows[0].iscustomer === true;
-        } else {
-            isCustomer = false;
-        }
 
         // if(cart.rows[0].iscustomer===true){
 
@@ -82,17 +70,20 @@ export const addToCart = async (req, res) => {
                 }
             }
 
-            console.log('product not in cart');
+            console.log('CART NOT THERE');
             // console.log(cart.rows[0].cart_id);
-            // console.log("amit");
+            //console.log("amit");
 
             const newCart = await client.query(
+
                 'INSERT INTO cartmedicine (cart_id, medicine_id, quantity) VALUES ($1, $2, $3) RETURNING *',
                 [cart.rows[0].cart_id, product_id, quantity]
             );
 
+
             res.json(newCart.rows[0]);
             console.log(newCart.rows[0]);
+
             return;
         }
         else if (isCustomer === false) {
