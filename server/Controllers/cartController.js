@@ -1,61 +1,47 @@
+import { create } from 'domain';
 import client from '../DB.js';
-
-export const createCart = async (req, res) => {
-
-
-    try {
-        const { user_id, isCustomer } = req.body;
-
-        console.log(isCustomer)
-
-        const newCart = await client.query(
-            // Add your query here based on the condition
-            isCustomer === true ? 'INSERT INTO cart (iscustomer,customer_id,researcher_id) VALUES ($1,$2,$3) RETURNING *' : 'INSERT INTO cart (iscustomer,researcher_id, customer_id) VALUES ($1, $2,$3) RETURNING *',
-            [isCustomer, user_id, null]
-        );
-
-        res.json(newCart.rows);
-        console.log('new cart created');
-        console.log(newCart.rows);
-
-    } catch (error) {
-        console.log(error.message);
-    }
-
-}
 
 export const addToCart = async (req, res) => {
 
     try {
         const { user_id, product_id, quantity } = req.body;
-        
-        console.log(req.body);
+        let isCustomer;
 
-        const cart = await client.query(
-            `SELECT *\
+        let cart = await client.query(
+            'SELECT *\
             FROM CART\
             WHERE cart_id = (\
                 SELECT cart_id\
                 FROM cart\
                 WHERE (customer_id = $1 OR researcher_id = $1)\
                     AND cart_status = false\
-            )`,
+            )',
             [user_id]
         );
-        
 
-        
-        let isCustomer;
-        
-        if (cart.rows.length > 0) {
-            isCustomer = cart.rows[0].iscustomer === true;
-        } else {
-            isCustomer = false;
+        const Customer = await client.query(
+            'SELECT * FROM CUSTOMER WHERE customer_id = $1',
+            [user_id]
+        );
+
+        isCustomer = Customer.rows.length > 0 ? true : false;
+
+        if (cart.rows.length === 0) {
+
+            console.log('inside create cart');
+
+
+            console.log('user_id ', user_id);
+
+            //create cart is function
+            cart = await client.query('SELECT * FROM create_cart($1, $2)', [user_id, isCustomer]);
+            console.log(cart);
+
+            console.log('cart created');
         }
-        
-        console.log(isCustomer === true);
-        
+
         console.log(cart.rows[0].cart_id);
+
 
         // if(cart.rows[0].iscustomer===true){
 
@@ -68,16 +54,21 @@ export const addToCart = async (req, res) => {
 
         //let existCart = carts.rows.length > 0 ? true : false;
 
+        console.log('cart is there : ' + cart.rows[0].cart_id);
+
         if (isCustomer === true) {
 
-            console.log("cart");
+            console.log("cart_id : " + cart.rows[0].cart_id);
+
             const cartMedicines = await client.query(
                 'SELECT * FROM cartMedicine WHERE cart_id = $1',
                 [cart.rows[0].cart_id]
             );
 
             for (const cartMedicine of cartMedicines.rows) {
-                if (cartMedicine.medicine_id === product_id) {
+                
+
+                if (parseInt(cartMedicine.medicine_id) === parseInt(product_id)) {
 
                     const updateCart = await client.query(
                         'UPDATE cartMedicine SET quantity = quantity + $1 WHERE cart_id = $2 AND medicine_id = $3 returning *',
@@ -90,20 +81,25 @@ export const addToCart = async (req, res) => {
                 }
             }
 
-            console.log('product not in cart');
+            console.log('CART NOT THERE for the product');
             // console.log(cart.rows[0].cart_id);
-            // console.log("amit");
+            //console.log("amit");
 
             const newCart = await client.query(
+
                 'INSERT INTO cartmedicine (cart_id, medicine_id, quantity) VALUES ($1, $2, $3) RETURNING *',
                 [cart.rows[0].cart_id, product_id, quantity]
             );
 
+
             res.json(newCart.rows[0]);
             console.log(newCart.rows[0]);
+
             return;
         }
         else if (isCustomer === false) {
+
+            console.log('not customer');
 
             const cartChemicals = await client.query(
                 'SELECT * FROM cartChemical WHERE cart_id = $1',
@@ -125,7 +121,7 @@ export const addToCart = async (req, res) => {
                 }
             }
 
-            console.log('product not in cart');
+            console.log('cart not there for the product ');
 
 
             const newCart = await client.query(

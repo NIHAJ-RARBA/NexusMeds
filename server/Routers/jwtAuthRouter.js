@@ -30,7 +30,7 @@ router.post("/register/customer", validinfo, async (req, res) => {
         }
 
         console.log(image);
-
+        
         // 2. check if user exists (if user exists then throw error)
 
         const user = await client.query("SELECT * FROM customer WHERE email = $1", [email]);
@@ -61,8 +61,18 @@ router.post("/register/customer", validinfo, async (req, res) => {
         
         
     } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Server error jwtRouter");
+        console.error('in register customer: ' + error.message);
+        
+        if (error.message.includes('12345')) {
+            
+            console.log('Name error: 12345');
+            return res.status(400).json({ error: '12345' });
+            
+        } else {
+            
+            console.error(error.message);
+            res.status(500).send("Server error");
+        }
     }
 
 });
