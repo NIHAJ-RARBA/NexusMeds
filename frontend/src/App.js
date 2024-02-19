@@ -14,6 +14,7 @@ import NAVBAR from './components/navbar';
 import MEDSPECIFIC from './components/medicine/specificMedicine';
 import VIEWOTC from './components/medicine/viewOTC';
 import INDICATIONS from './components/medicine/otcIndications';
+import CART from './components/cart';
 
 
 
@@ -66,14 +67,16 @@ function App() {
       <br></br>
       <NAVBAR isLoggedIn={isAuthenticated} setAuth={setAuth}/>
       
-      <div style={{ marginTop: '115px' }}>
+      {/* <div style={{ marginTop: '115px' }}> */}
+      <div>
       <ToastContainer />
       <Router>
         <Routes>
-      <Route path="/viewotc" element={<INDICATIONS />} />
-      <Route path="/sorry" element={<SorryPage />} />
-      <Route path="/viewotc/:indication" element={<VIEWOTC />} />
-      <Route path="/prescriptionmeds" element={<VIEWPRESCRIPTIONMEDS />} />
+        <Route path="/cart" element={<CART />} />
+        <Route path="/viewotc" element={<INDICATIONS />} />
+        <Route path="/sorry" element={<SorryPage />} />
+        <Route path="/viewotc/:indication" element={<VIEWOTC />} />
+        <Route path="/prescriptionmeds" element={<VIEWPRESCRIPTIONMEDS />} />
           <Route path="/" element={<HOMEPAGE />} />
           <Route
             path="/signin"

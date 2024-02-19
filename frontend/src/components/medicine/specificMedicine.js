@@ -56,6 +56,12 @@ const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
     }, []);
 
     const addToCart = async () => {
+
+        if (!loggedIn) {
+            window.location.href = "/signin";
+            return;
+        }
+
         // Implement add to cart functionality here
         console.log(`Added ${quantity} ${medicine.med_name}(s) to cart`);
 

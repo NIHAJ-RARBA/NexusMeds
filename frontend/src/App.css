@@ -40,3 +40,18 @@
 }
 
 
+.hover-options {
+  display: none;
+
+}
+
+.label:hover .hover-options {
+  display: block;
+}
+
+
+.nav-item:hover .hover-options {
+  background-color: red; /* Change the background color when hovered over */
+  color: black; /* Change the text color when hovered over */
+}
+

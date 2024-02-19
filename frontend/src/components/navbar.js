@@ -1,7 +1,47 @@
 import React, { useEffect } from 'react';
 import { Button } from 'reactstrap';
 import { useState } from 'react';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
+
+const GREETINGS_DROPDOWN = ({ loggedIn, customer_name, logout }) => {
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const toggleDropdown = () => setDropdownOpen(prevState => !prevState);
+
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
+
+    return (
+        <ul className="navbar-nav ml-auto" >
+            {loggedIn ? (
+                <li className="nav-item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    <span className="nav-link">
+                        <Dropdown isOpen={dropdownOpen || isHovered} toggle={toggleDropdown}>
+                            <DropdownToggle className="custom-toggle" caret={false}>
+                                Hello, {customer_name}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem onClick={logout}>Log out</DropdownItem>
+                                <DropdownItem href="/dashboard">Dashboard</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </span>
+                </li>
+            ) : (
+                <li className="nav-item">
+                    <span className="nav-link">
+                        <Button href='/signin'>Login</Button>
+                    </span>
+                    <span className="nav-link">
+                        <p className="user-name" title="Register" style={{ margin: 0 }}>Register</p>
+                    </span>
+                </li>
+            )}
+        </ul>
+    );
+}
 
 const NAVBAR = ({isLoggedIn, setAuth}) => {
     const loggedIn = isLoggedIn;
@@ -11,6 +51,7 @@ const NAVBAR = ({isLoggedIn, setAuth}) => {
     
     const [customer_name, setCustomerName] = useState("");
     const [image, setImage] = useState("");
+    const [showOptions, setShowOptions] = useState(false);
 
 
     const getProfile = async () => {
@@ -50,6 +91,11 @@ const NAVBAR = ({isLoggedIn, setAuth}) => {
     }, []);
 
 
+    const handleSearch = (searchQuery) => {
+        console.log(searchQuery);
+        // Your logic for search
+    }
+
 
 
     return (
@@ -74,29 +120,44 @@ const NAVBAR = ({isLoggedIn, setAuth}) => {
                             </a>
 
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <a className="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li>
+                        </li> */}
+                        <form className="d-flex" role="search">
+                            <input
+                                className="form-control me-2"
+                                type="search"
+                                placeholder="Search"
+                                aria-label="Search"
+                                style={{ width: '600px', backgroundColor: '#f0fff0' }} // Adjust width and background color
+                                onChange={(e) => handleSearch(e.target.value)} // Call the search function onChange
+                            />
+                        </form>
+
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
 
                     <ul className="navbar-nav ml-auto">
-
-                    {loggedIn ? (
-                        <span class="label">
-                            <p className="user-name" title="username"><b>Hello,<br/> {customer_name}</b></p>
-                        </span>
-                    ) : (
-                        <span class="label">
-                            <Button href='/signin'>Login</Button>
-                            <p class="user-name" title="Register">Register</p>
-                        </span>
-                    )}
-
+                        
+                        {loggedIn ? (
+                            <li className="nav-item">
+                                <a className="" href="/cart">
+                                <img src="https://cdn-icons-png.freepik.com/256/891/891407.png" alt="cart" style={{ width: '40px', height: '40px', marginRight: '20px' }} />
+                                </a>
+                            </li>
+                        ) : (
+                            <li className="nav-item">
+                                <a className="" href="/signin">
+                                <img src="https://cdn-icons-png.freepik.com/256/891/891407.png"  alt="cart" style={{width: '40px', height: '40px', marginRight: '20px' }} />
+                                </a>
+                            </li>
+                        )}
                     </ul>
+
+
+                    <ul className="navbar-nav ml-auto">
+                        <GREETINGS_DROPDOWN loggedIn={loggedIn} customer_name={customer_name} logout={logout}/>
+                    </ul>
+
                 </div>
             </div>
         </nav>

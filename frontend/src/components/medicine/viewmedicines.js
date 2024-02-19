@@ -1,27 +1,15 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Routes, link, Redirect, navigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-
-import MEDSPECIFIC from "./specificMedicine";
-
+import React, { useState, useEffect } from "react";
+import { Card, CardBody, CardImg, CardText, CardTitle, Container } from "reactstrap";
 
 const VIEWMEDICINES = () => {
-    
-    const [medicineList, setmedicineList] = useState([]);
-
-
+    const [medicineList, setMedicineList] = useState([]);
 
     const getMedicines = async () => {
-
         try {
             const response = await fetch("http://localhost:5000/medicine/getall");
             const jsonData = await response.json();
-
-            setmedicineList(jsonData);
-        }
-        catch (error) {
+            setMedicineList(jsonData);
+        } catch (error) {
             console.error(error.message);
         }
     };
@@ -29,35 +17,35 @@ const VIEWMEDICINES = () => {
     const gotoSpecificMedicine = (medicine_id) => {
         console.log('Going to specific medicine with id:', medicine_id);
         window.location = `/specificmedicine/${medicine_id}`;
-
     };
 
     useEffect(() => {
         getMedicines();
     }, []);
 
-
     return (
-        <div className="VIEWMEDICINES">
-            
-
-            <h2 className="text-center mt-5"><u> All Medicines</u></h2>
-            <div className="medicine-list">
-                {medicineList.map(medicine => (
-                    <div key={medicine.medicine_id} className="medicine-box" onClick={() => gotoSpecificMedicine(medicine.medicine_id)} style={{ border: "1px solid black", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)", display: "inline-block", margin: "10px", width: "30%" }}>
-                        <h3>{medicine.med_name}</h3>
-                        <img src={medicine.image} alt={`Image of ${medicine.med_name}`} style={{ maxWidth: '50%', height: 'auto' }}/>
-                        <p><b>Generic Name:</b> {medicine.generic_name}</p>
-                        <p><b>Package Type:</b> {medicine.package_type}</p>
-                        <p><b>Price: </b>{medicine.price}</p>
-                        <p><b>Available as:</b> {medicine.med_form}</p>
-                        
-                        <p><b>Dosage Strength: </b>{medicine.dosagestrength}</p>
-
+        <Container>
+            <h2 className="text-center mt-5"><u>Available Medicines</u></h2>
+            <div className="row row-cols-1 row-cols-md-3">
+                {medicineList.map((medicine) => (
+                    <div key={medicine.medicine_id} className="col mb-4">
+                        <Card className="h-100 medicine-box" onClick={() => gotoSpecificMedicine(medicine.medicine_id)}>
+                            <CardImg top src={medicine.image} alt={`Image of ${medicine.med_name}`} />
+                            <CardBody>
+                                <CardTitle tag="h5">{medicine.med_name}</CardTitle>
+                                <CardText>
+                                    <b>Generic Name:</b> {medicine.generic_name} <br />
+                                    <b>Package Type:</b> {medicine.package_type} <br />
+                                    <b>Price:</b> {medicine.price} <br />
+                                    <b>Available as:</b> {medicine.med_form} <br />
+                                    <b>Dosage Strength:</b> {medicine.dosagestrength}
+                                </CardText>
+                            </CardBody>
+                        </Card>
                     </div>
                 ))}
             </div>
-        </div>
+        </Container>
     );
 };
 
