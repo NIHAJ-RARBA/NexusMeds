@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import { Card, Container, Row, Col, Button } from 'reactstrap';
 
 const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
@@ -76,10 +77,10 @@ const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    
                 },
                 body: JSON.stringify(data)
             });
+            toast.success("Added to cart successfully", { autoClose: 3000 });
 
             const parseRes = await response.json();
             console.log(parseRes);
@@ -91,6 +92,8 @@ const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
 
     return (
         <div>
+            <ToastContainer />
+            <div style={{ marginTop: '115px' }}></div>
             <h1 className="text-center mt-5">{medicine.med_name}</h1>
             <Container>
                 <Row>

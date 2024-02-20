@@ -67,11 +67,12 @@ function App() {
       <br></br>
       <NAVBAR isLoggedIn={isAuthenticated} setAuth={setAuth}/>
       
-      {/* <div style={{ marginTop: '115px' }}> */}
+
       <div>
       <ToastContainer />
       <Router>
         <Routes>
+          
         <Route path="/cart" element={<CART />} />
         <Route path="/viewotc" element={<INDICATIONS />} />
         <Route path="/sorry" element={<SorryPage />} />

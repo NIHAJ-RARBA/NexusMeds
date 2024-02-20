@@ -3,10 +3,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Con
 
 const CART = () => {
     // Sample cart items
-    const [cartItems, setCartItems] = useState([
-        { id: 1, name: 'Medicine 1', image: 'medicine1.jpg', price: 10, quantity: 1 },
-        { id: 2, name: 'Medicine 2', image: 'medicine2.jpg', price: 15, quantity: 2 },
-    ]);
+    const [cartItems, setCartItems] = useState();
 
     // Function to handle quantity change
     const handleQuantityChange = (itemId, event) => {
@@ -33,6 +30,7 @@ const CART = () => {
 
     return (
         <Container>
+            <div style={{ marginTop: '115px' }}></div>
             <h1 className="text-center mt-5">Your Cart</h1>
             <Row>
                 {cartItems.map(item => (

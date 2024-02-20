@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, CardBody, CardTitle, Container } from "reactstrap";
 
+
 const VIEWOTC = () => {
     const [indicationList, setIndicationList] = useState([]);
 
@@ -46,7 +47,8 @@ const VIEWOTC = () => {
 
     return (
         <Container>
-            <h2 className="text-center mt-5"><u>OTC MEDICINES</u></h2>
+            <div style={{ marginTop: '115px' }}></div>
+            {/* <h2 className="text-center mt-5"><u>OTC MEDICINES</u></h2> */}
             <div className="row">
                 {indicationList.map((indication, index) => (
                     <div key={index} className="col-md-4 mb-3">

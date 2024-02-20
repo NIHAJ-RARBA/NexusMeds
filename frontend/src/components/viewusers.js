@@ -47,6 +47,7 @@ const VIEWUSERS = () => {
     
     return (
         <div className="VIEWUSERS">
+            <div style={{ marginTop: '115px' }}></div>
             <h2 className="text-center mt-5"><u> All Users</u></h2>
             <table className="table mt-5 text-center">
                 <thead>
