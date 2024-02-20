@@ -1,0 +1,3 @@
+12345 name_error
+13422 cartMedicine , medicine doesnt exist
+13423 cartChemical, chemical doesnt exist
