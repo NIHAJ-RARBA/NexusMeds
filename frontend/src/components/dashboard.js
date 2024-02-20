@@ -56,6 +56,7 @@ const DASHBOARD = ({setAuth}) => {
 
     return (
         <div className="DASHBOARD">
+            <div style={{ marginTop: '115px' }}></div>
             {/* Displaying the variable values */}
             <h3 className='mt-5'>Dashboard</h3>
             <h4 style={{paddingT: '10px'}}>Welcome, {customer_name} !</h4>

@@ -122,6 +122,7 @@ const SIGNUP = ({ setAuth }) => {
 
     return (
         <div>
+            <div style={{ marginTop: '115px' }}></div>
             <div style={{ fontSize: '22px', paddingBottom: '30px', paddingTop: '20px' }}>
                 <Link to="/signin"><b>Already have an account? Sign In</b></Link>
             </div>

@@ -87,6 +87,7 @@ const SIGNIN = ({setAuth}) => {
 
     return (
         <div>
+            <div style={{ marginTop: '115px' }}></div>
         <div className="SIGNIN" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '80%', margin: '0 auto' }}>
             <Form style={{ width: '70%', margin: '0 auto' }}>
                 

@@ -77,7 +77,7 @@ const EDITPROFILE = ({ user }) => {
 
     return (
         <div className="EDITPROFILE">
-
+<div style={{ marginTop: '115px' }}></div>
 
             <Button  className="btn btn-warning" onClick={toggle} data-target={`#id${user.person_id}`}>Edit Profile</Button>
 
