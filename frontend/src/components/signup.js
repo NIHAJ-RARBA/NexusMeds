@@ -70,7 +70,12 @@ const SIGNUP = ({ setAuth }) => {
 
                 if (parseRes.error === '12345') {
                     toast.error("Name is faulty");
-                } else {
+                }
+                else if( parseRes.error === '12346') {
+                    
+                    toast.error("Enter a valid Phone");
+                }
+                else {
                     toast.error(parseRes.error);
                 }
             }
@@ -85,35 +90,35 @@ const SIGNUP = ({ setAuth }) => {
 
             //if all data including gender is not present then toast
 
-            if(!customer_name){
+            if (!customer_name) {
                 toast.error("Name is required");
             }
-            else if(!email){
+            else if (!email) {
                 toast.error("Email is required");
             }
-            else if(!password){
+            else if (!password) {
                 toast.error("Password is required");
             }
-            else if(!phone){
+            else if (!phone) {
                 toast.error("Phone is required");
             }
-            else if(!date_of_birth){
+            else if (!date_of_birth) {
                 toast.error("Date of Birth is required");
             }
-            else if(!image){
+            else if (!image) {
                 toast.error("Image is required");
             }
-            else if(!address){
+            else if (!address) {
                 toast.error("Address is required");
             }
-            else if(!gender){
+            else if (!gender) {
                 toast.error("Gender is required");
             }
             else if (!billing_address || billing_address.trim() === "") {
                 toast.error("Billing Address is required");
-                return; 
+                return;
             }
-            else{
+            else {
                 toast.error(error.message);
             }
         }

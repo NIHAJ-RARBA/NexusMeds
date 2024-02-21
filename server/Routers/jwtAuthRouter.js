@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 
 
 router.post("/register/customer", validinfo, async (req, res) => {
-    
+
     try {
 
         // console.log(req.body);
@@ -24,13 +24,12 @@ router.post("/register/customer", validinfo, async (req, res) => {
         const { email, password, phone, customer_name, date_of_birth, gender, address, billing_address } = req.body;
 
 
-        if (image == '' || image === null)
-        {
+        if (image == '' || image === null) {
             image = "https://winaero.com/blog/wp-content/uploads/2018/08/Windows-10-user-icon-big.png";
         }
 
         console.log(image);
-        
+
         // 2. check if user exists (if user exists then throw error)
 
         const user = await client.query("SELECT * FROM customer WHERE email = $1", [email]);
@@ -57,19 +56,25 @@ router.post("/register/customer", validinfo, async (req, res) => {
         const token = jwTokenGenerator(temp.rows[0].customer_id);
 
         res.json({ token });
-        console.log( temp.rows[0] );
-        
-        
+        console.log(temp.rows[0]);
+
+
     } catch (error) {
         console.error('in register customer: ' + error.message);
-        
+
         if (error.message.includes('12345')) {
-            
+
             console.log('Name error: 12345');
             return res.status(400).json({ error: '12345' });
+
+        }
+        else if(error.message.includes('12346')){
             
-        } else {
-            
+            console.log('Email error: 12346');
+            return res.status(400).json({ error: '12346' });
+        }
+        else {
+
             console.error(error.message);
             res.status(500).send("Server error");
         }
@@ -81,11 +86,11 @@ router.post("/register/customer", validinfo, async (req, res) => {
 
 
 router.post("/login/customer", validinfo, async (req, res) => {
-    
+
     try {
 
         console.log(req.body);
-        
+
         // 1. destructure the req.body
 
         const { email, password } = req.body;
@@ -107,12 +112,12 @@ router.post("/login/customer", validinfo, async (req, res) => {
         }
 
         // 4. give them the jwt token
-        
+
         const token = jwTokenGenerator(user.rows[0].customer_id);
 
         console.log(token);
         res.json({ token });
-        
+
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error jwtRouter");
@@ -124,14 +129,13 @@ router.post("/login/customer", validinfo, async (req, res) => {
 
 
 router.post("/register/researcher", validinfo, async (req, res) => {
-    
+
     try {
 
         // 1. destructure the req.body (email, password, phone, researcher_name, d.o.b, image, gender, address, billing_address)
         const { email, password, phone, researcher_name, date_of_birth, image, gender, address, billing_address } = req.body;
 
-        if (image === null)
-        {
+        if (image === null) {
             image = "https://i.pinimg.com/564x/81/8a/1b/818a1b89a57c2ee0fb7619b95e11aebd.jpg";
         }
 
@@ -161,9 +165,9 @@ router.post("/register/researcher", validinfo, async (req, res) => {
         const token = jwTokenGenerator(temp.rows[0].researcher_id);
 
         res.json({ token });
-        console.log( temp.rows[0] );
-        
-        
+        console.log(temp.rows[0]);
+
+
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error");
@@ -175,7 +179,7 @@ router.post("/register/researcher", validinfo, async (req, res) => {
 
 
 router.post("/login/researcher", validinfo, async (req, res) => {
-    
+
     try {
 
         // 1. destructure the req.body
@@ -203,7 +207,7 @@ router.post("/login/researcher", validinfo, async (req, res) => {
         const token = jwTokenGenerator(user.rows[0].researcher_id);
 
         res.json({ token });
-        
+
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error");
@@ -216,19 +220,19 @@ router.post("/login/researcher", validinfo, async (req, res) => {
 
 
 router.get("/verify", authorize, async (req, res) => {
-    
-    try {   
+
+    try {
 
         // 1. if token is valid then user is verified
 
         res.json(true);
-        
+
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error");
     }
 
-}); 
+});
 
 
 
