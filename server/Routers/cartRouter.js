@@ -11,6 +11,6 @@ import {
 router.post('/add', addToCart);
 router.post('/remove', removeFromCart);
 router.delete('/delete', deleteCart);
-router.get('/get', getCart);
+router.post('/get', getCart);
 
 export default router;
