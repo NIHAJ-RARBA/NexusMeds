@@ -71,6 +71,7 @@ export const createMedicine = async (req, res) => {
 
 export const getMedicineById = async (req, res) => {
     try {
+        console.log(req.params);
         const { id } = req.params;
         const medicine = await client.query("SELECT * FROM medicine WHERE medicine_id = $1", [id]);
         
@@ -164,7 +165,7 @@ export const getChemicalByMedicineId = async (req, res) => {
     }
 }
 
-export const getAllIndications = async (_, res) => {
+export const getAllIndications = async (_, res) => {``
     try {
         const result = await client.query(`
             SELECT INITCAP(TRIM(unnest(string_to_array(indication, ',')))) AS indication, COUNT(*) AS num_medicines

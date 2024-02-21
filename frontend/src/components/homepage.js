@@ -9,7 +9,6 @@ const HOMEPAGE = () => {
 
     return (
         <div className="HOMEPAGE ">
-
             <br />
             {/* <img src="https://img.freepik.com/free-photo/overhead-view-medical-pill-box-syringe-scissor-tweezers-beige-background_23-2148050623.jpg?w=1380&t=st=1708363779~exp=1708364379~hmac=e08bd4291ee8392e1018ff9fe6049a96fe34c79b8a8033780471e623c0125a0d" alt="medicine"  />   */}
 

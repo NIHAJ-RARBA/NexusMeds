@@ -141,3 +141,40 @@ CREATE TABLE Admins (
     email VARCHAR(100) NOT NULL,
     password VARCHAR(500) NOT NULL
 );
+
+
+
+---- new added 20 feb ----
+
+
+CREATE TABLE SupplyRequestMedicine (
+
+    request_id SERIAL PRIMARY KEY,
+    medicine_id INTEGER REFERENCES medicine(medicine_id),
+    quantity INTEGER,
+    request_date DATE
+); 
+
+CREATE TABLE SupplyRequestChemical (
+
+    request_id SERIAL PRIMARY KEY,
+    chemical_id INTEGER REFERENCES chemical(chemical_id),
+    quantity INTEGER,
+    request_date DATE
+);
+
+--in invetory table add pk inventory_id serial primary key and drop the present primary key
+
+
+
+DROP TABLE Inventory;
+
+-- IN INVENTORY TABLE MEDICINE ID OR CHEMICAL ID CAN BE NULL
+
+CREATE TABLE Inventory (
+    inventory_id SERIAL PRIMARY KEY,
+    medicine_id INTEGER REFERENCES medicine(medicine_id) ON DELETE CASCADE,
+    chemical_id INTEGER REFERENCES Chemical(chemical_id) ON DELETE CASCADE,
+    stocked_amount NUMERIC(5,0),
+    sold_amount NUMERIC(5,0)
+);

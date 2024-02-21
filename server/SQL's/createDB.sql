@@ -155,9 +155,7 @@ CREATE TABLE SupplyRequest (
     request_id SERIAL PRIMARY KEY,
     product_id INTEGER REFERENCES Product(product_id),
     quantity INTEGER,
-    request_date DATE,
-    is_fulfilled BOOLEAN,
-    fulfillment_date DATE
+    request_date DATE
 ); */
 
 CREATE TABLE InventoryLog (

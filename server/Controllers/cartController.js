@@ -288,7 +288,7 @@ export const deleteCart = async (req, res) => {
 };
 
 export const getCart = async (req, res) => {
-
+    
     try {
         const { user_id } = req.body;
 
@@ -300,6 +300,11 @@ export const getCart = async (req, res) => {
                 )',
             [user_id]
         );
+        
+        if (cart.rows.length === 0) {
+            res.json([]);
+            return;
+        }
 
         console.log(cart.rows[0].cart_id);
 

@@ -5,6 +5,7 @@ import { Routes, link, Redirect, navigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
 
+
 import MEDSPECIFIC from "./specificMedicine";
 
 
