@@ -146,23 +146,6 @@ CREATE TABLE Admins (
 
 ---- new added 20 feb ----
 
-
-CREATE TABLE SupplyRequestMedicine (
-
-    request_id SERIAL PRIMARY KEY,
-    medicine_id INTEGER REFERENCES medicine(medicine_id),
-    quantity INTEGER,
-    request_date DATE
-); 
-
-CREATE TABLE SupplyRequestChemical (
-
-    request_id SERIAL PRIMARY KEY,
-    chemical_id INTEGER REFERENCES chemical(chemical_id),
-    quantity INTEGER,
-    request_date DATE
-);
-
 --in invetory table add pk inventory_id serial primary key and drop the present primary key
 
 
@@ -177,4 +160,27 @@ CREATE TABLE Inventory (
     chemical_id INTEGER REFERENCES Chemical(chemical_id) ON DELETE CASCADE,
     stocked_amount NUMERIC(5,0),
     sold_amount NUMERIC(5,0)
+);
+
+
+
+---- ADDED CASADE FOR SUPPLY REQUEST TABLES ----
+
+DROP TABLE SupplyRequestChemical;
+DROP TABLE SupplyRequestMedicine;
+
+CREATE TABLE SupplyRequestMedicine (
+
+    request_id SERIAL PRIMARY KEY,
+    medicine_id INTEGER REFERENCES medicine(medicine_id) ON DELETE CASCADE,
+    quantity INTEGER,
+    request_date DATE
+); 
+
+CREATE TABLE SupplyRequestChemical (
+
+    request_id SERIAL PRIMARY KEY,
+    chemical_id INTEGER REFERENCES chemical(chemical_id) ON DELETE CASCADE,
+    quantity INTEGER,
+    request_date DATE
 );

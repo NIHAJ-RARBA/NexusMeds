@@ -4,7 +4,7 @@ import client from '../DB.js';
 
 export const getAllMedicines = async (req, res) => {
     try {
-        const result = await client.query('SELECT * FROM medicine');
+        const result = await client.query('SELECT * FROM medicine order by medicine_id');
         res.status(200).json(result.rows);
         //console.log(result.rows);
     } catch (error) {
