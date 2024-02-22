@@ -1,5 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; -- add extension for generating uuid
-CREATE DATABASE NEXUSMEDS;
+CREATE DATABASE nexusmeds;
 
 CREATE TABLE Manufacturer(
     manufacturer_id SERIAL PRIMARY KEY,

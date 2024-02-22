@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 
-const GREETINGS_DROPDOWN = ({ loggedIn, customer_name, logout }) => {
+const GREETINGS_DROPDOWN = ({ loggedIn, customer_name, logout}) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
@@ -12,6 +12,10 @@ const GREETINGS_DROPDOWN = ({ loggedIn, customer_name, logout }) => {
 
     const handleMouseEnter = () => setIsHovered(true);
     const handleMouseLeave = () => setIsHovered(false);
+
+    const gotoSignup = () => {
+        window.location = '/signup';
+    };
 
     return (
         <ul className="navbar-nav ml-auto" >
@@ -32,10 +36,10 @@ const GREETINGS_DROPDOWN = ({ loggedIn, customer_name, logout }) => {
             ) : (
                 <li className="nav-item">
                     <span className="nav-link">
-                        <Button href='/signin'>Login</Button>
+                        <Button href='/signin' >Login</Button>
                     </span>
                     <span className="nav-link">
-                        <p className="user-name" title="Register" style={{ margin: 0 }}>Register</p>
+                        <p className="user-name" title="Register" style={{ margin: 0 }} onClick={gotoSignup}><b>Register</b></p>
                     </span>
                 </li>
             )}
@@ -43,7 +47,7 @@ const GREETINGS_DROPDOWN = ({ loggedIn, customer_name, logout }) => {
     );
 }
 
-const NAVBAR = ({isLoggedIn, setAuth}) => {
+const NAVBAR = ({isLoggedIn, setAuth,  searchResult}) => {
     const loggedIn = isLoggedIn;
 
 
@@ -52,6 +56,9 @@ const NAVBAR = ({isLoggedIn, setAuth}) => {
     const [customer_name, setCustomerName] = useState("");
     const [image, setImage] = useState("");
     const [showOptions, setShowOptions] = useState(false);
+    const [resultList, setResultList] = useState([]);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
 
     const getProfile = async () => {
@@ -90,12 +97,45 @@ const NAVBAR = ({isLoggedIn, setAuth}) => {
         getProfile();
     }, []);
 
-
-    const handleSearch = (searchQuery) => {
-        console.log(searchQuery);
-        // Your logic for search
+    useEffect(() => {
+        if (searchQuery.trim() === '') {
+            setResultList([]); // Clear search results if search query is empty
+        }
+        else {
+            handleSearch(searchQuery);
+        }
     }
+    , [searchQuery]);
 
+
+    const toggleDropdown = () => setDropdownOpen(prevState => !prevState);
+
+    const handleSearch = async (searchQuery) => {
+        setSearchQuery(searchQuery);
+
+        if (searchQuery.trim() === '') {
+            setResultList([]); // Clear search results if search query is empty
+            return;
+        }
+
+        // Your logic for search
+        const res = await fetch(`http://localhost:5000/search/getAllMeds`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ search: searchQuery })
+        });
+
+        const parseRes = await res.json();
+        console.log(parseRes);
+        setResultList(parseRes);
+    };
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        // store in local storage
+        localStorage.setItem('searchResults', JSON.stringify(resultList));
+        window.location = `/searchResults`;
+    };
 
 
     return (
@@ -123,17 +163,31 @@ const NAVBAR = ({isLoggedIn, setAuth}) => {
                         {/* <li className="nav-item">
                             <a className="nav-link disabled" aria-disabled="true">Disabled</a>
                         </li> */}
-                        <form className="d-flex" role="search">
-                            <input
-                                className="form-control me-2"
-                                type="search"
-                                placeholder="Search"
-                                aria-label="Search"
-                                style={{ width: '600px', backgroundColor: '#f0fff0' }} // Adjust width and background color
-                                onChange={(e) => handleSearch(e.target.value)} // Call the search function onChange
-                            />
-                        </form>
+<form className="d-flex" role="search" onSubmit={(e) => handleSearchSubmit(e)}>
+    <input
+        className="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        style={{ width: '400px', backgroundColor: '#f0fff0' }}
+        onChange={(e) => handleSearch(e.target.value)}
+    />
+</form>
+            {resultList.length > 0 && searchQuery.trim() !== '' && // Added condition to check if search query is not empty
+                    <Dropdown isOpen={true} toggle={() => {}}>
+                        <DropdownToggle caret={false} className="nav-link">
+                            Search Results
+                        </DropdownToggle>
+                        <DropdownMenu className="scrollable-dropdown" style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                            {resultList.map(medicine => (
+                                    <DropdownItem key={medicine.medicine_id} href={`/specificmedicine/${medicine.medicine_id}`}>
+                                        {medicine.med_name} {medicine.dosagestrength}
 
+                                    </DropdownItem>
+                            ))}
+                        </DropdownMenu>
+                    </Dropdown>
+            }
                     </ul>
 
                     <ul className="navbar-nav ml-auto">

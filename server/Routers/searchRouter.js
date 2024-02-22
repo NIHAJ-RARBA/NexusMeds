@@ -7,8 +7,8 @@ import {
 } from '../Controllers/searchController.js';
 
 
-router.get('/getAllMeds', getSearchedMedicines);
-router.get('/getAllChems', getSearchedChemicals);
+router.post('/getAllMeds', getSearchedMedicines);
+router.post('/getAllChems', getSearchedChemicals);
 
 
 
