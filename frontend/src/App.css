@@ -56,3 +56,36 @@
 }
 
 
+.dashboard-container {
+  margin: 20px auto;
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.dashboard-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  margin-bottom: 20px;
+}
+
+.info-container {
+  margin-bottom: 20px;
+}
+
+.info-item {
+  margin-bottom: 10px;
+}
+
+.profile-picture-container {
+  margin-top: 20px;
+}
+
+.profile-picture {
+  max-width: 100%;
+  height: auto;
+}
