@@ -57,7 +57,7 @@ const EDITPROFILE = ({ user }) => {
                 _address,
             };
             
-            const response = await fetch(`http://localhost:5000/users/${user.person_id}`, {
+            const response = await fetch(`http://localhost:5000/users/ &#2547;{user.person_id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body),
@@ -79,7 +79,7 @@ const EDITPROFILE = ({ user }) => {
         <div className="EDITPROFILE">
 <div style={{ marginTop: '115px' }}></div>
 
-            <Button  className="btn btn-warning" onClick={toggle} data-target={`#id${user.person_id}`}>Edit Profile</Button>
+            <Button  className="btn btn-warning" onClick={toggle} data-target={`#id &#2547;{user.person_id}`}>Edit Profile</Button>
 
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Edit Profile</ModalHeader>

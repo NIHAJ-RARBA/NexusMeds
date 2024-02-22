@@ -142,9 +142,9 @@ export const addToCart = async (req, res) => {
 
 
 
-
 export const removeFromCart = async (req, res) => {
 
+    console.log(res.body);
     try {
         const { user_id, product_id, quantity } = req.body;
 
@@ -238,6 +238,7 @@ export const removeFromCart = async (req, res) => {
         console.log(error.message);
     }
 };
+
 
 export const deleteCart = async (req, res) => {
 

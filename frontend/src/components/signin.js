@@ -64,7 +64,7 @@ const SIGNIN = ({setAuth}) => {
                 // window.location = "/dashboard";
                 setAuth(true);
                 
-                toast.success("Signed in Successfully");
+                toast.success("Signed in Successfully",  { autoClose: 1200, position: "top-center", pauseOnHover: false, draggable: true, progress: 0.00 });
                 console.log("Signed in successfully");
 
             }

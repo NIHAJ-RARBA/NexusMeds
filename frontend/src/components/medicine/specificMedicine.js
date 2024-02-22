@@ -80,7 +80,7 @@ const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
                 },
                 body: JSON.stringify(data)
             });
-            toast.success("Added to cart successfully", { autoClose: 3000 });
+            toast.success("Added to cart successfully", { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
 
             const parseRes = await response.json();
             console.log(parseRes);
