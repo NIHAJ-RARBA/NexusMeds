@@ -15,6 +15,7 @@ import searchRouter from "./Routers/searchRouter.js";
 import cartRouter from "./Routers/cartRouter.js";
 import orderRouter from "./Routers/orderRouter.js";
 import manufacturerRouter from "./Routers/manufacturerRouter.js";
+import inventoryRouter from "./Routers/inventoryRouter.js";
 
 
 
@@ -33,6 +34,7 @@ app.use('/search', searchRouter);
 app.use('/cart', cartRouter);
 app.use('/order', orderRouter);
 app.use('/manufacturer', manufacturerRouter);
+app.use('/inventory', inventoryRouter);
 
 
 // create a task

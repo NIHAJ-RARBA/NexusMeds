@@ -31,15 +31,14 @@ const VIEWMEDICINES = () => {
     {medicineList.map((medicine) => (
         <div key={medicine.medicine_id} className="col mb-4">
             <Card className="h-100 medicine-box" onClick={() => gotoSpecificMedicine(medicine.medicine_id)} style={{ borderRadius: '10px', boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.6)', display: 'flex', flexDirection: 'column' }}>
-                <CardImg top src={medicine.image} alt={`Image of ${medicine.med_name}`} style={{ flex: '1 1 auto' }} />
+                <CardImg top src={medicine.image} alt={`Image of ${medicine.med_name}`} style={{ flex: '1 1 auto', maxHeight: '200px', width: '100%', objectFit: 'contain' }} />
                 <CardBody style={{ flex: '0 0 auto' }}>
-                    <CardTitle tag="h5">{medicine.med_name}</CardTitle>
+                    <CardTitle tag="h5"><b>{medicine.med_name} {medicine.dosagestrength}</b></CardTitle>
                     <CardText>
                         <b>Generic Name:</b> {medicine.generic_name} <br />
                         <b>Package Type:</b> {medicine.package_type} <br />
                         <b>Price:</b> {medicine.price} <br />
                         <b>Available as:</b> {medicine.med_form} <br />
-                        <b>Dosage Strength:</b> {medicine.dosagestrength}
                     </CardText>
                 </CardBody>
             </Card>

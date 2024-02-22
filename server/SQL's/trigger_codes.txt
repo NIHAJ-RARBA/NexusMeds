@@ -2,3 +2,5 @@
 12346 phone_error
 13422 cartMedicine , medicine doesnt exist
 13423 cartChemical, chemical doesnt exist
+13877 cartMedicine , medicine doesnt exist;
+13878 cartMedicine , stock out in inventory

@@ -3,12 +3,14 @@ import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { Card, Container, Row, Col, Button } from 'reactstrap';
 
-const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
+const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
 
     const loggedIn = isLoggedIn;
 
     const [customer_id, setCustomerId] = useState("");
-    
+    const [availability, setAvailability] = useState("");
+
+
     const getProfile = async () => {
         try {
             const res = await fetch(`http://localhost:5000/customer/`, {
@@ -21,24 +23,50 @@ const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
             // console.log(parseRes.customer_id);
 
             setCustomerId(parseRes.customer_id);
-            
 
-            
+
+
         } catch (error) {
             console.error(error.message);
         }
     }
 
     const id = useParams();
+
     const [medicine, setMedicine] = useState({});
     const [manufacturer, setManufacturer] = useState('');
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(1);
+    const [inventory, setInventory] = useState({});
+
+    const getInventory = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/inventory/medicine/${id.id}`);
+            const jsonData = await response.json();
+            setInventory(jsonData);
+
+            if (jsonData.stocked_amount === "0") {
+                setAvailability("Not Available");
+            }
+            else {
+                setAvailability("Available");
+            }
+
+
+            console.log(jsonData);
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
+
 
     const getMedicine = async () => {
         try {
             const response = await fetch(`http://localhost:5000/medicine/get/${id.id}`);
             const jsonData = await response.json();
             setMedicine(jsonData);
+
+            // console.log(jsonData);
 
             if (jsonData.manufacturer_id) {
                 const responseForManufacturer = await fetch(`http://localhost:5000/manufacturer/${jsonData.manufacturer_id}`);
@@ -54,40 +82,52 @@ const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
         getProfile();
         // console.log(customer_id);
         getMedicine();
+        getInventory();
     }, []);
 
     const addToCart = async () => {
-
         if (!loggedIn) {
             window.location.href = "/signin";
             return;
         }
-
-        // Implement add to cart functionality here
+    
         console.log(`Added ${quantity} ${medicine.med_name}(s) to cart`);
-
+    
         const data = {
             user_id: customer_id,
             product_id: id.id,
             quantity: quantity
         };
-
+    
         try {
-            const response = await fetch("http://localhost:5000/cart/add", {
+            const responseAddToCart = await fetch("http://localhost:5000/cart/add", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data)
             });
+    
             toast.success("Added to cart successfully", { autoClose: 3000 });
-
-            const parseRes = await response.json();
+    
+            const parseRes = await responseAddToCart.json();
             console.log(parseRes);
+    
+            const responseGetInventory = await fetch(`http://localhost:5000/inventory/medicine/${id.id}`);
+            const jsonData2 = await responseGetInventory.json();
+            setInventory(jsonData2);
+
+            // console.log(jsonData2);
+    
+            if (jsonData2.stocked_amount === "0") {
+                setAvailability("Not Available");
+            } else {
+                setAvailability("Available");
+            }
+            
         } catch (error) {
             console.error(error.message);
         }
-
     };
 
     return (
@@ -101,7 +141,7 @@ const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
                         <Card className="p-3">
                             <div className="d-flex align-items-start">
                                 <div className="border border-secondary rounded overflow-hidden mr-3" style={{ width: '400px', height: '400px' }}>
-                                    <img src={medicine.image} alt={`Image of ${medicine.med_name}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    <img src={medicine.image} alt={`Image of ${medicine.med_name}`} style={{ flex: '1 1 auto', maxHeight: '400px', width: '100%', objectFit: 'contain' }} />
                                 </div>
                                 <div id="product_details" className="d-flex flex-column" style={{ marginLeft: '40px', width: '500px' }}>
                                     <div className="align-self-start">
@@ -118,7 +158,7 @@ const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
                                             <span className="regular-price font-weight-bold" style={{ fontSize: '1rem' }}>{medicine.regular_price}</span>
                                         </label>
                                         <div className="d-flex align-items-center mt-2">
-                                            <Button onClick={addToCart}  style={{ padding: '10px', margin: '10px' , backgroundColor:'rgb(226,135,67)'}}>Add to Cart</Button>
+                                            <Button onClick={addToCart} style={{ padding: '10px', margin: '10px', backgroundColor: 'rgb(226,135,67)' }}>Add to Cart</Button>
                                             <div className="input-group" style={{ width: '150px' }}>
                                                 <button className="btn btn-outline-secondary btn-lg" type="button" onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 0)} style={{ backgroundColor: 'rgb(6,57,112)' }}>-</button>
                                                 <input type="text" className="form-control text-center" value={quantity} readOnly style={{ width: '50px', fontSize: '0.9rem' }} />
@@ -127,9 +167,20 @@ const MEDSPECIFIC = ({isLoggedIn, setAuth}) => {
 
                                         </div>
                                     </div>
-                                    <div id="prescription_and_availability">
-                                        <label className="font-weight-bold" style={{ fontSize: '1rem' }}>Prescription Required <i className="fa ml-2"></i></label>
-                                        <label className="font-weight-bold" style={{ fontSize: '1rem' }}>will be available</label>
+                                </div>
+                                <div className="d-flex flex-column align-items-start" style={{ marginLeft: '40px' }}>
+                                    <div id="prescription">
+                                        {/* <label className="font-weight-bold" style={{ fontSize: '1rem' }}> {medicine.isOtc} <i className="fa ml-2"></i></label> */}
+                                        {/* <label className="font-weight-bold" style={{ fontSize: '1rem' }}>will be available</label> */}
+
+                                        {medicine.isotc ? (
+                                            <label className="font-weight-bold" style={{ fontSize: '1rem', backgroundColor: 'lightgreen' }}>Prescription Not Required</label>
+                                        ) : (
+                                            <label className="font-weight-bold" style={{ fontSize: '1rem', backgroundColor: 'khaki' }}>Prescription Required</label>
+                                        )}
+                                    </div>
+                                    <div id='availability'>
+                                        <label className="font-weight-bold" style={{ fontSize: '1rem', backgroundColor: 'coral' }}>{availability}</label>
                                     </div>
                                 </div>
                             </div>
