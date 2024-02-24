@@ -24,12 +24,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import VIEWPRESCRIPTIONMEDS from './components/medicine/viewPrescriptionMeds';
 import SorryPage from './components/sorry';
+import SEARCHRESULTS from './components/medicine/searchResults';
 
 
 
 function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
 
 
   const setAuth = (boolean) => {
@@ -56,6 +58,11 @@ function App() {
   
   useEffect(() => {
     isAuth();
+
+    // if the path is not /searchResults, then clear the search results
+    if(window.location.pathname !== '/searchResults'){
+      setSearchResults([]);
+    }
   }, []);
   
   
@@ -66,14 +73,14 @@ function App() {
     <div className="App" style={{ fontFamily: 'Roboto Mono, monospace', fontFamily: 'Roboto Slab, serif' }}>
       {/* <h1 className="text-center mt-5">NEXUSMEDS</h1> */}
       <br></br>
-      <NAVBAR isLoggedIn={isAuthenticated} setAuth={setAuth}/>
+      <NAVBAR isLoggedIn={isAuthenticated} setAuth={setAuth} searchResult={searchResults}/>
       
 
       <div>
       <ToastContainer />
       <Router>
         <Routes>
-        
+      <Route path='/searchResults' element={<SEARCHRESULTS medicineList={searchResults}/>} />
         <Route path="/placeorder" element={<PLACE_ORDER />} />
         <Route path="/cart" element={<CART />} />
         <Route path="/viewotc" element={<INDICATIONS />} />

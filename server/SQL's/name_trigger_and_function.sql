@@ -25,7 +25,7 @@ END;
 $$
 LANGUAGE plpgsql;
 
-CREATE TRIGGER check_name_format_trigger
+CREATE OR REPLACE TRIGGER check_name_format_trigger
 BEFORE INSERT OR UPDATE 
 OF customer_name 
 ON customer
