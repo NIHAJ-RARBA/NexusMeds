@@ -159,7 +159,7 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
                                         <div className="d-flex align-items-center mt-2">
                                             <Button onClick={addToCart} style={{ padding: '10px', margin: '10px', backgroundColor: 'rgb(226,135,67)' }}>Add to Cart</Button>
                                             <div className="input-group" style={{ width: '150px' }}>
-                                                <button className="btn btn-outline-secondary btn-lg" type="button" onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 0)} style={{ backgroundColor: 'rgb(6,57,112)' }}>-</button>
+                                                <button className="btn btn-outline-secondary btn-lg" type="button" onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)} style={{ backgroundColor: 'rgb(6,57,112)' }}>-</button>
                                                 <input type="text" className="form-control text-center" value={quantity} readOnly style={{ width: '50px', fontSize: '0.9rem' }} />
                                                 <button className="btn btn-outline-secondary btn-lg" type="button" onClick={() => setQuantity(quantity + 1)} style={{ backgroundColor: 'rgb(6,57,112)' }}>+</button>
                                             </div>

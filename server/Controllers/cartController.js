@@ -174,6 +174,7 @@ export const removeFromCart = async (req, res) => {
             );
 
             for (const cartMedicine of cartMedicines.rows) {
+                
                 if (cartMedicine.medicine_id === product_id) {
 
                     const updateCart = await client.query(
@@ -182,6 +183,7 @@ export const removeFromCart = async (req, res) => {
                     );
 
                     if (updateCart.rows[0].quantity <= 0) {
+                        
                         const deleteCart = await client.query(
                             'DELETE FROM cartMedicine WHERE cart_id = $1 AND medicine_id = $2',
                             [cartMedicine.cart_id, product_id]

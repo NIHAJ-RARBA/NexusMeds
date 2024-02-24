@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Input, Form } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 
 const CART = () => {
     const [customer_id, setCustomerId] = useState("");
@@ -8,6 +9,7 @@ const CART = () => {
     const [total, setTotal] = useState(0);
     const [quantity, setQuantity] = useState({});
     const [subtotal, setSubtotal] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getProfile();
@@ -37,6 +39,7 @@ const CART = () => {
             });
             const parseRes = await res.json();
             setCustomerId(parseRes.customer_id);
+
         } catch (error) {
             console.error(error.message);
         }
@@ -94,8 +97,12 @@ const CART = () => {
         }
     };
 
-    const placeOrder = () => {
-        console.log("Order placed!");
+    const placeOrder = (medItems, quantity, user_id) => {
+
+        //console.log('recieved id in cart:', user_id);
+
+        // navigate('/placeorder', { state: { medItems: medItems } });
+        navigate('/placeorder', { state: { medItems: medItems, quantity: quantity, user_id: user_id } });
     };
 
     const handleQuantityChange = async (medicine_id, newQuantity) => {
@@ -191,7 +198,8 @@ const CART = () => {
                         <CardTitle tag="h5" style={{ marginBottom: '20px', borderBottom: '1px solid #ccc' }}>Total</CardTitle>
                         <CardSubtitle tag="h6" className="mb-4" style={{ fontWeight: 'bold' }}> &#2547;{subtotal.toFixed(2)}</CardSubtitle>
                         <div className="d-flex justify-content-between">
-                            <Button color="success" onClick={placeOrder} style={{ width: '45%' }}>Place Order</Button>
+                            {/* <Button color="success" onClick={placeOrder(medItems)}  style={{ width: '45%' }}>Place Order</Button> */}
+                            <Button color="success" onClick={() => placeOrder(medItems,quantity,customer_id)} style={{ width: '45%' }}>Place Order</Button>
                             <Button color="primary" onClick={gotohome} style={{ width: '45%' }}>Buy More</Button>
                         </div>
                     </CardBody>

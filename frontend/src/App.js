@@ -15,6 +15,7 @@ import MEDSPECIFIC from './components/medicine/specificMedicine';
 import VIEWOTC from './components/medicine/viewOTC';
 import INDICATIONS from './components/medicine/otcIndications';
 import CART from './components/cart';
+import PLACE_ORDER from './components/place_order';
 
 
 
@@ -72,7 +73,8 @@ function App() {
       <ToastContainer />
       <Router>
         <Routes>
-          
+        
+        <Route path="/placeorder" element={<PLACE_ORDER />} />
         <Route path="/cart" element={<CART />} />
         <Route path="/viewotc" element={<INDICATIONS />} />
         <Route path="/sorry" element={<SorryPage />} />

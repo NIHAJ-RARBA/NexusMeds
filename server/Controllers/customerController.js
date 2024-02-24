@@ -13,6 +13,21 @@ export const getAllCustomers = async (req, res) => {
     }
 }
 
+export const getCustomerById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const customer = await client.query("SELECT * FROM customer WHERE customer_id = $1", [id]);
+
+        res.json(customer.rows[0]);
+
+    } catch (error) {
+
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
+
 // used before. no longer in use
 
 
