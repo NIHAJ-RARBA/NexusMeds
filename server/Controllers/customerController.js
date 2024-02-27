@@ -4,7 +4,7 @@ import client from '../DB.js';
 export const getAllCustomers = async (req, res) => {
     try {
         const result = await client.query('SELECT * FROM customer');
-        res.status(200).json(result.rows);
+        //res.status(200).json(result.rows);
         //console.log(result.rows);
     } catch (error) {
 

@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Input, Form } from 'reactstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const CART = () => {
     const [customer_id, setCustomerId] = useState("");
     const [cartItems, setCartItems] = useState([]);
     const [medItems, setMedItems] = useState([]);
-    const [total, setTotal] = useState(0);
+    // const [total, setTotal] = useState(0);
     const [quantity, setQuantity] = useState({});
     const [subtotal, setSubtotal] = useState(0);
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const param = new URLSearchParams(location.search).get("param");
+
+    useEffect(() => {
+        if (param === "true") {
+            console.log('param is true');
+            for (let i = 0; i < cartItems.length; i++) {
+                removeFromCart(cartItems[i].medicine_id);
+            }
+        }
+    }, [param, cartItems]);
 
     useEffect(() => {
         getProfile();
@@ -88,10 +100,21 @@ const CART = () => {
                     "Content-Type": "application/json",
                     token: localStorage.token
                 },
-                body: JSON.stringify({ user_id: customer_id, product_id: itemId, quantity: quantity[itemId]})
+                body: JSON.stringify({ user_id: customer_id, product_id: itemId, quantity: quantity[itemId] })
             });
             const newCartItems = cartItems.filter(item => item.medicine_id !== itemId);
             setCartItems(newCartItems);
+
+            // Check if cart will be empty, if so, clear the cart
+            if (newCartItems.length === 0) {
+                
+                
+                setMedItems([]);
+                setQuantity({});
+                setSubtotal(0);
+
+                window.location.href = "/cart";
+            }
         } catch (error) {
             console.error(error.message);
         }
@@ -175,7 +198,7 @@ const CART = () => {
                 {medItems.map(item => (
                     <Row key={item.medicine_id} md={4}>
                         <Card className="mb-3" style={{ display: 'flex', flexDirection: 'row', height: '200px', width: '700px' }}>
-                            <CardImg top width="30%" src={item.image} alt={item.med_name} style={{ height: '100%', width:'200px' }} />
+                            <CardImg top width="30%" src={item.image} alt={item.med_name} style={{ height: '100%', width: '200px' }} />
                             <CardBody style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                 <div>
                                     <CardTitle tag="h5">{item.med_name}</CardTitle>
@@ -192,19 +215,30 @@ const CART = () => {
                     </Row>
                 ))}
             </Col>
-            <Col>
-                <Card className="mb-3" style={{ width: '400px', marginTop: '20px', marginLeft: 'auto', position: 'fixed', right: '30px', top: '200px' }}>
-                    <CardBody>
-                        <CardTitle tag="h5" style={{ marginBottom: '20px', borderBottom: '1px solid #ccc' }}>Total</CardTitle>
-                        <CardSubtitle tag="h6" className="mb-4" style={{ fontWeight: 'bold' }}> &#2547;{subtotal.toFixed(2)}</CardSubtitle>
-                        <div className="d-flex justify-content-between">
-                            {/* <Button color="success" onClick={placeOrder(medItems)}  style={{ width: '45%' }}>Place Order</Button> */}
-                            <Button color="success" onClick={() => placeOrder(medItems,quantity,customer_id)} style={{ width: '45%' }}>Place Order</Button>
-                            <Button color="primary" onClick={gotohome} style={{ width: '45%' }}>Buy More</Button>
-                        </div>
-                    </CardBody>
-                </Card>
-            </Col>
+
+            {medItems.length > 0 ? (
+                <Col>
+                    <Card className="mb-3" style={{ width: '400px', marginTop: '20px', marginLeft: 'auto', position: 'fixed', right: '30px', top: '200px' }}>
+                        <CardBody>
+                            <CardTitle tag="h5" style={{ marginBottom: '20px', borderBottom: '1px solid #ccc' }}>Total</CardTitle>
+                            <CardSubtitle tag="h6" className="mb-4" style={{ fontWeight: 'bold' }}> &#2547;{subtotal.toFixed(2)}</CardSubtitle>
+                            <div className="d-flex justify-content-between">
+                                {/* <Button color="success" onClick={placeOrder(medItems)}  style={{ width: '45%' }}>Place Order</Button> */}
+                                <Button color="success" onClick={() => placeOrder(medItems, quantity, customer_id)} style={{ width: '45%' }}>Place Order</Button>
+                                <Button color="primary" onClick={gotohome} style={{ width: '45%' }}>Buy More</Button>
+                            </div>
+                        </CardBody>
+                    </Card>
+                </Col>
+            ) : (
+                <Col className="d-flex justify-content-center align-items-center">
+                    <Card className="mb-3" style={{ width: '400px', marginTop: '20px' }}>
+                        <CardBody>
+                            <CardTitle tag="h5" style={{ marginBottom: '20px', borderBottom: '1px solid #ccc' }}>Your Cart is Empty</CardTitle>
+                        </CardBody>
+                    </Card>
+                </Col>
+            )}
 
 
         </Container>

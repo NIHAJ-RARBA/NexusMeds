@@ -342,3 +342,38 @@ export const getCart = async (req, res) => {
         console.log(error.message);
     }
 };
+
+export const setCartStatusTrue = async (req, res) => 
+{
+    try {
+
+        //console.log('amit saha is here ');
+
+
+        const { user_id } = req.body;
+
+        console.log(user_id);
+
+        let query = 
+        "SELECT * FROM CART WHERE (CUSTOMER_ID = $1 OR RESEARCHER_ID = $1) AND CART_STATUS = false";
+
+        const cart = await client.query(query, [user_id]);
+
+        console.log(cart.rows[0].cart_id);
+
+        const cartStatus = await client.query(
+            'UPDATE cart SET cart_status = true WHERE cart_id = $1 returning *',
+            [cart.rows[0].cart_id]
+        );
+
+        res.json(cartStatus.rows[0]);
+        console.log(cartStatus.rows[0]);
+        return;
+
+    } catch (error) {
+        console.log(error.message);
+
+        //console.log('amit is not here');
+    }
+}
+    
