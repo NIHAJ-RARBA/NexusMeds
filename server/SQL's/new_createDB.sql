@@ -184,3 +184,58 @@ CREATE TABLE SupplyRequestChemical (
     quantity INTEGER,
     request_date DATE
 );
+
+
+--- NEW ALTERS ADDED ON 27 FEB 2024 ---
+
+CREATE TABLE prescription (
+    customer_id UUID PRIMARY KEY REFERENCES customer(customer_id) ON DELETE CASCADE,
+    filedata BYTEA,
+    status BOOLEAN
+);
+
+ALTER TABLE ORDERS ADD COLUMN BILLING_ADDRESS TEXT;
+
+CREATE TABLE ORDER_HISTORY (
+    ORDER_HISTORY_ID SERIAL PRIMARY KEY,
+    shipment_date DATE,
+    status BOOLEAN,
+    price NUMERIC(6,3),
+    order_date DATE,
+    cart_id INTEGER REFERENCES Cart(cart_id) ON DELETE SET NULL NOT NULL,
+    USER_ID UUID
+);
+
+
+CREATE OR REPLACE FUNCTION DELETE_ORDER() RETURNS TRIGGER AS $$
+DECLARE
+    USR_ID UUID;
+BEGIN
+    -- Check if the operation is DELETE
+    IF TG_OP = 'DELETE' THEN
+        -- If the status is already false, no need to insert into history
+        IF OLD.status = false THEN
+            RETURN OLD;
+        END IF;
+
+        SELECT CUSTOMER_ID INTO USR_ID FROM CART WHERE OLD.CART_ID = cart_id AND researcher_id IS NULL;
+
+        IF USR_ID IS NULL THEN
+            SELECT researcher_id INTO USR_ID FROM CART WHERE OLD.CART_ID = cart_id AND CUSTOMER_id IS NULL;
+        END IF;
+
+        -- Insert into ORDER_HISTORY
+        INSERT INTO ORDER_HISTORY (shipment_date, status, price, order_date, cart_id, USER_ID)
+        VALUES (OLD.shipment_date, OLD.status, OLD.price, OLD.order_date, OLD.cart_id, USR_ID);
+
+        RETURN OLD;
+    END IF;
+
+    RETURN NULL; -- For other operations like INSERT or UPDATE
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER ORDER_DELETE_TRIGGER
+    BEFORE DELETE ON ORDERS
+    FOR EACH ROW
+    EXECUTE FUNCTION DELETE_ORDER();

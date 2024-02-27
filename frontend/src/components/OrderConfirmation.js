@@ -36,6 +36,7 @@ const OrderConfirmation = ({ isOpen, toggle, price, userId }) => {
     const handleConfirmOrder = () => {
         console.log("Order confirmed!");
         console.log("New Billing Address:", billingAddress);
+        createOrder();
         toggle();
     };
 
@@ -52,6 +53,56 @@ const OrderConfirmation = ({ isOpen, toggle, price, userId }) => {
         setBillingAddress(newBillingAddress);
         setIsEditing(false);
     };
+
+    const goToCart = async () => {
+        // Modify the URL to include the parameter
+        
+        try{
+
+            console.log('inside goToCart  ' + '   ' + userId);
+
+            const response = await fetch(`http://localhost:5000/cart/setstatus/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    token: localStorage.token
+                },
+                body: JSON.stringify({
+                    user_id: userId
+                })
+            });
+            const jsonData = response.json();
+            console.log(jsonData);
+
+        }catch (error) {
+            console.error(error.message);
+        }
+
+        const url = `/cart?param=true`;
+        window.location.href = url;
+    };
+    
+
+    const createOrder = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/order/create`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    token: localStorage.token
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                    price : price,
+                    billing_address: billingAddress
+                })
+            });
+            const jsonData = await response.json();
+            console.log(jsonData);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
 
     return (
         <Modal isOpen={isOpen} toggle={toggle}>
@@ -86,8 +137,8 @@ const OrderConfirmation = ({ isOpen, toggle, price, userId }) => {
                 </div>
             </ModalBody>
             <ModalFooter>
-                <Button color="primary" onClick={handleConfirmOrder}>Confirm Order</Button>{' '}
-                <Button color="secondary" onClick={handleCancelOrder}>Cancel</Button>
+            <Button color="primary" onClick={() => { handleConfirmOrder(); goToCart(); }}>Confirm Order</Button>{' '}
+                <Button color="secondary" onClick={() => { handleCancelOrder();}}>Cancel</Button>
             </ModalFooter>
         </Modal>
     );
