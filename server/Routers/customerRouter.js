@@ -9,9 +9,9 @@ import {
     getAllCustomers,
     // createCustomer,
     getCustomerByEmail,
-    updateCustomerById,
     deleteCustomerByEmail,
-    getCustomerById
+    getCustomerById,
+    updateCustomerByEmail
 } from '../Controllers/customerController.js';
 import { get } from 'http';
 
@@ -19,7 +19,7 @@ import { get } from 'http';
 router.get('/getAll', getAllCustomers);
 // router.post('/create', createCustomer);
 router.get('/:email', getCustomerByEmail); 
-router.put('/update/:id', updateCustomerById);
+router.put('/update/:email', updateCustomerByEmail);
 router.delete('/delete/:email', deleteCustomerByEmail);
 router.get('/get/:id',getCustomerById);
 

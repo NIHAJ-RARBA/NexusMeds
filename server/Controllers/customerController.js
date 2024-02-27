@@ -64,14 +64,12 @@ export const getCustomerByEmail = async (req, res) => {
     }
 }
 
-export const updateCustomerById = async (req, res) => {
+export const updateCustomerByEmail = async (req, res) => {
     try {
-        const { id } = req.params;
         const { email, phone, customer_name, date_of_birth, image, gender, address, billing_address } = req.body;
 
-        const updateCustomer = await client.query(
-            "UPDATE customer SET email = $1, phone = $2, customer_name = $3, date_of_birth = $4, image = $5, gender = $6, address = $7, billing_address = $8 WHERE customer_id = $9 RETURNING *",
-            [email, phone, customer_name, date_of_birth, image, gender, address, billing_address, id]
+        const updateCustomer = await client.query( "UPDATE customer SET phone = $1, customer_name = $2, date_of_birth = $3, image = $4, gender = $5, address = $6, billing_address = $7 WHERE email = $8 RETURNING *;",
+            [phone, customer_name, date_of_birth, image, gender, address, billing_address, email]
         );
 
         res.json({ message: "User was updated", user: updateCustomer.rows[0] });

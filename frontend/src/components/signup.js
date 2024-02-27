@@ -25,7 +25,7 @@ const SIGNUP = ({ setAuth }) => {
     const [password, setPassword] = useState("");
     // const [confirmpassword, setConfirmPassword] = useState("");
 
-    const [gender, setGender] = useState("");
+    const [gender, setGender] = useState(null);
 
     const [customer_name, setFullName] = useState("");
     const [email, setEmail] = useState("");
@@ -44,7 +44,7 @@ const SIGNUP = ({ setAuth }) => {
         e.preventDefault();
         try {
 
-            if (!customer_name || !email || !password || !phone || !date_of_birth || !image || !address || !gender || !billing_address.trim()) {
+            if (!customer_name || !email || !password || !phone || !date_of_birth || !image || !address || (gender===null) || !billing_address.trim()) {
                 throw new Error('All fields are required');
             }
 
@@ -111,7 +111,7 @@ const SIGNUP = ({ setAuth }) => {
             else if (!address) {
                 toast.error("Address is required");
             }
-            else if (!gender) {
+            else if (gender === null) {
                 toast.error("Gender is required");
             }
             else if (!billing_address || billing_address.trim() === "") {

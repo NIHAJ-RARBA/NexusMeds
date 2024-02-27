@@ -16,6 +16,7 @@ import VIEWOTC from './components/medicine/viewOTC';
 import INDICATIONS from './components/medicine/otcIndications';
 import CART from './components/cart';
 import PLACE_ORDER from './components/place_order';
+import ADMIN from './components/admin';
 
 
 
@@ -87,6 +88,9 @@ function App() {
         <Route path="/sorry" element={<SorryPage />} />
         <Route path="/viewotc/:indication" element={<VIEWOTC />} />
         <Route path="/prescriptionmeds" element={<VIEWPRESCRIPTIONMEDS />} />
+
+        <Route path='/admin' element={<ADMIN/>} />
+
           <Route path="/" element={<HOMEPAGE />} />
           <Route
             path="/signin"

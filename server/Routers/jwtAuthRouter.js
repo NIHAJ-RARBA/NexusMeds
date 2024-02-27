@@ -28,7 +28,7 @@ router.post("/register/customer", validinfo, async (req, res) => {
             image = "https://winaero.com/blog/wp-content/uploads/2018/08/Windows-10-user-icon-big.png";
         }
 
-        console.log(image);
+        // console.log(image);
 
         // 2. check if user exists (if user exists then throw error)
 
@@ -91,9 +91,20 @@ router.post("/login/customer", validinfo, async (req, res) => {
 
         console.log(req.body);
 
-        // 1. destructure the req.body
+        // 0. destructure the req.body
 
         const { email, password } = req.body;
+
+        // 1. see if it is admin
+
+        const adminRows = await client.query("SELECT * FROM admins WHERE email = $1 and password = $2", [email, password]);
+
+        if (adminRows.rows.length !== 0) {
+
+            const token = jwTokenGenerator(adminRows.rows[0].admin_id);
+            
+            return res.json({ token });
+        }
 
         // 2. check if user doesn't exist (if not then throw error)
 
@@ -182,9 +193,22 @@ router.post("/login/researcher", validinfo, async (req, res) => {
 
     try {
 
-        // 1. destructure the req.body
+        // 0. destructure the req.body
 
         const { email, password } = req.body;
+
+        // 1. see if it is admin
+
+        const adminRows = await client.query("SELECT * FROM admins WHERE email = $1 and password = $2", [email, password]);
+
+        if (adminRows.rows.length !== 0) {
+                
+                const token = jwTokenGenerator(adminRows.rows[0].admin_id);
+    
+                return res.json({ token });
+            }
+
+
 
         // 2. check if user doesn't exist (if not then throw error)
 
