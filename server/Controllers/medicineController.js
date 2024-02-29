@@ -19,7 +19,7 @@ export const getMedicineByIsOTC = async (req, res) => {
     try {
         const { isOTC } = req.params;
 
-        let sql = "SELECT * FROM medicine WHERE isOTC = $1";
+        let sql = "SELECT * FROM medicine WHERE isOTC = $1 order by medicine_id";
 
         const medicine = await client.query(sql, [isOTC]);
 
