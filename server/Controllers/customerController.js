@@ -1,9 +1,10 @@
 
+import { text } from 'express';
 import client from '../DB.js';
 
 export const getAllCustomers = async (req, res) => {
     try {
-        const result = await client.query('SELECT * FROM customer');
+        const result = await client.query('SELECT customer_id, customer_name, email, phone, address, billing_address, date_of_birth, gender, image, phone FROM customer');
         res.status(200).json(result.rows);
         console.log(result.rows);
     } catch (error) {
@@ -97,17 +98,19 @@ export const deleteCustomerByEmail = async (req, res) => {
 
 export const getTotalSpentByCustomer = async (req, res) => {
     try {
-        
-        const { id } = req.params;
+        console.log(req.body);
+        const { id } = req.body;
+
 
         const query = "SELECT SUM(price)\
         FROM order_history\
-        WHERE cart_id IN (SELECT cart_id FROM CART WHERE customer_id = '$1' OR\
-        researcher_id = '$1')"
+        WHERE cart_id IN (SELECT cart_id FROM CART WHERE customer_id::text = $1 OR\
+        researcher_id::text = $1)"
 
         const totalSpent = await client.query(query, [id])
 
         res.json(totalSpent.rows[0]);
+        console.log(totalSpent.rows[0]);
 
     } catch (error) {
 

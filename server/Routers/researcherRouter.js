@@ -12,7 +12,9 @@ import {
     updateResearcherById,
     deleteResearcherById,
     getAllVerifiedResearchers,
-    getNONVerifiedResearchers
+    getNONVerifiedResearchers,
+    deleteResearcherByEmail,
+    getNONAPPROVEDResearcher
 } from '../Controllers/researcherController.js';
 
 
@@ -23,6 +25,9 @@ router.get('/get-Not-Verified', getNONVerifiedResearchers);
 router.get('/:email', getResearcherByEmail);
 router.put('/update/:id', updateResearcherById);
 router.delete('/delete/:id', deleteResearcherById);
+router.delete('/delete/:email', deleteResearcherByEmail);
+router.get('/getPermit/:email', getNONAPPROVEDResearcher);
+
 
 router.post('/', authorize, async (req, res) => {
     try {

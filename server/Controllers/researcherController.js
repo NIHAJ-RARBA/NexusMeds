@@ -25,14 +25,26 @@ export const getAllVerifiedResearchers = async (req, res) => {
 
 export const getNONVerifiedResearchers = async (req, res) => {
     try {
-        const result = await client.query('SELECT * FROM rsearcher WHERE isapproved = false');
+        const result = await client.query('SELECT * FROM researcher WHERE isapproved = false');
         res.status(200).json(result.rows);
         console.log(result.rows);
     } catch (error) {
         res.status(500).json({ error: error.message });
         console.log(error.message);
     }
-}
+};
+
+export const getNONAPPROVEDResearcher = async (req, res) => {
+    try {
+        const { email } = req.params;
+        const result = await client.query('SELECT * FROM pending_approvals WHERE researcher_id =(SELECT researcher_id FROM researcher WHERE email = $1)', [email]);
+        res.status(200).json(result.rows);
+        console.log(result.rows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        console.log(error.message);
+    }
+};
 
 
 // used before, no longer in use
@@ -87,6 +99,18 @@ export const deleteResearcherById = async (req, res) => {
     try {
         const { id } = req.params;
         const deleteResearcher = await client.query("DELETE FROM Researcher WHERE researcher_id = $1", [id]);
+
+        res.json({ message: "Researcher was deleted" });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+export const deleteResearcherByEmail = async (req, res) => {
+    try {
+        const { email } = req.params;
+        const deleteResearcher = await client.query("DELETE FROM Researcher WHERE email = $1", [email]);
 
         res.json({ message: "Researcher was deleted" });
     } catch (error) {

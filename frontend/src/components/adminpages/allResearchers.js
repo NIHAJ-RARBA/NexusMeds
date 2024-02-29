@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import EDITPROFILE from "../editprofile";
 
 const VIEWRESEARCHERS = () => {
 
+    
     const editProfileVisible = false;
     const [userList, setuserList] = useState([]);
+    const [userSpentList, setuserSpentList] = useState([]);
 
     const getUsers = async () => {
 
@@ -29,7 +29,7 @@ const VIEWRESEARCHERS = () => {
 
     const deleteUser = async (email) => {
         try {
-            const deleteUser = await fetch(`http://localhost:5000/customer/delete/${email}`, {
+            const deleteUser = await fetch(`http://localhost:5000/researcher/delete/${email}`, {
                 method: "DELETE"
             });
 
@@ -40,13 +40,36 @@ const VIEWRESEARCHERS = () => {
         }
     };
 
-    const setEditProfileTrue = () => {
-        editProfileVisible = true;
+
+    const getAllSpentAmounts = async () => {
+        let temp = [];
+        for (let i = 0; i < userList.length; i++) {
+            try {
+                const response = await fetch(`http://localhost:5000/customer/totalspent`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        id: userList[i].researcher_id
+                    })
+                });
+                const jsonData = await response.json();
+                temp.push(jsonData.sum);
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+        setuserSpentList(temp);
     };
 
     useEffect(() => {
         getUsers();
     }, []);
+
+    useEffect(() => {
+        getAllSpentAmounts();
+    }, [userList]);
 
     
     return (
@@ -56,31 +79,26 @@ const VIEWRESEARCHERS = () => {
             <table className="table mt-5 text-center">
                 <thead>
                     <tr>
+                        <th>Profile Picture</th>
                         <th>Username</th>
                         <th>Email</th>
-                        {/* <th>Edit</th> */}
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
 
 
-                    {userList.map(user => (
-                        <tr key={user.user_id}>
-                            <td>{user.customer_name} <br/>{user.profile_pic}</td>
+                {userList.map((user, index) => (
+                        <tr key={user.researcher_id}>
+                            <td><img src={user.image} alt="User Icon" style={{ width: 'auto', height: '60px', marginLeft: '10px' }} /></td>
+                            <td>{user.researcher_name}</td>
                             <td>{user.email}</td>
-
-                            {/* <td>
-                                <td className="btn btn-warning">
-                                    <EDITPROFILE user={user} />
-                                </td>
-                            </td>                             */}
+                            <td>{userSpentList[index] ? '\u09F3' + userSpentList[index] : '\u09F3' + 0}</td>
                             <td>
                                 <button className="btn btn-danger" onClick={() => deleteUser(user.email)}>Delete</button>
                             </td>
                         </tr>
                     ))}
-
                 </tbody>
             </table>
                     

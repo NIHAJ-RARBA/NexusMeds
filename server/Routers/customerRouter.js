@@ -23,7 +23,7 @@ router.get('/:email', getCustomerByEmail);
 router.put('/update/:email', updateCustomerByEmail);
 router.delete('/delete/:email', deleteCustomerByEmail);
 router.get('/get/:id',getCustomerById);
-router.get('/totalSpent/:id',getTotalSpentByCustomer);
+router.post('/totalSpent',getTotalSpentByCustomer);
 
 
 router.post('/', authorize, async (req, res) => {

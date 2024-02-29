@@ -65,7 +65,7 @@ const AdminNavbar = () => {
                                 </DropdownToggle>
                                 <DropdownMenu>
                                     <DropdownItem href="/approve/orders">Orders</DropdownItem>
-                                    <DropdownItem href="/researchers">Researchers</DropdownItem>
+                                    <DropdownItem href="/approve/researchers">Researchers</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </li>

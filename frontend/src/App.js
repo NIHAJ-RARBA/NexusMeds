@@ -101,7 +101,7 @@ function App() {
         <Route path='/all-chemicals' element={<VIEWCHEMICALS />} />
             <Route path="/approve/orders" element={<ADMIN_APPROVE_ORDERS />} />
             <Route path="/approveSpecificOrder" element={<ADMIN_APPROVE_SPECIFIC_ORDER />} />
-            <Route path='/approveResearcher' element={<ADMIN_APPROVE_RESEARCHERS />} />
+            <Route path='/approve/researchers' element={<ADMIN_APPROVE_RESEARCHERS />} />
 
 
             <Route path='/all-researchers' element={<VIEWRESEARCHERS />} />
