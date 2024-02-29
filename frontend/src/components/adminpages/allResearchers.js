@@ -11,7 +11,11 @@ const VIEWRESEARCHERS = () => {
     const getUsers = async () => {
 
         try {
-            const response = await fetch("http://localhost:5000/customer/getall");
+            const response = await fetch(`http://localhost:5000/researcher/allverified`, {
+                method: "GET",
+                headers: { token: localStorage.token }
+
+            });
             const jsonData = await response.json();
 
             setuserList(jsonData);
@@ -48,7 +52,7 @@ const VIEWRESEARCHERS = () => {
     return (
         <div className="VIEWRESEARCHERS">
             <div style={{ marginTop: '115px' }}></div>
-            <h2 className="text-center mt-5"><u> All Users</u></h2>
+            <h2 className="text-center mt-5"><u> All Verified Researchers</u></h2>
             <table className="table mt-5 text-center">
                 <thead>
                     <tr>

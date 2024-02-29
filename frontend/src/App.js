@@ -32,6 +32,7 @@ import RESEARCHER from './components/researcher';
 import VIEWMEDICINES from './components/medicine/viewmedicines';
 import VIEWCHEMICALS from './components/chemical/viewchemical';
 import VIEWRESEARCHERS from './components/adminpages/allResearchers';
+import ADMIN_APPROVE_RESEARCHERS from './components/admin/approve_researchers';
 
 
 
@@ -100,6 +101,8 @@ function App() {
         <Route path='/all-chemicals' element={<VIEWCHEMICALS />} />
             <Route path="/approve/orders" element={<ADMIN_APPROVE_ORDERS />} />
             <Route path="/approveSpecificOrder" element={<ADMIN_APPROVE_SPECIFIC_ORDER />} />
+            <Route path='/approveResearcher' element={<ADMIN_APPROVE_RESEARCHERS />} />
+
 
             <Route path='/all-researchers' element={<VIEWRESEARCHERS />} />
             <Route path='/all-customers' element={<VIEWUSERS />} />

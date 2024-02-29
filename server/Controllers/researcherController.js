@@ -11,6 +11,30 @@ export const getAllResearchers = async (req, res) => {
     }
 };
 
+export const getAllVerifiedResearchers = async (req, res) => {
+    console.log("get all verified researchers");
+    try {
+        const result = await client.query('SELECT * FROM researcher WHERE isapproved = true');
+        res.status(200).json(result.rows);
+        console.log(result.rows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        console.log(error.message);
+    }
+};
+
+export const getNONVerifiedResearchers = async (req, res) => {
+    try {
+        const result = await client.query('SELECT * FROM rsearcher WHERE isapproved = false');
+        res.status(200).json(result.rows);
+        console.log(result.rows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        console.log(error.message);
+    }
+}
+
+
 // used before, no longer in use
 
 // export const createResearcher = async (req, res) => {

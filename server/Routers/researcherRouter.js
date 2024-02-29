@@ -10,11 +10,15 @@ import {
     // createResearcher,
     getResearcherByEmail,
     updateResearcherById,
-    deleteResearcherById
+    deleteResearcherById,
+    getAllVerifiedResearchers,
+    getNONVerifiedResearchers
 } from '../Controllers/researcherController.js';
 
 
 router.get('/getAll', getAllResearchers);
+router.get('/allverified', getAllVerifiedResearchers);
+router.get('/get-Not-Verified', getNONVerifiedResearchers);
 // router.post('/create', createResearcher);
 router.get('/:email', getResearcherByEmail);
 router.put('/update/:id', updateResearcherById);
