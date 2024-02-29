@@ -4,6 +4,8 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 
 let firstTime = true;
 
+let firstTime = true;
+
 const AdminNavbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
@@ -22,6 +24,13 @@ const AdminNavbar = () => {
             console.error(error.message);
         }
     }
+    const reload = () => {
+        if (localStorage.getItem("token") == null) {
+            localStorage.clear();
+            console.log('Cleared local storage');
+        }
+    }
+
     const reload = () => {
         if (localStorage.getItem("token") == null) {
             localStorage.clear();
