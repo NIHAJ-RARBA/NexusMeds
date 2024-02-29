@@ -22,6 +22,7 @@ const ApproveOrders = () => {
             const response = await fetch('http://localhost:5000/order/getAll');
             const data = await response.json();
             setOrders(data);
+            console.log(data);
         } catch (error) {
             console.error('Error fetching orders:', error);
         }
@@ -40,6 +41,9 @@ const ApproveOrders = () => {
                         <div>
                             <CardText>Order ID: {order.order_id}</CardText>
                             <CardText>Price: {order.price}</CardText>
+                        </div>
+                        <div>
+                            
                         </div>
                         <Button color="primary">View Details</Button>
                     </CardBody>

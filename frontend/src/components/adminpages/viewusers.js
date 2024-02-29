@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import EDITPROFILE from "./editprofile";
+import EDITPROFILE from "../editprofile";
 
 const VIEWUSERS = () => {
 
@@ -14,6 +14,7 @@ const VIEWUSERS = () => {
             const response = await fetch("http://localhost:5000/customer/getall");
             const jsonData = await response.json();
 
+            console.log(jsonData);
             setuserList(jsonData);
         }
         catch (error) {

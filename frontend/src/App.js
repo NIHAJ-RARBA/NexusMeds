@@ -8,7 +8,7 @@ import HOMEPAGE from './components/homepage';
 import SIGNIN from './components/signin';
 import SIGNUP from './components/signup';
 import EDITPROFILE from './components/editprofile';
-import VIEWUSERS from './components/viewusers';
+import VIEWUSERS from './components/adminpages/viewusers';
 import DASHBOARD from './components/dashboard';
 import NAVBAR from './components/navbar';
 import MEDSPECIFIC from './components/medicine/specificMedicine';
@@ -31,6 +31,7 @@ import SEARCHRESULTS from './components/medicine/searchResults';
 import RESEARCHER from './components/researcher';
 import VIEWMEDICINES from './components/medicine/viewmedicines';
 import VIEWCHEMICALS from './components/chemical/viewchemical';
+import VIEWRESEARCHERS from './components/adminpages/allResearchers';
 
 
 
@@ -99,6 +100,9 @@ function App() {
         <Route path='/all-chemicals' element={<VIEWCHEMICALS />} />
             <Route path="/approve/orders" element={<ADMIN_APPROVE_ORDERS />} />
             <Route path="/approveSpecificOrder" element={<ADMIN_APPROVE_SPECIFIC_ORDER />} />
+
+            <Route path='/all-researchers' element={<VIEWRESEARCHERS />} />
+            <Route path='/all-customers' element={<VIEWUSERS />} />
 
 
             <Route path='/admin' element={<ADMIN />} />

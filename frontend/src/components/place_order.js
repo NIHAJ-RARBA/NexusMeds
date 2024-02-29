@@ -14,8 +14,36 @@ const PlaceOrder = () => {
     const [deliveryCharge, setDeliveryCharge] = useState(0);
     
 
-    const handlePrescriptionChange = (e) => {
-        setPrescriptionFile(e.target.files[0]);
+    const handlePrescriptionChange = async (e) => {
+        // console.log(e.target.files[0]);
+
+        const file = e.target.files[0];
+
+        const formData = new FormData();
+        formData.append("prescription", file);
+
+        try 
+        {
+            const res = await fetch("http://localhost:5000/prescriptionUpload", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await res.json();
+            // console.log(data.downloadURL);
+            
+            setPrescriptionFile(data.downloadURL);
+            // console.log(data);
+            // console.log(data.downloadURL);
+            console.log("Prescription uploaded successfully");
+            console.log(prescriptionFile);
+
+        } catch (error) {
+            console.error(error.message);
+        }
+
+        
+
     };
 
     for (let i = 0; i < medItems.length; i++) {
@@ -99,7 +127,7 @@ const PlaceOrder = () => {
                         <FormGroup>
                             {flag ? <b style={{ backgroundColor: 'hotpink' }}> Prescription Required </b> : <b style={{ backgroundColor: 'greenyellow' }}> No Prescription Required </b>}
                             {flag && (
-                                <Input type="file" id="prescription" onChange={handlePrescriptionChange} />
+                                <Input type="file" name="prescription" id="prescription" onChange={handlePrescriptionChange} />
                             )}
                         </FormGroup>
                         <FormGroup>

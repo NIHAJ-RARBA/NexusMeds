@@ -1,6 +1,8 @@
 import { create } from 'domain';
 import client from '../DB.js';
 
+
+
 export const addToCart = async (req, res) => {
 
     try {
@@ -332,6 +334,52 @@ export const getCart = async (req, res) => {
             const cartChemicals = await client.query(
                 'SELECT * FROM cartChemical WHERE cart_id = $1',
                 [cart.rows[0].cart_id]
+            );
+
+            res.json(cartChemicals.rows);
+            console.log(cartChemicals.rows);
+            return;
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+export const getCartOnId = async (req, res) => {
+    try {
+        const { cart_id } = req.body;
+
+        const cart = await client.query(
+            'SELECT * FROM CART WHERE cart_id = $1',
+            [cart_id]
+        );
+
+        if (cart.rows.length === 0) {
+            res.json([]);
+            return;
+        }
+
+        let isCustomer;
+
+        if (cart.rows.length > 0) {
+            isCustomer = cart.rows[0].iscustomer === true;
+        } else {
+            isCustomer = false;
+        }
+
+        if (isCustomer === true) {
+            const cartMedicines = await client.query(
+                'SELECT * FROM cartMedicine WHERE cart_id = $1',
+                [cart_id]
+            );
+
+            res.json(cartMedicines.rows);
+            console.log(cartMedicines.rows);
+            return;
+        } else if (isCustomer === false) {
+            const cartChemicals = await client.query(
+                'SELECT * FROM cartChemical WHERE cart_id = $1',
+                [cart_id]
             );
 
             res.json(cartChemicals.rows);

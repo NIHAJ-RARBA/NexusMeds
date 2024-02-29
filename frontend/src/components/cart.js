@@ -90,7 +90,7 @@ const CART = () => {
         } catch (error) {
             console.error(error.message);
         }
-    }
+    };
 
     const removeFromCart = async (itemId) => {
         try {

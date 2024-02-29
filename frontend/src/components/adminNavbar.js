@@ -4,8 +4,6 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 
 let firstTime = true;
 
-let firstTime = true;
-
 const AdminNavbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
@@ -22,12 +20,6 @@ const AdminNavbar = () => {
             window.location.href = "/";
         } catch (error) {
             console.error(error.message);
-        }
-    }
-    const reload = () => {
-        if (localStorage.getItem("token") == null) {
-            localStorage.clear();
-            console.log('Cleared local storage');
         }
     }
 
@@ -54,7 +46,7 @@ const AdminNavbar = () => {
                             <a className="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/all-researchers">All Researchers</a>
+                            <a className="nav-link" href="/all-researchers">Verified Researchers</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/all-customers">All Customers</a>

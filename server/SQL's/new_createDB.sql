@@ -246,3 +246,15 @@ CREATE OR REPLACE TRIGGER ORDER_DELETE_TRIGGER
 DROP TABLE prescription;
 
 ALTER TABLE ORDERS ADD COLUMN prescription bytea;
+
+
+-- by abrur
+CREATE TABLE PENDING_APPROVALS (
+    researcher_id UUID PRIMARY KEY,
+    photo TEXT,
+    FOREIGN KEY (researcher_id) REFERENCES Researcher(researcher_id)
+);
+
+
+ALTER TABLE ORDERS DROP COLUMN prescription;
+ALTER TABLE ORDERS ADD COLUMN prescription TEXT;
