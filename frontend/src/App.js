@@ -17,6 +17,8 @@ import INDICATIONS from './components/medicine/otcIndications';
 import CART from './components/cart';
 import PLACE_ORDER from './components/place_order';
 import ADMIN from './components/admin';
+import ADMIN_APPROVE_ORDERS from './components/admin/approve_orders';
+import ADMIN_APPROVE_SPECIFIC_ORDER from './components/admin/approve_specific_order';
 
 
 
@@ -59,86 +61,93 @@ function App() {
       console.error(error.message);
     }
   };
-  
+
   useEffect(() => {
     isAuth();
 
     // if the path is not /searchResults, then clear the search results
-    if(window.location.pathname !== '/searchResults'){
+    if (window.location.pathname !== '/searchResults') {
       setSearchResults([]);
     }
   }, []);
-  
-  
-  
-  
-  
+
+
+
+
+
   return (
     <div className="App" style={{ fontFamily: 'Roboto Mono, monospace', fontFamily: 'Roboto Slab, serif' }}>
       {/* <h1 className="text-center mt-5">NEXUSMEDS</h1> */}
       <br></br>
-      <NAVBAR isLoggedIn={isAuthenticated} setAuth={setAuth} searchResult={searchResults}/>
-      
+      <NAVBAR isLoggedIn={isAuthenticated} setAuth={setAuth} searchResult={searchResults} />
+
 
       <div>
-      <ToastContainer />
-      <Router>
-        <Routes>
-      <Route path='/searchResults' element={<SEARCHRESULTS medicineList={searchResults}/>} />
-        <Route path="/placeorder" element={<PLACE_ORDER />} />
-        <Route path="/cart" element={<CART />} />
-        <Route path="/viewotc" element={<INDICATIONS />} />
-        <Route path="/sorry" element={<SorryPage />} />
-        <Route path="/viewotc/:indication" element={<VIEWOTC />} />
-        <Route path="/prescriptionmeds" element={<VIEWPRESCRIPTIONMEDS />} />
+
+        <ToastContainer />
+        <Router>
+          <Routes>
+            <Route path='/searchResults' element={<SEARCHRESULTS medicineList={searchResults} />} />
+            <Route path="/placeorder" element={<PLACE_ORDER />} />
+            <Route path="/cart" element={<CART />} />
+            <Route path="/viewotc" element={<INDICATIONS />} />
+            <Route path="/sorry" element={<SorryPage />} />
+            <Route path="/viewotc/:indication" element={<VIEWOTC />} />
+            <Route path="/prescriptionmeds" element={<VIEWPRESCRIPTIONMEDS />} />
 
         <Route path='/viewmedicines' element={<VIEWMEDICINES />} />
         <Route path='/all-chemicals' element={<VIEWCHEMICALS />} />
+            <Route path="/approve/orders" element={<ADMIN_APPROVE_ORDERS />} />
+            <Route path="/approveSpecificOrder" element={<ADMIN_APPROVE_SPECIFIC_ORDER />} />
 
-        <Route path='/admin' element={<ADMIN/>} />
+
+            <Route path='/admin' element={<ADMIN />} />
         <Route path='/researcher' element={<RESEARCHER />} />
 
-          <Route path="/" element={<HOMEPAGE />} />
-          <Route
-            path="/signin"
-            element={
-              !isAuthenticated ? (
-                <SIGNIN setAuth={setAuth} />
-              ) : (
-                <Navigate to="/dashboard" />
-              )
-            }
-          />
-          <Route
-            path="/signup"
-            element={
+            <Route path="/" element={<HOMEPAGE />} />
+            <Route
+              path="/signin"
+              element={
+                !isAuthenticated ? (
+                  <SIGNIN setAuth={setAuth} />
+                ) : (
+                  <Navigate to="/dashboard" />
+                )
+              }
+            />
+            <Route
+              path="/signup"
+              element={
 
-              !isAuthenticated ? (
-                <SIGNUP setAuth={setAuth} />
-              ) : (
-                <Navigate to="/dashboard" />
-              )
+                !isAuthenticated ? (
+                  <SIGNUP setAuth={setAuth} />
+                ) : (
+                  <Navigate to="/dashboard" />
+                )
 
-            }
-          />
-          <Route path="/editprofile" element={<EDITPROFILE />} />
+              }
+            />
+            <Route path="/editprofile" element={<EDITPROFILE />} />
 
-          <Route path="/viewusers" element={<VIEWUSERS />} />
-          <Route
-            path="/dashboard"
-            element={
-              isAuthenticated ? (
-                <DASHBOARD setAuth={setAuth} />
-              ) : (
-                <Navigate to="/signin" />
-              )
-            }
-          />
+            <Route path="/viewusers" element={<VIEWUSERS />} />
+            <Route
+              path="/dashboard"
+              element={
+                isAuthenticated ? (
+                  <DASHBOARD setAuth={setAuth} />
+                ) : (
+                  <Navigate to="/signin" />
+                )
+              }
+            />
 
-          <Route path="/specificmedicine/:id" element={<MEDSPECIFIC isLoggedIn={isAuthenticated} setAuth={setAuth}/>} />
+            
+        
 
-        </Routes>
-      </Router>
+            <Route path="/specificmedicine/:id" element={<MEDSPECIFIC isLoggedIn={isAuthenticated} setAuth={setAuth} />} />
+
+          </Routes>
+        </Router>
 
 
       </div>

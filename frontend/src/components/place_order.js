@@ -3,50 +3,37 @@ import { useLocation } from 'react-router-dom';
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Input, FormGroup, Label, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import OrderConfirmation from './OrderConfirmation'; // Import the OrderConfirmation component
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PlaceOrder = () => {
-
-    
     const location = useLocation();
-    const { medItems, quantity , user_id} = location.state;
+    const { medItems, quantity, user_id } = location.state;
     let discount = 10;
     let flag;
     const [prescriptionFile, setPrescriptionFile] = useState(null);
     const [deliveryCharge, setDeliveryCharge] = useState(0);
-
-
-    //console.log('hello there ' + user_id);
+    
 
     const handlePrescriptionChange = (e) => {
         setPrescriptionFile(e.target.files[0]);
-        console.log('prescriptionFile:', prescriptionFile);
     };
 
     for (let i = 0; i < medItems.length; i++) {
         if (medItems[i].isotc === false) {
             flag = true;
             break;
-        }
-        else {
+        } else {
             flag = false;
         }
     }
 
-    // console.log("Received medItems:", medItems);
-    // console.log("Received quantity:", quantity);
-    // console.log("Received user_id:", user_id);
-
-    // Sample data for payment methods and delivery services
     const paymentMethods = ["Cash", "bKash", "Nagad", "Bank Transfer"];
     const deliveryServices = ["Standard Shipping", "Express Shipping", "Local Pickup"];
 
-    // State for dropdowns and selected payment method
     const [paymentDropdownOpen, setPaymentDropdownOpen] = useState(false);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [deliveryDropdownOpen, setDeliveryDropdownOpen] = useState(false);
     const [selectedDeliveryService, setSelectedDeliveryService] = useState(null);
-
-    // State for Order Confirmation modal
     const [showOrderConfirmation, setShowOrderConfirmation] = useState(false);
 
     const togglePaymentDropdown = () => setPaymentDropdownOpen(!paymentDropdownOpen);
@@ -58,28 +45,24 @@ const PlaceOrder = () => {
     };
 
     const handleDeliverySelection = (service) => {
-
         setSelectedDeliveryService(service);
-
         if (service === "Standard Shipping") {
-
             setDeliveryCharge(50);
-        }
-        else if (service === "Express Shipping") {
-
+        } else if (service === "Express Shipping") {
             setDeliveryCharge(100);
-        }
-        else if (service === "Local Pickup") {
+        } else if (service === "Local Pickup") {
             setDeliveryCharge(0);
         }
-
-
         setDeliveryDropdownOpen(false);
     };
 
     const handlePlaceOrder = () => {
-
-        setShowOrderConfirmation(true);
+        if (flag && !prescriptionFile) {
+            // Prescription required but not uploaded
+            toast.error("Prescription is required for this order.");
+        } else {
+            setShowOrderConfirmation(true);
+        }
     };
 
     return (
@@ -100,7 +83,6 @@ const PlaceOrder = () => {
                                             <div>
                                                 <CardSubtitle tag="h6" className="mb-2 text-muted">Quantity: {quantity[item.medicine_id]}</CardSubtitle>
                                             </div>
-
                                             <div>
                                                 <CardSubtitle tag="h6" className="mb-2 text-muted">Total Price: ৳{(item.price * quantity[item.medicine_id]).toFixed(2)}</CardSubtitle>
                                             </div>
@@ -116,11 +98,9 @@ const PlaceOrder = () => {
                         <CardTitle tag="h5">Order Summary</CardTitle>
                         <FormGroup>
                             {flag ? <b style={{ backgroundColor: 'hotpink' }}> Prescription Required </b> : <b style={{ backgroundColor: 'greenyellow' }}> No Prescription Required </b>}
-
                             {flag && (
                                 <Input type="file" id="prescription" onChange={handlePrescriptionChange} />
                             )}
-
                         </FormGroup>
                         <FormGroup>
                             <div style={{ border: '1px solid #ccc', borderRadius: '4px', textAlign: 'center', padding: '1px' }}>
@@ -168,7 +148,9 @@ const PlaceOrder = () => {
                 </Col>
             </Row>
 
-            <OrderConfirmation isOpen={showOrderConfirmation} toggle={() => setShowOrderConfirmation(!showOrderConfirmation)} price={medItems.reduce((acc, item) => acc + (item.price * quantity[item.medicine_id]), 0).toFixed(2) - discount + deliveryCharge} userId={user_id} />
+            <OrderConfirmation isOpen={showOrderConfirmation} toggle={() => setShowOrderConfirmation(!showOrderConfirmation)} price={medItems.reduce((acc, item) => acc + (item.price * quantity[item.medicine_id]), 0).toFixed(2) - discount + deliveryCharge} userId={user_id} prescription = {prescriptionFile} />
+
+            <ToastContainer />
         </Container>
     );
 };
