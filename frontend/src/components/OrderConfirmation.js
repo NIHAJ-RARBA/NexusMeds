@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
 
-const OrderConfirmation = ({ isOpen, toggle, price, userId }) => {
+const OrderConfirmation = ({ isOpen, toggle, price, userId, prescription }) => {
 
     const [newBillingAddress, setNewBillingAddress] = useState("");
     const [billingAddress, setBillingAddress] = useState(""); // State for the billing address
@@ -94,7 +94,8 @@ const OrderConfirmation = ({ isOpen, toggle, price, userId }) => {
                 body: JSON.stringify({
                     user_id: userId,
                     price : price,
-                    billing_address: billingAddress
+                    billing_address: billingAddress,
+                    prescription: prescription
                 })
             });
             const jsonData = await response.json();

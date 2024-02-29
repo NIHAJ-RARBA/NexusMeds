@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import GREETINGS_DROPDOWN from './greetings_dropdown';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const AdminNavbar = () => {
-    
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const toggleDropdown = () => setDropdownOpen(prevState => !prevState);
+
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
+
     const logout = (e) => {
         try {
             localStorage.removeItem("token");
             console.log("Logged out successfully");
             window.location.href = "/";
-        
         } catch (error) {
             console.error(error.message);
         }
     }
-
 
     return (
         <nav className="navbar navbar-expand-lg fixed-top bg-body-tertiary">
@@ -40,13 +46,38 @@ const AdminNavbar = () => {
                         <li className="nav-item">
                             <a className="nav-link" href="/statistics">Statistics</a>
                         </li>
+                        
                         <li className="nav-item">
-                            <a className="nav-link" href="/approve">Approve</a>
+                            <Dropdown isOpen={dropdownOpen || isHovered} toggle={toggleDropdown} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                                <DropdownToggle className="nav-link custom-toggle" caret={false}>
+                                    Approve  &#11206;
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    <DropdownItem href="/approve/orders">Orders</DropdownItem>
+                                    <DropdownItem href="/researchers">Researchers</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
                         </li>
                     </ul>
                 </div>
                 <GREETINGS_DROPDOWN loggedIn={true} customer_name={"Admin"} logout={logout} />
             </div>
+            {/* Add the style here */}
+            <style>
+                {`
+                    .custom-toggle {
+                        color: darker; /* Text color */
+                        font-weight: 400; /* Text weight */
+                        padding: 0.5rem 1rem; /* Padding similar to other nav items */
+                    }
+
+                    .custom-toggle:hover,
+                    .custom-toggle:focus {
+                        background-color: #f8f9fa; /* Very light grey background color */
+                        color: #000; /* Hover text color */
+                    }
+                `}
+            </style>
         </nav>
     );
 }
