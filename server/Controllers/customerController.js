@@ -94,3 +94,24 @@ export const deleteCustomerByEmail = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
+export const getTotalSpentByCustomer = async (req, res) => {
+    try {
+        
+        const { id } = req.params;
+
+        const query = "SELECT SUM(price)\
+        FROM order_history\
+        WHERE cart_id IN (SELECT cart_id FROM CART WHERE customer_id = '$1' OR\
+        researcher_id = '$1')"
+
+        const totalSpent = await client.query(query, [id])
+
+        res.json(totalSpent.rows[0]);
+
+    } catch (error) {
+
+        console.log(error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}

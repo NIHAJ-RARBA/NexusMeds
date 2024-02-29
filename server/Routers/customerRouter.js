@@ -11,7 +11,8 @@ import {
     getCustomerByEmail,
     deleteCustomerByEmail,
     getCustomerById,
-    updateCustomerByEmail
+    updateCustomerByEmail,
+    getTotalSpentByCustomer
 } from '../Controllers/customerController.js';
 import { get } from 'http';
 
@@ -22,6 +23,7 @@ router.get('/:email', getCustomerByEmail);
 router.put('/update/:email', updateCustomerByEmail);
 router.delete('/delete/:email', deleteCustomerByEmail);
 router.get('/get/:id',getCustomerById);
+router.get('/totalSpent/:id',getTotalSpentByCustomer);
 
 
 router.post('/', authorize, async (req, res) => {
