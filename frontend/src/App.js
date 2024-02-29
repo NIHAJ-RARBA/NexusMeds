@@ -26,6 +26,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import VIEWPRESCRIPTIONMEDS from './components/medicine/viewPrescriptionMeds';
 import SorryPage from './components/sorry';
 import SEARCHRESULTS from './components/medicine/searchResults';
+import RESEARCHER from './components/researcher';
+import VIEWMEDICINES from './components/medicine/viewmedicines';
+import VIEWCHEMICALS from './components/chemical/viewchemical';
 
 
 
@@ -89,7 +92,11 @@ function App() {
         <Route path="/viewotc/:indication" element={<VIEWOTC />} />
         <Route path="/prescriptionmeds" element={<VIEWPRESCRIPTIONMEDS />} />
 
+        <Route path='/viewmedicines' element={<VIEWMEDICINES />} />
+        <Route path='/all-chemicals' element={<VIEWCHEMICALS />} />
+
         <Route path='/admin' element={<ADMIN/>} />
+        <Route path='/researcher' element={<RESEARCHER />} />
 
           <Route path="/" element={<HOMEPAGE />} />
           <Route

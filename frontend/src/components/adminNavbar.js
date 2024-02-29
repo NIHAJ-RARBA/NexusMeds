@@ -1,6 +1,8 @@
 import React from 'react';
 import GREETINGS_DROPDOWN from './greetings_dropdown';
 
+let firstTime = true;
+
 const AdminNavbar = () => {
     
     const logout = (e) => {
@@ -14,9 +16,17 @@ const AdminNavbar = () => {
         }
     }
 
+    const reload = () => {
+        if (localStorage.getItem("token") == null) {
+            localStorage.clear();
+            console.log('Cleared local storage');
+        }
+    }
+
 
     return (
         <nav className="navbar navbar-expand-lg fixed-top bg-body-tertiary">
+            
             <div className="container-fluid">
                 <a className="navbar-brand" href="/" style={{ fontSize: '30px', fontFamily: 'Roboto Mono' }}><b>NEXUSMEDS</b></a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +45,7 @@ const AdminNavbar = () => {
                             <a className="nav-link" href="/all-customers">All Customers</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/all-meds">All Meds</a>
+                            <a className="nav-link" href="/all-meds">All Products</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/statistics">Statistics</a>

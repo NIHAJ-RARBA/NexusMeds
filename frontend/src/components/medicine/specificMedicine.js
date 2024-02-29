@@ -9,6 +9,7 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
 
     const [customer_id, setCustomerId] = useState("");
     const [availability, setAvailability] = useState("");
+    const [customer, setCustomer] = useState(true);
 
 
     const getProfile = async () => {
@@ -22,7 +23,12 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
             // console.log(parseRes);
             // console.log(parseRes.customer_id);
 
+            if (parseRes === 'No user found' || parseRes === null)
+                setCustomer(false);
+
             setCustomerId(parseRes.customer_id);
+
+            
 
 
 
@@ -156,32 +162,32 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
                                             <label className="price font-weight-bold" style={{ fontSize: '1.25rem' }}>{medicine.price}</label>
                                             <span className="regular-price font-weight-bold" style={{ fontSize: '1rem' }}>{medicine.regular_price}</span>
                                         </label>
-                                        <div className="d-flex align-items-center mt-2">
-                                            <Button onClick={addToCart} style={{ padding: '10px', margin: '10px', backgroundColor: 'rgb(226,135,67)' }}>Add to Cart</Button>
-                                            <div className="input-group" style={{ width: '150px' }}>
-                                                <button className="btn btn-outline-secondary btn-lg" type="button" onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)} style={{ backgroundColor: 'rgb(6,57,112)' }}>-</button>
-                                                <input type="text" className="form-control text-center" value={quantity} readOnly style={{ width: '50px', fontSize: '0.9rem' }} />
-                                                <button className="btn btn-outline-secondary btn-lg" type="button" onClick={() => setQuantity(quantity + 1)} style={{ backgroundColor: 'rgb(6,57,112)' }}>+</button>
+                                        {customer && (
+                                            <div className="d-flex align-items-center mt-2">
+                                                <Button onClick={addToCart} style={{ padding: '10px', margin: '10px', backgroundColor: 'rgb(226,135,67)' }}>Add to Cart</Button>
+                                                <div className="input-group" style={{ width: '150px' }}>
+                                                    <button className="btn btn-outline-secondary btn-lg" type="button" onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)} style={{ backgroundColor: 'rgb(6,57,112)' }}>-</button>
+                                                    <input type="text" className="form-control text-center" value={quantity} readOnly style={{ width: '50px', fontSize: '0.9rem' }} />
+                                                    <button className="btn btn-outline-secondary btn-lg" type="button" onClick={() => setQuantity(quantity + 1)} style={{ backgroundColor: 'rgb(6,57,112)' }}>+</button>
+                                                </div>
                                             </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="d-flex flex-column align-items-start" style={{ marginLeft: '40px' }}>
-                                    <div id="prescription">
-                                        {/* <label className="font-weight-bold" style={{ fontSize: '1rem' }}> {medicine.isOtc} <i className="fa ml-2"></i></label> */}
-                                        {/* <label className="font-weight-bold" style={{ fontSize: '1rem' }}>will be available</label> */}
-
-                                        {medicine.isotc ? (
-                                            <label className="font-weight-bold" style={{ fontSize: '1rem', backgroundColor: 'lightgreen' }}>Prescription Not Required</label>
-                                        ) : (
-                                            <label className="font-weight-bold" style={{ fontSize: '1rem', backgroundColor: 'khaki' }}>Prescription Required</label>
                                         )}
                                     </div>
-                                    <div id='availability'>
-                                        <label className="font-weight-bold" style={{ fontSize: '1rem', backgroundColor: 'coral' }}>{availability}</label>
-                                    </div>
                                 </div>
+                                {customer && (
+                                    <div className="d-flex flex-column align-items-start" style={{ marginLeft: '40px' }}>
+                                        <div id="prescription">
+                                            {medicine.isotc ? (
+                                                <label className="font-weight-bold" style={{ fontSize: '1rem', backgroundColor: 'lightgreen' }}>Prescription Not Required</label>
+                                            ) : (
+                                                <label className="font-weight-bold" style={{ fontSize: '1rem', backgroundColor: 'khaki' }}>Prescription Required</label>
+                                            )}
+                                        </div>
+                                        <div id='availability'>
+                                            <label className="font-weight-bold" style={{ fontSize: '1rem', backgroundColor: 'coral' }}>{availability}</label>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                             <div>
                                 <div>

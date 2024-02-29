@@ -13,6 +13,12 @@ const GREETINGS_DROPDOWN = ({ loggedIn, customer_name, logout}) => {
     const handleMouseEnter = () => setIsHovered(true);
     const handleMouseLeave = () => setIsHovered(false);
 
+
+    if (localStorage.getItem("token") == null) {
+        localStorage.clear();
+        console.log('Cleared local storage');
+    }
+
     const gotoSignup = () => {
         window.location = '/signup';
     };

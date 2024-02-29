@@ -2,6 +2,26 @@ import express from "express";
 const app = express();
 import cors from "cors";
 
+import multer from 'multer';
+import { initializeApp } from 'firebase/app';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyACUnsi5MHC4NZyh9in2LPQxsCMZyW_Tw8",
+    authDomain: "nexusmeds-53708.firebaseapp.com",
+    projectId: "nexusmeds-53708",
+    storageBucket: "nexusmeds-53708.appspot.com",
+    messagingSenderId: "1050596976120",
+    appId: "1:1050596976120:web:e1606b793e02155870a20d",
+    measurementId: "G-EJBDL66364"
+};
+
+const firebase = initializeApp(firebaseConfig);
+const storage = getStorage(firebase);
+
+const upload = multer({storage: multer.memoryStorage()});
+
 
 // routers
 
@@ -35,6 +55,38 @@ app.use('/cart', cartRouter);
 app.use('/order', orderRouter);
 app.use('/manufacturer', manufacturerRouter);
 app.use('/inventory', inventoryRouter);
+
+
+app.get('/fileUpload', (req, res) => {
+    res.send('FIREBASE UPLOAD');
+});
+
+
+app.post("/permitUpload", upload.single("permit"), async (req, res) => {
+    try {
+      // Get the file from req.file
+      const file = req.file;
+  
+      // Upload the file to Firebase Storage
+      const storageRef = ref(storage, `photos/${file.originalname}`);
+      const snapshot = await uploadBytes(storageRef, file.buffer);
+    //   console.log("Uploaded", snapshot.totalBytes, "bytes");
+      console.log("File metadata:", snapshot.metadata);
+  
+      // Get the download URL for the uploaded file
+      const downloadURL = await getDownloadURL(storageRef);
+  
+      // Return the download URL in the response
+      console.log("File available at", downloadURL);
+      res.json({ downloadURL });
+    } catch (error) {
+      console.error("Upload failed", error);
+      res.status(500).json({ error: "Upload failed" });
+    }
+  });
+  
+  
+
 
 
 // create a task
