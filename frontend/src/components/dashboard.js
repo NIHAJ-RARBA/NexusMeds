@@ -21,18 +21,43 @@ const DASHBOARD = ({setAuth}) => {
         try {
 
             // check if admin
-            const adminRes = await fetch(`http://localhost:5000/admin/`, {
-                method: "POST",
-                headers: { token: localStorage.token }
-            });
-            
-            const adminParseRes = await adminRes.json();
-            console.log(adminParseRes);
+            try {
+                const adminRes = await fetch(`http://localhost:5000/admin/`, {
+                    method: "POST",
+                    headers: { token: localStorage.token }
+                });
+                
+                const adminParseRes = await adminRes.json();
+                console.log(adminParseRes);
 
-            if (adminParseRes.admin_id) {
-                window.location.href = "/admin";
+                if (adminParseRes.admin_id) {
+                    window.location.href = "/admin";
+                    return;
+                }
+            } catch (error) {
+                console.error(error.message);
             }
 
+            try {
+                // check if researcher
+                const researcherRes = await fetch(`http://localhost:5000/researcher/`, {
+                    method: "POST",
+                    headers: { token: localStorage.token }
+                });
+
+                const researcherParseRes = await researcherRes.json();
+                console.log(researcherParseRes);
+
+                if (researcherParseRes.researcher_id) {
+                    window.location.href = "/researcher";
+                    return;
+                }
+
+            } catch (error) {
+                console.error(error.message);
+            }
+
+            
             const res = await fetch(`http://localhost:5000/customer/`, {
                 method: "POST",
                 headers: { token: localStorage.token }
@@ -51,6 +76,7 @@ const DASHBOARD = ({setAuth}) => {
             setGender(parseRes.gender ? "Male" : "Female");
             setAddress(parseRes.address);
             setBillingAddress(parseRes.billing_address);
+        
 
         } catch (error) {
             console.error(error.message);
@@ -63,6 +89,7 @@ const DASHBOARD = ({setAuth}) => {
             localStorage.removeItem("token");
             setAuth(false);
             console.log("Logged out successfully");
+            window.location.reload();
         
         } catch (error) {
             console.error(error.message);

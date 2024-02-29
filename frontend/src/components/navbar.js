@@ -3,6 +3,7 @@ import { Button } from 'reactstrap';
 import { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import AdminNavbar from './adminNavbar';
+import RESEARCHERNAVBAR from './researcherNavbar';
 
 
 const GREETINGS_DROPDOWN = ({ loggedIn, customer_name, logout}) => {
@@ -13,6 +14,9 @@ const GREETINGS_DROPDOWN = ({ loggedIn, customer_name, logout}) => {
 
     const handleMouseEnter = () => setIsHovered(true);
     const handleMouseLeave = () => setIsHovered(false);
+
+    // if nobody is actually logged in, then it should show login, register
+
 
     const gotoSignup = () => {
         window.location = '/signup';
@@ -72,49 +76,87 @@ const NAVBAR = ({isLoggedIn, setAuth,  searchResult}) => {
     
             const parseRes = await res.json();
             console.log(parseRes);
-
-            if (parseRes.admin_id) {
-                setIsAdmin(true);
-                console.log("Admin");
-            }
     
-            
+            setIsAdmin(parseRes.admin_id !== null);
         } catch (error) {
             console.error(error.message);
         }
     }
     
-
-
     const getProfile = async () => {
         try {
-            
             const res = await fetch(`http://localhost:5000/customer/`, {
                 method: "POST",
                 headers: { token: localStorage.token }
             });
-
+    
             const parseRes = await res.json();
-            // console.log(parseRes);
-            
-            if (res.length > 0) {
-                setIsCustomer(true);
-                console.log("Customer");
-            }
-            
-
-
-
-
+            console.log(parseRes);
+    
+            setIsCustomer(parseRes.customer_id !== null);
             setCustomerName(parseRes.customer_name);
-            
             setImage(parseRes.image);
-            
-            
         } catch (error) {
             console.error(error.message);
         }
     }
+    
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                // // Check if the user is an admin
+                const adminRes = await fetch(`http://localhost:5000/admin/`, {
+                    method: "POST",
+                    headers: { token: localStorage.token }
+                });
+                const adminData = await adminRes.json();
+                const isAdminUser = adminData !== 'No admin found' && adminData.admin_id !== null;
+    
+                if (isAdminUser) {
+                    setIsAdmin(true);
+                    return; // Exit early if the user is an admin
+                }
+    
+                // If the user is not an admin, check if they are a customer
+                const customerRes = await fetch(`http://localhost:5000/customer/`, {
+                    method: "POST",
+                    headers: { token: localStorage.token }
+                });
+                const customerData = await customerRes.json();
+                const isCustomerUser = customerData !== 'No user found' && customerData.customer_id !== null;
+                // console.log(customerData);
+    
+                if (isCustomerUser) {
+                    setIsCustomer(true);
+                    setCustomerName(customerData.customer_name);
+                    setImage(customerData.image);
+                    return; // Exit early if the user is a customer
+                }
+    
+                // If the user is not a customer, they might be a researcher
+                const researcherRes = await fetch(`http://localhost:5000/researcher/`, {
+                    method: "POST",
+                    headers: { token: localStorage.token }
+                });
+                const researcherData = await researcherRes.json();
+                const isResearcherUser = researcherData.researcher_id !== null;
+                console.log(researcherData);
+                if (isResearcherUser) {
+                    setIsResearcher(true);
+                    setIsAdmin(false);
+                    setIsCustomer(false);
+                    setCustomerName(researcherData.researcher_name);
+                    setImage(researcherData.image);
+                }
+            } catch (error) {
+                console.error(error.message);
+            }
+        };
+    
+        fetchUserData();
+    }, []);
+    
+    
 
     const logout = (e) => {
         e.preventDefault();
@@ -128,18 +170,7 @@ const NAVBAR = ({isLoggedIn, setAuth,  searchResult}) => {
         }
     }
 
-    useEffect(() => {
-        getAdmin();
-    }, []);
 
-    useEffect(() => {
-        if (!isAdmin) {
-            getProfile();
-        }
-        else {
-            setCustomerName("Admin");
-        }
-    }, [isAdmin]);
 
 
     useEffect(() => {
@@ -185,7 +216,7 @@ const NAVBAR = ({isLoggedIn, setAuth,  searchResult}) => {
 
         return (
             <div>
-            {(isCustomer || (!isAdmin && !isResearcher)) && 
+            {((isCustomer || (!isAdmin && !isResearcher)) || localStorage.getItem("token") === null) ?
             <nav className="navbar navbar-expand-lg fixed-top bg-body-tertiary">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/" style={{ fontSize: '30px', fontFamily: 'Roboto Mono' }}><b>NEXUSMEDS</b></a>
@@ -256,11 +287,16 @@ const NAVBAR = ({isLoggedIn, setAuth,  searchResult}) => {
                         </ul>
                     </div>
                 </div>
-            </nav>}
-
-            {isAdmin && (!isCustomer && !isResearcher) &&
-                <AdminNavbar />
-            }
+            </nav>
+            :
+            ((isResearcher && !isCustomer && !isAdmin)) ?
+                <RESEARCHERNAVBAR isLoggedIn={loggedIn}/>
+                :
+                (isAdmin && (!isCustomer && !isResearcher)) ?
+                    <AdminNavbar />
+                :
+                    null
+        }
             </div>
         );
 

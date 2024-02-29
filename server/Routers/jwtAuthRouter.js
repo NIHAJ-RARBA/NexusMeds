@@ -143,10 +143,12 @@ router.post("/register/researcher", validinfo, async (req, res) => {
 
     try {
 
+        var image = req.body.image;
         // 1. destructure the req.body (email, password, phone, researcher_name, d.o.b, image, gender, address, billing_address)
-        const { email, password, phone, researcher_name, date_of_birth, image, gender, address, billing_address } = req.body;
+        const { email, password, phone, researcher_name, date_of_birth, gender, address, billing_address} = req.body;
+        const permit = req.body.permit;
 
-        if (image === null) {
+        if (image === null || image == '') {
             image = "https://i.pinimg.com/564x/81/8a/1b/818a1b89a57c2ee0fb7619b95e11aebd.jpg";
         }
 
@@ -168,8 +170,11 @@ router.post("/register/researcher", validinfo, async (req, res) => {
 
         // 4. enter the new user inside our database
 
-        const temp = await client.query("INSERT INTO researcher (researcher_id, email, password, phone, researcher_name, date_of_birth, image, gender, address, billing_address) VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;",
-            [email, bcryptPassword, phone, researcher_name, date_of_birth, image, gender, address, billing_address]);
+        const temp = await client.query("INSERT INTO researcher (researcher_id, email, password, phone, researcher_name, date_of_birth, image, gender, address, billing_address, isapproved) VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;",
+            [email, bcryptPassword, phone, researcher_name, date_of_birth, image, gender, address, billing_address, false]);
+
+        const temp2 = await client.query("INSERT INTO pending_approvals (researcher_id, photo) VALUES ($1, $2) RETURNING *;",
+            [temp.rows[0].researcher_id, permit]);
 
         // 5. generating our jwt token
 
@@ -212,10 +217,17 @@ router.post("/login/researcher", validinfo, async (req, res) => {
 
         // 2. check if user doesn't exist (if not then throw error)
 
+
         const user = await client.query("SELECT * FROM researcher WHERE email = $1", [email]);
 
         if (user.rows.length === 0) {
+
             return res.status(401).json("Invalid Credential");
+            
+        }
+
+        if (user.rows[0].isapproved === false) {
+            return res.status(401).json("Not Yet Approved");
         }
 
         // 3. check if incoming password is the same as the database password

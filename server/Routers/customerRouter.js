@@ -30,8 +30,14 @@ router.post('/', authorize, async (req, res) => {
         const user = await client.query("SELECT customer_id, customer_name, email, phone, date_of_birth, image, gender, address, billing_address FROM customer WHERE customer_id = $1",
             [req.user.id]);
 
-        res.json(user.rows[0]);
-        console.log(user.rows[0]);
+            
+            if (user.rows[0] == null) {
+                res.json("No user found");
+            }
+            else {
+                res.json(user.rows[0]);
+                console.log(user.rows[0]);  
+        }
 
     } catch (error) {
         console.error(error.message);
