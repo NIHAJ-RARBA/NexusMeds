@@ -35,10 +35,12 @@ import VIEWRESEARCHERS from './components/adminpages/allResearchers';
 import ADMIN_APPROVE_RESEARCHERS from './components/admin/approve_researchers';
 
 import ALLPRODUCTS from './components/adminpages/allProducts';
+
 import SPECIFIC_CHEMICAL from './components/chemical/specific_chemical';
 import RESEARCHER_CART from './components/researcher/researcher_cart';
 import RESEARCHER_PLACE_ORDER from './components/researcher/researcher_place_order';  
 import RESEARCHER_ORDER_CONFIRMATION from './components/researcher/researcher_order_confirmation';
+
 
 
 
