@@ -139,7 +139,7 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
         <div>
             <ToastContainer />
             <div style={{ marginTop: '115px' }}></div>
-            <h1 className="text-center mt-5">{medicine.med_name}</h1>
+            <h1 className="text-center mt-5">{medicine.med_name} {medicine.dosagestrength}</h1>
             <Container>
                 <Row>
                     <Col>
