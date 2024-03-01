@@ -38,8 +38,50 @@ export const getNONAPPROVEDResearcher = async (req, res) => {
     try {
         const { email } = req.params;
         const result = await client.query('SELECT * FROM pending_approvals WHERE researcher_id =(SELECT researcher_id FROM researcher WHERE email = $1)', [email]);
-        res.status(200).json(result.rows);
-        console.log(result.rows);
+        console.log(result.rows[0].photo);
+        // console.log(result.rows[0].photo);
+        res.status(200).json(result.rows[0].photo);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        console.log(error.message);
+    }
+};
+
+export const approveResearcher = async (req, res) => {
+    try {
+        const { id } = req.body;
+        const result = await client.query('UPDATE researcher SET isapproved = true WHERE researcher_id = $1', [id]);
+
+        console.log("Updated researher table");
+
+        const result2 = await client.query('DELETE FROM pending_approvals WHERE researcher_id = $1', [id]);
+
+        console.log("Deleted from pending approvals");
+
+
+        res.status(200).json({ message: 'Researcher approved' });
+
+
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        console.log(error.message);
+    }
+};
+
+export const rejectResearcher = async (req, res) => {
+    try {
+        const { id } = req.body;
+        const result = await client.query('UPDATE researcher SET isapproved = false WHERE researcher_id = $1', [id]);
+
+        console.log("Rejected!");
+
+        const result2 = await client.query('DELETE FROM pending_approvals WHERE researcher_id = $1', [id]);
+
+        console.log("Deleted from pending approvals");
+
+        res.status(200).json({ message: 'Researcher rejected' });
+
     } catch (error) {
         res.status(500).json({ error: error.message });
         console.log(error.message);
