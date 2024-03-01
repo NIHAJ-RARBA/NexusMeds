@@ -33,6 +33,8 @@ import VIEWMEDICINES from './components/medicine/viewmedicines';
 import VIEWCHEMICALS from './components/chemical/viewchemical';
 import VIEWRESEARCHERS from './components/adminpages/allResearchers';
 import ADMIN_APPROVE_RESEARCHERS from './components/admin/approve_researchers';
+
+import ALLPRODUCTS from './components/adminpages/allProducts';
 import SPECIFIC_CHEMICAL from './components/chemical/specific_chemical';
 import RESEARCHER_CART from './components/researcher/researcher_cart';
 import RESEARCHER_PLACE_ORDER from './components/researcher/researcher_place_order';  
@@ -106,6 +108,10 @@ function App() {
             <Route path="/approve/orders" element={<ADMIN_APPROVE_ORDERS />} />
             <Route path="/approveSpecificOrder" element={<ADMIN_APPROVE_SPECIFIC_ORDER />} />
             <Route path='/approve/researchers' element={<ADMIN_APPROVE_RESEARCHERS />} />
+
+            <Route path='/all-products' element={<ALLPRODUCTS />} />
+
+
             <Route path='/all-researchers' element={<VIEWRESEARCHERS />} />
             <Route path='/all-customers' element={<VIEWUSERS />} />
 
@@ -161,6 +167,7 @@ function App() {
 
 
             <Route path="/specificmedicine/:id" element={<MEDSPECIFIC isLoggedIn={isAuthenticated} setAuth={setAuth} />} />
+            
 
           </Routes>
         </Router>

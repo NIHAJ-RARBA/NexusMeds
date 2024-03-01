@@ -52,7 +52,7 @@ const AdminNavbar = () => {
                             <a className="nav-link" href="/all-customers">All Customers</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/all-meds">All Products</a>
+                            <a className="nav-link" href="/all-products">All Products</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/statistics">Statistics</a>

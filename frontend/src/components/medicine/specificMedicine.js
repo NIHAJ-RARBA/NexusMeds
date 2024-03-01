@@ -23,8 +23,11 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
             // console.log(parseRes);
             // console.log(parseRes.customer_id);
 
-            if (parseRes === 'No user found' || parseRes === null)
+            if (parseRes === 'No user found' || parseRes === null || parseRes === undefined || parseRes === "")
+            {
                 setCustomer(false);
+                console.log("No user found");
+            }
 
             setCustomerId(parseRes.customer_id);
 
