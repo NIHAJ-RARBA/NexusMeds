@@ -170,7 +170,7 @@ const ALLPRODUCTS = () => {
                             <CardImg
                                 top
                                 src={chemical.image}
-                                alt={`Image of ${chemical.chemical_name}`}
+                                alt={`Image of ${chemical.chem_name}`}
                                 style={{
                                     height: "200px",
                                     width: "100%",
@@ -181,11 +181,11 @@ const ALLPRODUCTS = () => {
                             <CardBody style={{ overflow: "hidden", maxHeight: "150px" }}>
                                 <CardTitle tag="h5">
                                     <b>
-                                        {chemical.chemical_name}
+                                        {chemical.chem_name}
                                     </b>
                                 </CardTitle>
                                 <CardText>
-                                    <b>Chemical Name:</b> {chemical.chemical_name} <br />
+                                    <b>Chemical Name:</b> {chemical.chem_name} <br />
                                     <b>Price:</b> {chemical.price} <br />
                                 </CardText>
                                 <Button color="primary" onClick={() => gotoSpecificChemical(chemical.chemical_id)}>
