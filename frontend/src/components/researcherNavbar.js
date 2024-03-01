@@ -124,7 +124,7 @@ const RESEARCHERNAVBAR = ({isLoggedIn}) => {
                         <ul className="navbar-nav ml-auto">
                             {loggedIn ? (
                                 <li className="nav-item">
-                                    <a className="" href="/cart">
+                                    <a className="" href="/researcher_cart">
                                         <img src="https://cdn-icons-png.freepik.com/256/1062/1062974.png?ga=GA1.1.46121468.1709196826&" alt="cart" style={{ width: '40px', height: '40px', marginRight: '20px' }} />
                                     </a>
                                 </li>

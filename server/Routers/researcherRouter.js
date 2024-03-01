@@ -16,7 +16,10 @@ import {
     deleteResearcherByEmail,
     getNONAPPROVEDResearcher,
     approveResearcher,
-    rejectResearcher
+
+    rejectResearcher,
+    getResearcherById
+
 } from '../Controllers/researcherController.js';
 
 
@@ -31,6 +34,9 @@ router.delete('/delete/:email', deleteResearcherByEmail);
 router.get('/getPermit/:email', getNONAPPROVEDResearcher);
 router.post('/approve-researcher', approveResearcher);
 router.post('/reject-researcher', rejectResearcher);
+
+router.get('/:id', getResearcherById);
+
 
 
 router.post('/', authorize, async (req, res) => {

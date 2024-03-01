@@ -36,6 +36,12 @@ import ADMIN_APPROVE_RESEARCHERS from './components/admin/approve_researchers';
 
 import ALLPRODUCTS from './components/adminpages/allProducts';
 
+import SPECIFIC_CHEMICAL from './components/chemical/specific_chemical';
+import RESEARCHER_CART from './components/researcher/researcher_cart';
+import RESEARCHER_PLACE_ORDER from './components/researcher/researcher_place_order';  
+import RESEARCHER_ORDER_CONFIRMATION from './components/researcher/researcher_order_confirmation';
+
+
 
 
 function App() {
@@ -99,8 +105,8 @@ function App() {
             <Route path="/viewotc/:indication" element={<VIEWOTC />} />
             <Route path="/prescriptionmeds" element={<VIEWPRESCRIPTIONMEDS />} />
 
-        <Route path='/viewmedicines' element={<VIEWMEDICINES />} />
-        <Route path='/all-chemicals' element={<VIEWCHEMICALS />} />
+            <Route path='/viewmedicines' element={<VIEWMEDICINES />} />
+            <Route path='/all-chemicals' element={<VIEWCHEMICALS />} />
             <Route path="/approve/orders" element={<ADMIN_APPROVE_ORDERS />} />
             <Route path="/approveSpecificOrder" element={<ADMIN_APPROVE_SPECIFIC_ORDER />} />
             <Route path='/approve/researchers' element={<ADMIN_APPROVE_RESEARCHERS />} />
@@ -112,8 +118,15 @@ function App() {
             <Route path='/all-customers' element={<VIEWUSERS />} />
 
 
+
+            <Route path='/specificChemical/:id' element={<SPECIFIC_CHEMICAL />} />
+            <Route path="/researcher_cart" element={<RESEARCHER_CART />} />
+            <Route path="/researcher_placeorder" element={<RESEARCHER_PLACE_ORDER />} />
+            <Route path="/researcher_order_confirmation" element={<RESEARCHER_ORDER_CONFIRMATION />} />
+
+
             <Route path='/admin' element={<ADMIN />} />
-        <Route path='/researcher' element={<RESEARCHER />} />
+            <Route path='/researcher' element={<RESEARCHER />} />
 
             <Route path="/" element={<HOMEPAGE />} />
             <Route
@@ -152,8 +165,8 @@ function App() {
               }
             />
 
-            
-        
+
+
 
             <Route path="/specificmedicine/:id" element={<MEDSPECIFIC isLoggedIn={isAuthenticated} setAuth={setAuth} />} />
             

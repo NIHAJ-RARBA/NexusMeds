@@ -19,6 +19,8 @@ const VIEWOTC = () => {
         try {
             const response = await fetch(`http://localhost:5000/medicine/isOTC/true/indications/${indication}`);
             const jsonData = await response.json();
+            
+            console.log(indication);
             return jsonData.length;
         } catch (error) {
             console.error(error.message);
