@@ -170,7 +170,7 @@ export const getAllIndications = async (_, res) => {``
         const result = await client.query(`
             SELECT INITCAP(TRIM(unnest(string_to_array(indication, ',')))) AS indication, COUNT(*) AS num_medicines
             FROM medicine
-            WHERE indication IS NOT NULL
+            WHERE indication IS NOT NULL AND ISOTC = true
             GROUP BY unnest(string_to_array(indication, ','))
             ORDER BY num_medicines DESC
         `);
@@ -187,10 +187,12 @@ export const getMedicineByIndication = async (req, res) => {
     try {
         const { isOTC, indication } = req.params;
 
+
         let sql = `SELECT * FROM medicine WHERE isOTC = $1 AND upper(indication) LIKE upper('%' || $2 || '%');`;
 
         const medicine = await client.query(sql, [isOTC, indication]);
 
+        //console.log('amit is here now' + isOTC);
         console.log(medicine.rows);
         res.status(200).json(medicine.rows);
 

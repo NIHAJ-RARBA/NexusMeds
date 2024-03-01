@@ -206,3 +206,94 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
 }
 
 export default MEDSPECIFIC;
+
+
+
+
+// specific Chemical stored here
+
+// import React, { useState, useEffect } from 'react';
+// import { Link, useParams } from 'react-router-dom';
+// import { Card, Container, Row, Col, Button } from 'reactstrap';
+
+// const SpecificChemical = () => {
+//     const { id } = useParams();
+//     const [chemical, setChemical] = useState({});
+//     const [manufacturer, setManufacturer] = useState({});
+//     const [parentChemical, setParentChemical] = useState({});
+
+//     useEffect(() => {
+//         const fetchChemicalData = async () => {
+//             try {
+//                 const response = await fetch(`http://localhost:5000/chemical/get/${id}`);
+//                 if (!response.ok) {
+//                     throw new Error('Failed to fetch chemical data');
+//                 }
+//                 const data = await response.json();
+//                 setChemical(data);
+
+//                 const manufacturerResponse = await fetch(`http://localhost:5000/manufacturer/${data.manufacturer_id}`);
+//                 if (!manufacturerResponse.ok) {
+//                     throw new Error('Failed to fetch manufacturer data');
+//                 }
+//                 const manufacturerData = await manufacturerResponse.json();
+//                 setManufacturer(manufacturerData);
+
+//                 if (data.parent_chemical_id !== null) {
+//                     const parentChemicalResponse = await fetch(`http://localhost:5000/chemical/get/${data.parent_chemical_id}`);
+//                     if (!parentChemicalResponse.ok) {
+//                         throw new Error('Failed to fetch parent chemical data');
+//                     }
+//                     const parentChemicalData = await parentChemicalResponse.json();
+//                     setParentChemical(parentChemicalData);
+//                 }
+//             } catch (error) {
+//                 console.error(error);
+//             }
+//         };
+
+//         fetchChemicalData();
+//     }, [id]);
+
+//     return (
+//         <div>
+//             <h1 className="text-center mt-5">{chemical.chem_name}</h1>
+//             <Container>
+//                 <Row>
+//                     <Col>
+//                         <Card className="p-3">
+//                             <div className="d-flex align-items-start">
+//                                 <div className="border border-secondary rounded overflow-hidden mr-3" style={{ width: '400px', height: '400px' }}>
+//                                     <img src={chemical.image} alt={`Image of ${chemical.chem_name}`} style={{ flex: '1 1 auto', maxHeight: '400px', width: '100%', objectFit: 'contain' }} />
+//                                 </div>
+//                                 <div id="product_details" className="d-flex flex-column" style={{ marginLeft: '40px', width: '500px' }}>
+//                                     <div className="align-self-start">
+//                                         <h6 className="text-secondary font-weight-bold" style={{ fontSize: '1.25rem' }}>Chemical Information</h6>
+//                                         <TableRow label="Chemical Name" value={chemical.chem_name} />
+//                                         <TableRow label="IUPAC Name" value={chemical.iupac_name} />
+//                                         <TableRow label="Manufacturer" value={manufacturer.manufacturer_name} />
+//                                         <TableRow label="Parent Chemical" value={parentChemical.chem_name ? <Link to={`/specificChemical/${parentChemical.chemical_id}`}>{parentChemical.chem_name}</Link> : 'NA'} />
+//                                         <TableRow label="Chemical Formula" value={chemical.chemical_formula} />
+//                                         <TableRow label="Description" value={chemical.description} />
+//                                         <TableRow label="Molecular Weight" value={chemical.molecular_weight} />
+//                                         <TableRow label="Price" value={chemical.price} />
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                         </Card>
+//                     </Col>
+//                 </Row>
+//             </Container>
+//         </div>
+//     );
+// };
+
+// // Custom TableRow component for consistent rendering
+// const TableRow = ({ label, value }) => (
+//     <div className="d-flex align-items-start mt-2">
+//         <div className="font-weight-bold" style={{ minWidth: '200px', paddingRight: '10px', textAlign: 'right' }}>{label}:</div>
+//         <div>{value}</div>
+//     </div>
+// );
+
+// export default SpecificChemical;

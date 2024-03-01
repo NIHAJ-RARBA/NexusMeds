@@ -424,4 +424,26 @@ export const setCartStatusTrue = async (req, res) =>
         //console.log('amit is not here');
     }
 }
-    
+
+export const get_Big_CART_By_CartId = async (req, res) => {
+    try {
+        const { cart_id } = req.body;
+
+        const cart = await client.query(
+            'SELECT * FROM CART WHERE cart_id = $1',
+            [cart_id]
+        );
+
+        if (cart.rows.length === 0) {
+            res.json([]);
+            return;
+        }
+
+        res.json(cart.rows[0]);
+        console.log(cart.rows[0]);
+        return;
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+}

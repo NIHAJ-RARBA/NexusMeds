@@ -14,7 +14,8 @@ import {
     getAllVerifiedResearchers,
     getNONVerifiedResearchers,
     deleteResearcherByEmail,
-    getNONAPPROVEDResearcher
+    getNONAPPROVEDResearcher,
+    getResearcherById
 } from '../Controllers/researcherController.js';
 
 
@@ -27,6 +28,7 @@ router.put('/update/:id', updateResearcherById);
 router.delete('/delete/:id', deleteResearcherById);
 router.delete('/delete/:email', deleteResearcherByEmail);
 router.get('/getPermit/:email', getNONAPPROVEDResearcher);
+router.get('/:id', getResearcherById);
 
 
 router.post('/', authorize, async (req, res) => {

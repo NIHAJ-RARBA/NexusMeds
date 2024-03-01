@@ -11,6 +11,18 @@ export const getAllResearchers = async (req, res) => {
     }
 };
 
+export const getResearcherById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await client.query('SELECT * FROM Researcher WHERE researcher_id = $1', [id]);
+        res.status(200).json(result.rows);
+        console.log(result.rows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        console.log(error.message);
+    }
+}
+
 export const getAllVerifiedResearchers = async (req, res) => {
     console.log("get all verified researchers");
     try {

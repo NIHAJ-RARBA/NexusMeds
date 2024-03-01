@@ -14,3 +14,5 @@ VALUES
     ('Chlorhexidine Gluconate', NULL, 'Chlorhexidine Gluconate', 1, 7, 'C22H30Cl2N10·2C6H12O7', 'Chlorhexidine Gluconate is an antiseptic agent used in creams and oral rinses for its antibacterial properties.', 897.767, 35.000),
     ('Methylphenidate', 'https://epharma.com.bd/storage/app/public/YnIlDuMS3XEZZz25aEX10JgWoX4YhgjZk7WpBQml.jpg', 'Methylphenidate', 4, NULL, 'C14H19NO2', 'Methylphenidate is a central nervous system stimulant used in the treatment of attention deficit hyperactivity disorder (ADHD) and narcolepsy.', 233.310, 250.000),
     ('Ribavirin', 'https://cdn.osudpotro.com/medicine/untitled-1-1631763159106.webp', '1-[(2R,3R,4S,5R)-3,4-dihydroxy-5-(hydroxymethyl)oxolan-2-yl]-1H-1,2,4-triazole-3-carboxamide', 3, NULL, 'C8H12N4O5', 'Ribavirin is an antiviral medication used to treat hepatitis C and certain viral respiratory infections.', 244.205, 100.000);
+
+    update chemical set iupac_name= 'sodium 2,3,4,5,6-pentahydroxyhexanal acetate' where chemical_id=3;
