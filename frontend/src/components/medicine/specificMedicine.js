@@ -100,6 +100,7 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
             return;
         }
     
+        //console.log(`Added ${quantity} ${medicine.med_name}(s) to cart`);
         // console.log(`Added ${quantity} ${medicine.med_name}(s) to cart`);
     
         const data = {
