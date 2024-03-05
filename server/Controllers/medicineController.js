@@ -200,3 +200,18 @@ export const getMedicineByIndication = async (req, res) => {
         console.log(error.message);
     }
 }
+
+export const supplyMedicine = async (req, res) => {
+    try {
+        const { id, quantity } = req.body;
+
+        const query = 'INSERT INTO supplyrequestmedicine (medicine_id, quantity, request_date)\
+        VALUES ($1, $2,$3)';
+
+        const supply = await client.query(query, [id, quantity, new Date()]);
+        res.json({ message: "Medicine was supplied" });
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+};

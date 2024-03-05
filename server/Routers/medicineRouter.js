@@ -11,7 +11,8 @@ import {
   getChemicalByMedicineId,
   getMedicineByIsOTC,
   getAllIndications,
-  getMedicineByIndication
+  getMedicineByIndication,
+  supplyMedicine
 } from '../Controllers/medicineController.js';
 
 
@@ -25,6 +26,7 @@ router.get('/chemical/:id', getChemicalByMedicineId);
 router.get('/isOTC/:isOTC', getMedicineByIsOTC);
 router.get('/isOTC/:isOTC/indications', getAllIndications);
 router.get('/isOTC/:isOTC/indications/:indication', getMedicineByIndication);
+router.post('/supply', supplyMedicine);
 
 
 export default router;
