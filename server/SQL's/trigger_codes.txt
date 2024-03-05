@@ -4,3 +4,6 @@
 13423 cartChemical, chemical doesnt exist
 13877 cartMedicine , medicine doesnt exist;
 13878 cartMedicine , stock out in inventory
+
+13890 cartChemical , medicine doesnt exist;
+13891 cartChemical , stock out in inventory

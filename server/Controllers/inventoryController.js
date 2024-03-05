@@ -29,14 +29,26 @@ export const getInventoryByChemicalId = async (req, res) => {
     }
 }
 
-export const getMedicineInventory = async (req,res) =>{
+export const getProductsInventory = async (req,res) =>{
 
     try{
 
-        const { isMedicine } = req.params;
+        const {isMedicine} = req.body;
         
-        const MED = "SELECT * FROM INVENTORY WHERE MEDICINE_ID IS NOT NULL ORDER BY STOCKED_AMOUNT";
-        const CHEM = "SELECT * FROM INVENTORY WHERE chemical_ID IS NOT NULL ORDER BY STOCKED_AMOUNT";
+        const MED = "SELECT * FROM INVENTORY I JOIN MEDICINE M ON I.medicine_id = M.medicine_id WHERE I.MEDICINE_ID IS NOT NULL ORDER BY STOCKED_AMOUNT" ;
+        const CHEM = "SELECT * FROM INVENTORY I JOIN CHEMICAL C ON I.CHEMICAL_ID = C.CHEMICAL_ID WHERE I.chemical_ID IS NOT NULL ORDER BY STOCKED_AMOUNT";
+
+        if(isMedicine){
+            const result = await client.query(MED);
+            res.status(200).json(result.rows);
+        }
+        else{
+            const result = await client.query(CHEM);
+            res.status(200).json(result.rows);
+        }
+
+        console.log(isMedicine);
+
 
     }catch(error){
 
@@ -44,5 +56,7 @@ export const getMedicineInventory = async (req,res) =>{
     }
     
 }
+
+
 
 

@@ -87,3 +87,18 @@ export const deleteChemicalById = async (req, res) => {
         console.log(error.message);
     }
 };
+
+export const supplyChemical = async (req, res) => {
+    try {
+        const { id, quantity } = req.body;
+
+        const query = 'INSERT INTO supplyrequestchemical (chemical_id, quantity, request_date)\
+        VALUES ($1, $2,$3)';
+
+        const supply = await client.query(query, [id, quantity, new Date()]);
+        res.json({ message: "Chemical was supplied" });
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+};

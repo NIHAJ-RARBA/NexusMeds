@@ -6,7 +6,8 @@ import {
   createChemical,
   getChemicalById,
   updateChemicalById,
-  deleteChemicalById
+  deleteChemicalById,
+  supplyChemical
 } from '../Controllers/chemicalController.js';
 
 
@@ -15,6 +16,7 @@ router.post('/create', createChemical);
 router.get('/get/:id', getChemicalById);
 router.put('/update/:id', updateChemicalById);
 router.delete('/delete/:id', deleteChemicalById);
+router.post('/supply', supplyChemical);
 
 
 export default router;
