@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
+import { Card, CardImg, CardText, CardBody, CardTitle, Container } from "reactstrap";
 
 const SEARCHRESULTS = () => {
     const [medicineList, setMedicineList] = useState([]);
@@ -26,7 +26,7 @@ const SEARCHRESULTS = () => {
     };
 
     return (
-        <div className="SEARCHRESULTS">
+        <Container className="SEARCHRESULTS">
             <div style={{ marginTop: "115px" }}></div>
             <div className="row row-cols-1 row-cols-md-3">
                 {medicineList.map((medicine) => (
@@ -60,16 +60,16 @@ const SEARCHRESULTS = () => {
                             <CardBody style={{ flex: "0 0 auto" }}>
                                 <CardText>
                                     <b>Generic Name:</b> {medicine.generic_name} <br />
-                                    <b>Package Type:</b> {medicine.package_type} <br />
+                                    {/* <b>Package Type:</b> {medicine.package_type} <br />
                                     <b>Price:</b> {medicine.price} <br />
-                                    <b>Available as:</b> {medicine.med_form} <br />
+                                    <b>Available as:</b> {medicine.med_form} <br /> */}
                                 </CardText>
                             </CardBody>
                         </Card>
                     </div>
                 ))}
             </div>
-        </div>
+        </Container>
     );
 };
 

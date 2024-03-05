@@ -27,12 +27,12 @@ const ALLPRODUCTS = () => {
 
     const gotoSpecificMedicine = (medicine_id) => {
         console.log("Going to specific medicine with id:", medicine_id);
-        window.location = `/specificmedicine/${medicine_id}`;
+        window.location = `/admin_specificMed/${medicine_id}`;
     };
 
     const gotoSpecificChemical = (chemical_id) => {
         console.log("Going to specific chemical with id:", chemical_id);
-        window.location = `/specificchemical/${chemical_id}`;
+        window.location = `/admin_specificChem/${chemical_id}`;
     };
 
 

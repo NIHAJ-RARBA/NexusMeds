@@ -9,8 +9,9 @@ let firstTime = true;
 const RESEARCHERNAVBAR = ({isLoggedIn}) => {
 
     const [loggedIn, setLoggedIn] = useState(isLoggedIn);
-    const [searchQuery, setSearchQuery] = React.useState('');
-    const [resultList, setResults] = React.useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [resultList, setResults] = useState([]);
+    const [searchChem, setSearchChem] = useState(false);
 
  
     const logout = (e) => {
@@ -45,6 +46,7 @@ const RESEARCHERNAVBAR = ({isLoggedIn}) => {
 
 
     const handleSearch = async (searchQuery) => {
+
         setSearchQuery(searchQuery);
 
         if (searchQuery.trim() === '') {
@@ -52,23 +54,50 @@ const RESEARCHERNAVBAR = ({isLoggedIn}) => {
             return;
         }
 
-        // Your logic for search
-        const res = await fetch(`http://localhost:5000/search/getAllMeds`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ search: searchQuery })
-        });
+        if (searchChem === true) {
+            const res = await fetch(`http://localhost:5000/search/getAllChems`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ search: searchQuery })
+            });
+            const parseRes = await res.json();
+            console.log(parseRes);
+            setResults(parseRes);
+        }
+        else {
+            const res = await fetch(`http://localhost:5000/search/getAllMeds`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ search: searchQuery })
+            });
+            const parseRes = await res.json();
+            console.log(parseRes);
+            setResults(parseRes);
+        }
 
-        const parseRes = await res.json();
-        console.log(parseRes);
-        setResults(parseRes);
     };
+
+    const handleChemSwitchChange = () => {
+        setSearchChem(true);
+    };
+
+    const handleMedSwitchChange = () => {
+        setSearchChem(false);
+    };
+
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         // store in local storage
         localStorage.setItem('searchResults', JSON.stringify(resultList));
-        window.location = `/searchResults`;
+        // window.location = `/searchResults-chem`;
+
+        if (searchChem) {
+            window.location = `/searchResults-chem`;
+        }
+        else {
+            window.location = `/searchResults`;
+        }
     };
     return (
         <nav className="navbar navbar-expand-lg fixed-top bg-body-tertiary">
@@ -91,7 +120,7 @@ const RESEARCHERNAVBAR = ({isLoggedIn}) => {
                             <a className="nav-link" href="/viewmedicines">All Medicines</a>
                         </li>
 
-                        {/* <li className="nav-item"> */}
+
                         <form className="d-flex" role="search" onSubmit={(e) => handleSearchSubmit(e)}>
                                 <input
                                     className="form-control me-2"
@@ -101,14 +130,44 @@ const RESEARCHERNAVBAR = ({isLoggedIn}) => {
                                     style={{ width: '400px', backgroundColor: '#f0fff0' }}
                                     onChange={(e) => handleSearch(e.target.value)}
                                 />
-                            </form>
+                            </form>                        
+                            
+                            <li className="nav-item" style={{ marginLeft: 'auto' }}>
+            <div className="form-check form-switch">
+                <input 
+                    className="form-check-input" 
+                    type="checkbox" 
+                    id="flexSwitchCheckDefaultChem" 
+                    checked={searchChem} 
+                    onChange={handleChemSwitchChange} 
+                />
+                <label className="form-check-label" htmlFor="flexSwitchCheckDefaultChem">Chemicals</label>
+            </div>
+            <div className="form-check form-switch">
+                <input 
+                    className="form-check-input" 
+                    type="checkbox" 
+                    id="flexSwitchCheckDefaultMed" 
+                    checked={!searchChem} 
+                    onChange={handleMedSwitchChange} 
+                />
+                <label className="form-check-label" htmlFor="flexSwitchCheckDefaultMed">Medicines</label>
+            </div>
+        </li>
                             {resultList.length > 0 && searchQuery.trim() !== '' && // Added condition to check if search query is not empty
                                 <Dropdown isOpen={true} toggle={() => { }}>
                                     <DropdownToggle caret={false} className="nav-link">
                                         Search Results
                                     </DropdownToggle>
                                     <DropdownMenu className="scrollable-dropdown" style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                                        {resultList.map(medicine => (
+                                        {searchChem ? 
+                                        resultList.map(chem => (
+                                            <DropdownItem key={chem.chemical_id} href={`/specificchemical/${chem.chemical_id}`}>
+                                                {chem.chem_name}
+                                            </DropdownItem>
+                                        ))
+                                        :
+                                        resultList.map(medicine => (
                                             <DropdownItem key={medicine.medicine_id} href={`/specificmedicine/${medicine.medicine_id}`}>
                                                 {medicine.med_name} {medicine.dosagestrength}
                                             </DropdownItem>

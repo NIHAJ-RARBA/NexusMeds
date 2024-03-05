@@ -115,7 +115,7 @@ const SIGNUP = ({ setAuth }) => {
         } catch (error) {
                         //if all data including gender is not present then toast
 
-                        if (!customer_name) {
+                        if (!researcher_name) {
                             toast.error("Name is required");
                         }
                         else if (!email) {
