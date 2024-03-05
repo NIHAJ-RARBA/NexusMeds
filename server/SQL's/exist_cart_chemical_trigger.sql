@@ -15,7 +15,7 @@ EXCEPTION
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_cart_chemical_trigger
+CREATE OR REPLACE TRIGGER check_cart_chemical_trigger
 BEFORE INSERT OR UPDATE 
 ON CartChemical
 FOR EACH ROW
