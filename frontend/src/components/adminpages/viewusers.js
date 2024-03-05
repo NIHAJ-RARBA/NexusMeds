@@ -101,7 +101,7 @@ const VIEWUSERS = () => {
                     {userListWithSpent.map((user, index) => (
                         <tr key={user.user.researcher_id}>
                             <td><img src={user.user.image} alt="User Icon" style={{ width: 'auto', height: '60px', marginLeft: '10px' }} /></td>
-                            <td>{user.user.researcher_name}</td>
+                            <td>{user.user.customer_name}</td>
                             <td>{user.user.email}</td>
                             <td>{user.spent ? '\u09F3' + user.spent : '\u09F3' + 0}</td>
                             <td>
