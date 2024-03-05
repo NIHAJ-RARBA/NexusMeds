@@ -55,7 +55,7 @@ const AdminNavbar = () => {
                             <a className="nav-link" href="/all-products">All Products</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/statistics">Statistics</a>
+                            <a className="nav-link" href='/satistics-admin'>Statistics</a>
                         </li>
 
                         <li className="Inventory">

@@ -43,9 +43,9 @@ const RESEARCHER = ({ setAuth }) => {
         e.preventDefault();
         try {
             localStorage.removeItem("token");
-            setAuth(false);
+            // setAuth(false);
             console.log("Logged out successfully");
-            window.location.reload();
+            window.location.href = "/signin";
         } catch (error) {
             console.error(error.message);
         }

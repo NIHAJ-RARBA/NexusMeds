@@ -89,7 +89,8 @@ const [loginChoice, setLoginChoice] = useState(null);
 
 
             console.error('Error retrieving profile.', error.message);
-            setAuth(false);
+            // setAuth(false);
+            toast.error(error.message);
         }
     };         
 
@@ -239,10 +240,10 @@ const [loginChoice, setLoginChoice] = useState(null);
         {/* <div className="navbuttons" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> */}
             <br />
             <br />
-            <button className="btn btn-warning" onClick={() => {
+            {/* <button className="btn btn-warning" onClick={() => {
                 window.location.href = "/viewusers";
             }
-            }> See All Users </button>
+            }> See All Users </button> */}
 
             <br />
             <br />
