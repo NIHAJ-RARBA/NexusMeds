@@ -4,7 +4,7 @@ import { Card, Container, Row, Col, Button } from 'reactstrap';
 const INVENTORY = () => {
 
     const [inventory, setInventory] = useState([]);
-    const [isMedicine, setIsMedicine] = useState(true);
+    const [isMedicine, setIsMedicine] = useState(false);
     const [quantityToBuy, setQuantityToBuy] = useState({});
 
     const getInventory = async () => {

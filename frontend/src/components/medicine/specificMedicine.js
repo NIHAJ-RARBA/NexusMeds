@@ -101,6 +101,7 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
         }
     
         //console.log(`Added ${quantity} ${medicine.med_name}(s) to cart`);
+        // console.log(`Added ${quantity} ${medicine.med_name}(s) to cart`);
     
         const data = {
             user_id: customer_id,
@@ -116,6 +117,8 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
                 },
                 body: JSON.stringify(data)
             });
+
+            console.log(responseAddToCart);
             toast.success("Added to cart successfully", { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
 
             const parseRes = await responseAddToCart.json();
