@@ -43,7 +43,11 @@ import SPECIFIC_CHEMICAL from './components/chemical/specific_chemical';
 import RESEARCHER_CART from './components/researcher/researcher_cart';
 import RESEARCHER_PLACE_ORDER from './components/researcher/researcher_place_order';  
 import RESEARCHER_ORDER_CONFIRMATION from './components/researcher/researcher_order_confirmation';
+
 import INVENTORY from './components/adminpages/inventory';
+
+import STATISTICS from './components/adminpages/statistics';
+
 
 
 
@@ -115,7 +119,7 @@ function App() {
             <Route path="/approve/orders" element={<ADMIN_APPROVE_ORDERS />} />
             <Route path="/approveSpecificOrder" element={<ADMIN_APPROVE_SPECIFIC_ORDER />} />
             <Route path='/approve/researchers' element={<ADMIN_APPROVE_RESEARCHERS />} />
-
+            <Route path='/satistics-admin' element={<STATISTICS />} />
             <Route path='/all-products' element={<ALLPRODUCTS />} />
 
 
