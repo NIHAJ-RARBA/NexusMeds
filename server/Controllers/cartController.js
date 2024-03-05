@@ -28,6 +28,7 @@ export const addToCart = async (req, res) => {
 
         isCustomer = Customer.rows.length > 0 ? true : false;
 
+        
         if (cart.rows.length === 0) {
 
             console.log('inside create cart');
