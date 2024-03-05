@@ -57,6 +57,10 @@ const AdminNavbar = () => {
                         <li className="nav-item">
                             <a className="nav-link" href="/statistics">Statistics</a>
                         </li>
+
+                        <li className="Inventory">
+                            <a className="nav-link" href="/inventory">Inventory</a>
+                        </li>
                         
                         <li className="nav-item">
                             <Dropdown isOpen={dropdownOpen || isHovered} toggle={toggleDropdown} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>

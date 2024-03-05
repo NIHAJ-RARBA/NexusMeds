@@ -29,4 +29,20 @@ export const getInventoryByChemicalId = async (req, res) => {
     }
 }
 
+export const getMedicineInventory = async (req,res) =>{
+
+    try{
+
+        const { isMedicine } = req.params;
+        
+        const MED = "SELECT * FROM INVENTORY WHERE MEDICINE_ID IS NOT NULL ORDER BY STOCKED_AMOUNT";
+        const CHEM = "SELECT * FROM INVENTORY WHERE chemical_ID IS NOT NULL ORDER BY STOCKED_AMOUNT";
+
+    }catch(error){
+
+
+    }
+    
+}
+
 

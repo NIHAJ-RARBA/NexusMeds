@@ -7,6 +7,7 @@ const VIEWRESEARCHERS = () => {
     const editProfileVisible = false;
     const [userList, setuserList] = useState([]);
     const [userSpentList, setuserSpentList] = useState([]);
+    const [userListWithSpent, setuserListWithSpent] = useState([]);
 
     const getUsers = async () => {
 
@@ -43,6 +44,7 @@ const VIEWRESEARCHERS = () => {
 
     const getAllSpentAmounts = async () => {
         let temp = [];
+        let tempUserList = [];
         for (let i = 0; i < userList.length; i++) {
             try {
                 const response = await fetch(`http://localhost:5000/customer/totalspent`, {
@@ -56,11 +58,31 @@ const VIEWRESEARCHERS = () => {
                 });
                 const jsonData = await response.json();
                 temp.push(jsonData.sum);
+
+                // here store the user and the spent amount in a new array
+                let tempUser = {
+                    user: userList[i],
+                    spent: jsonData.sum
+                };
+
+                tempUserList.push(tempUser);
+            
             } catch (error) {
                 console.error(error.message);
             }
         }
+
+        
         setuserSpentList(temp);
+        
+
+        //sort the array based on the spent amount
+
+        tempUserList.sort((a, b) => {
+            return b.spent - a.spent;
+        });
+
+        setuserListWithSpent(tempUserList);
     };
 
     useEffect(() => {
@@ -88,7 +110,7 @@ const VIEWRESEARCHERS = () => {
                 <tbody>
 
 
-                {userList.map((user, index) => (
+                {/* {userList.map((user, index) => (
                         <tr key={user.researcher_id}>
                             <td><img src={user.image} alt="User Icon" style={{ width: 'auto', height: '60px', marginLeft: '10px' }} /></td>
                             <td>{user.researcher_name}</td>
@@ -96,6 +118,18 @@ const VIEWRESEARCHERS = () => {
                             <td>{userSpentList[index] ? '\u09F3' + userSpentList[index] : '\u09F3' + 0}</td>
                             <td>
                                 <button className="btn btn-danger" onClick={() => deleteUser(user.email)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))} */}
+
+                    {userListWithSpent.map((user, index) => (
+                        <tr key={user.user.researcher_id}>
+                            <td><img src={user.user.image} alt="User Icon" style={{ width: 'auto', height: '60px', marginLeft: '10px' }} /></td>
+                            <td>{user.user.researcher_name}</td>
+                            <td>{user.user.email}</td>
+                            <td>{user.spent ? '\u09F3' + user.spent : '\u09F3' + 0}</td>
+                            <td>
+                                <button className="btn btn-danger" onClick={() => deleteUser(user.user.email)}>Delete</button>
                             </td>
                         </tr>
                     ))}
