@@ -15,7 +15,7 @@ EXCEPTION
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_cart_medicine_trigger
+CREATE OR REPLACE TRIGGER check_cart_medicine_trigger
 BEFORE INSERT OR UPDATE 
 ON CartMedicine
 FOR EACH ROW
