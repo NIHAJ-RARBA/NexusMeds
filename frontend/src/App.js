@@ -27,12 +27,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import VIEWPRESCRIPTIONMEDS from './components/medicine/viewPrescriptionMeds';
 import SorryPage from './components/sorry';
-import SEARCHRESULTS from './components/medicine/searchResults';
+import SEARCHRESULTS from './components/medicine/medSearchResults';
+import CHEMRESULTSEARCH from './components/chemical/chemSearchResults';
 import RESEARCHER from './components/researcher';
 import VIEWMEDICINES from './components/medicine/viewmedicines';
 import VIEWCHEMICALS from './components/chemical/viewchemical';
 import VIEWRESEARCHERS from './components/adminpages/allResearchers';
 import ADMIN_APPROVE_RESEARCHERS from './components/admin/approve_researchers';
+import ADMIN_SPECIFICCHEM from './components/admin/admin_specificChem';
+import ADMIN_MEDSPECIFIC from './components/admin/admin_specificMed';
 
 import ALLPRODUCTS from './components/adminpages/allProducts';
 
@@ -98,6 +101,7 @@ function App() {
         <Router>
           <Routes>
             <Route path='/searchResults' element={<SEARCHRESULTS medicineList={searchResults} />} />
+            <Route path='/searchResults-chem' element={<CHEMRESULTSEARCH />} />
             <Route path="/placeorder" element={<PLACE_ORDER />} />
             <Route path="/cart" element={<CART />} />
             <Route path="/viewotc" element={<INDICATIONS />} />
@@ -123,6 +127,8 @@ function App() {
             <Route path="/researcher_cart" element={<RESEARCHER_CART />} />
             <Route path="/researcher_placeorder" element={<RESEARCHER_PLACE_ORDER />} />
             <Route path="/researcher_order_confirmation" element={<RESEARCHER_ORDER_CONFIRMATION />} />
+            <Route path='/admin_specificChem/:id' element={<ADMIN_SPECIFICCHEM />} />
+            <Route path='/admin_specificMed/:id' element={<ADMIN_MEDSPECIFIC />} />
 
 
             <Route path='/admin' element={<ADMIN />} />
@@ -169,7 +175,7 @@ function App() {
 
 
             <Route path="/specificmedicine/:id" element={<MEDSPECIFIC isLoggedIn={isAuthenticated} setAuth={setAuth} />} />
-            
+            <Route path="/specific_chemical/:id" element={<SPECIFIC_CHEMICAL />} />
 
           </Routes>
         </Router>
