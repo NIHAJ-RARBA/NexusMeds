@@ -216,7 +216,7 @@ const NAVBAR = ({isLoggedIn, setAuth,  searchResult}) => {
 
         return (
             <div>
-            {((isCustomer || (!isAdmin && !isResearcher)) || localStorage.getItem("token") === null || isLoggedIn == false) ?
+            {((isCustomer || (!isAdmin && !isResearcher)) || localStorage.getItem("token") === null || isLoggedIn === false) ?
             <nav className="navbar navbar-expand-lg fixed-top bg-body-tertiary">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/" style={{ fontSize: '30px', fontFamily: 'Roboto Mono' }}><b>NEXUSMEDS</b></a>

@@ -15,7 +15,8 @@ const ADMIN_APPROVE_RESEARCHERS = () => {
             const response = await fetch(`http://localhost:5000/researcher/get-Not-Verified`);
             const jsonData = await response.json();
             // console.log("User data:", jsonData); // Log fetched data
-            setuserList(jsonData);
+
+            if (jsonData.length > 0)   setuserList(jsonData);
         } catch (error) {
             console.error(error.message);
         }
@@ -47,7 +48,7 @@ const ADMIN_APPROVE_RESEARCHERS = () => {
                 });  
                 const jsonData = await response.json();
                 temp.push(jsonData);
-                // console.log("Permit data:", jsonData); // Log fetched data
+                console.log("Permit data:", jsonData); // Log fetched data
                 
             } catch (error) {
                 console.error(error.message);

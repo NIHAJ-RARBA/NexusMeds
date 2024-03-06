@@ -36,8 +36,10 @@ export const getAllVerifiedResearchers = async (req, res) => {
 };
 
 export const getNONVerifiedResearchers = async (req, res) => {
+
     try {
-        const result = await client.query('SELECT * FROM researcher WHERE isapproved = false');
+        const result = await client.query('SELECT * FROM researcher WHERE isapproved = false and researcher_id IN (SELECT researcher_id FROM pending_approvals)');
+        
         res.status(200).json(result.rows);
         console.log(result.rows);
     } catch (error) {
@@ -50,9 +52,16 @@ export const getNONAPPROVEDResearcher = async (req, res) => {
     try {
         const { email } = req.params;
         const result = await client.query('SELECT * FROM pending_approvals WHERE researcher_id =(SELECT researcher_id FROM researcher WHERE email = $1)', [email]);
-        console.log(result.rows[0].photo);
-        // console.log(result.rows[0].photo);
-        res.status(200).json(result.rows[0].photo);
+        
+        if (result.rowCount > 0)
+        {
+            console.log(result.rows[0].photo);
+            console.log("get all non verified researchers");
+            // console.log(result.rows[0].photo);
+            res.status(200).json(result.rows[0].photo);
+
+        }
+        
     } catch (error) {
         res.status(500).json({ error: error.message });
         console.log(error.message);
@@ -83,6 +92,8 @@ export const approveResearcher = async (req, res) => {
 
 export const rejectResearcher = async (req, res) => {
     try {
+
+        console.log("Rejecting researcher");
         const { id } = req.body;
         const result = await client.query('UPDATE researcher SET isapproved = false WHERE researcher_id = $1', [id]);
 

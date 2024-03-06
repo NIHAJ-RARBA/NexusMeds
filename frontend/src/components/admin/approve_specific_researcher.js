@@ -58,7 +58,7 @@ const ApproveResearcherModalButton = ({ user, permit }) => {
         console.log("User:", user);
         console.log("Permit:", permit);
     }
-    , [permit]);
+    , [user, permit]);
 
 
         
