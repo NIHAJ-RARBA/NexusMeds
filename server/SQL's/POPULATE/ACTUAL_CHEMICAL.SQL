@@ -16,3 +16,5 @@ VALUES
     ('Ribavirin', 'https://cdn.osudpotro.com/medicine/untitled-1-1631763159106.webp', '1-[(2R,3R,4S,5R)-3,4-dihydroxy-5-(hydroxymethyl)oxolan-2-yl]-1H-1,2,4-triazole-3-carboxamide', 3, NULL, 'C8H12N4O5', 'Ribavirin is an antiviral medication used to treat hepatitis C and certain viral respiratory infections.', 244.205, 100.000);
 
     update chemical set iupac_name= 'sodium 2,3,4,5,6-pentahydroxyhexanal acetate' where chemical_id=3;
+
+    INSERT INTO CHEMICAL values(-1,'Chemical','https://images.unsplash.com/photo-1554475900-0a0350e3fc7b?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2hlbWljYWx8ZW58MHx8MHx8fDA%3D','Chemical-Iupac-name',1,null,'NA','Chemical-Description',100,10);

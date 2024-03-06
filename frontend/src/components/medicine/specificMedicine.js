@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { Card, Container, Row, Col, Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
 
@@ -10,6 +11,10 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
     const [customer_id, setCustomerId] = useState("");
     const [availability, setAvailability] = useState("");
     const [customer, setCustomer] = useState(true);
+    const [generics, setGenerics] = useState([]);
+    const [chemicals, setChemicals] = useState([]);
+
+
 
 
     const getProfile = async () => {
@@ -19,19 +24,19 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
                 headers: { token: localStorage.token }
             });
 
+
             const parseRes = await res.json();
             // console.log(parseRes);
             // console.log(parseRes.customer_id);
 
-            if (parseRes === 'No user found' || parseRes === null || parseRes === undefined || parseRes === "")
-            {
+            if (parseRes === 'No user found' || parseRes === null || parseRes === undefined || parseRes === "") {
                 setCustomer(false);
                 console.log("No user found");
             }
 
             setCustomerId(parseRes.customer_id);
 
-            
+
 
 
 
@@ -75,13 +80,37 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
             const jsonData = await response.json();
             setMedicine(jsonData);
 
-            // console.log(jsonData);
 
             if (jsonData.manufacturer_id) {
                 const responseForManufacturer = await fetch(`http://localhost:5000/manufacturer/${jsonData.manufacturer_id}`);
                 const jsonDataForManufacturer = await responseForManufacturer.json();
                 setManufacturer(jsonDataForManufacturer.manufacturer_name);
             }
+
+            const genericsArray = jsonData.generic_name.split(',').map(item => item.trim());
+            setGenerics(genericsArray);
+
+            console.log(genericsArray);
+
+            const response2 = await fetch(`http://localhost:5000/medicine/chemical/${id.id}`);
+            const jsonData2 = await response2.json();
+            console.log(jsonData2);
+
+            //now for the all chemicals of this medicine match the chemical name with the generic name and store in the chemicals by order of generics
+
+            const chemicalsArray = [];
+            for (let i = 0; i < genericsArray.length; i++) {
+                for (let j = 0; j < jsonData2.length; j++) {
+                    if (jsonData2[j].chem_name === genericsArray[i]) {
+                        chemicalsArray.push(jsonData2[j]);
+                        break;
+                    }
+                }
+            }
+
+            setChemicals(chemicalsArray);
+
+
         } catch (error) {
             console.error(error.message);
         }
@@ -89,7 +118,6 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
 
     useEffect(() => {
         getProfile();
-        // console.log(customer_id);
         getMedicine();
         getInventory();
     }, []);
@@ -99,16 +127,16 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
             window.location.href = "/signin";
             return;
         }
-    
+
         //console.log(`Added ${quantity} ${medicine.med_name}(s) to cart`);
         // console.log(`Added ${quantity} ${medicine.med_name}(s) to cart`);
-    
+
         const data = {
             user_id: customer_id,
             product_id: id.id,
             quantity: quantity
         };
-    
+
         try {
             const responseAddToCart = await fetch("http://localhost:5000/cart/add", {
                 method: "POST",
@@ -123,23 +151,26 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
 
             const parseRes = await responseAddToCart.json();
             console.log(parseRes);
-    
+
             const responseGetInventory = await fetch(`http://localhost:5000/inventory/medicine/${id.id}`);
             const jsonData2 = await responseGetInventory.json();
             setInventory(jsonData2);
 
             // console.log(jsonData2);
-    
+
             if (jsonData2.stocked_amount === "0") {
                 setAvailability("Not Available");
             } else {
                 setAvailability("Available");
             }
-            
+
         } catch (error) {
             console.error(error.message);
         }
     };
+
+
+
 
     return (
         <div>
@@ -157,9 +188,48 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
                                 <div id="product_details" className="d-flex flex-column" style={{ marginLeft: '40px', width: '500px' }}>
                                     <div className="align-self-start">
                                         <h6 className="text-secondary font-weight-bold" style={{ fontSize: '1.25rem' }}>{medicine.med_form}</h6>
-                                        <div className="generes-wrap">
+                                        {/* <div className="generes-wrap">
                                             <p className="generes ml-0"><strong>Generics:</strong><span className="font-weight-bold" style={{ fontSize: '1rem' }}>{medicine.generic_name}</span></p>
-                                        </div>
+                                        </div> */}
+                                        {
+                                            !customer && chemicals.length>0 ? (
+                                                <div style={{ fontSize: '1.5rem' }}>
+                                                    <b>Generics: </b>
+                                                    {chemicals.map((chemical, index) => (
+                                                        <span key={index}>
+                                                            <Link to={`/specificChemical/${chemical.chemical_id}`} style={{ textDecoration: 'underline', color: 'inherit' }}>
+                                                                {chemical.chem_name}
+                                                            </Link>
+                                                            {index < chemicals.length - 1 && ', '}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            ) : chemicals.length === 0 ? (
+                                                <div style={{ fontSize: '1.5rem' }}>
+                                                    <b>Generics: </b>
+                                                    {
+                                                        generics.map((chemical, index) => (
+                                                            <span key={index}>
+                                                                <Link to={`/specificChemical/-1`} style={{ textDecoration: 'underline', color: 'inherit' }}>
+                                                                    {chemical}
+                                                                </Link>
+                                                                {index < generics.length - 1 && ', '}
+                                                            </span>
+                                                        ))
+                                                    }
+
+                                                </div>
+                                            ) : (
+                                                <div className="generes-wrap">
+                                                    <p className="generes ml-0">
+                                                        <strong>Generics:</strong>
+                                                        <span className="font-weight-bold" style={{ fontSize: '1rem' }}>{medicine.generic_name}</span>
+                                                    </p>
+                                                </div>
+                                            )
+                                        }
+
+
                                         <p className="manufacturer" style={{ fontSize: '1rem' }}>{manufacturer && <span className="font-weight-bold">{manufacturer}</span>}</p>
                                     </div>
                                     <div className="align-self-start">

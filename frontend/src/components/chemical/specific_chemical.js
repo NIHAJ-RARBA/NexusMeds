@@ -86,7 +86,8 @@ const SpecificChemical = () => {
     };
 
     const addToCart = async () => {
-        console.log(`Added ${quantity} ${chemical.chem_name}(s) to cart`);
+        
+        //console.log(`Added ${quantity} ${chemical.chem_name}(s) to cart`);
 
         const data = {
             user_id: researcherId,

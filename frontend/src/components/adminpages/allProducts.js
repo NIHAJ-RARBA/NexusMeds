@@ -35,6 +35,11 @@ const ALLPRODUCTS = () => {
         window.location = `/admin_specificChem/${chemical_id}`;
     };
 
+    const handleAddMedicine = () => {
+        window.location = "/add-medicine";
+    };
+
+
 
     useEffect(() => {
         getProducts();
@@ -152,6 +157,8 @@ const ALLPRODUCTS = () => {
                     </div>
                 ))}
             </Slider>
+
+            <Button color="success" onClick={handleAddMedicine}  style={{ marginTop: "20px" }}>Add Medicine</Button>
             
             <Alert color="info" className="text-center mt-3" style={{ height: "50px" }}> <h4> Chemicals </h4></Alert>
             <Slider {...settings}>
@@ -199,6 +206,8 @@ const ALLPRODUCTS = () => {
                     </div>
                 ))}
             </Slider>
+
+            <Button color="success" style={{ marginTop: "20px" }}>Add Chemical</Button>
 
 
         </Container>
