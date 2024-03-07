@@ -42,8 +42,18 @@ const RESEARCHER = ({ setAuth }) => {
     const logout = (e) => {
         e.preventDefault();
         try {
+            console.log("Logging out" + user);
+
+            fetch("http://localhost:5000/auth/logout", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    token: localStorage.token 
+                },
+                body: JSON.stringify({id : user.researcher_id}) // Add an empty object as the body
+            });   
             localStorage.removeItem("token");
-            // setAuth(false);
+            setAuth(false);
             console.log("Logged out successfully");
             window.location.href = "/signin";
         } catch (error) {

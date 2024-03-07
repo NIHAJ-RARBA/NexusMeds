@@ -49,6 +49,8 @@ const ADMIN = ({setAuth}) => {
         try {
             localStorage.removeItem("token");
             // setAuth(false);
+
+
             console.log("Logged out successfully");
             window.location.href = "/signin";
         

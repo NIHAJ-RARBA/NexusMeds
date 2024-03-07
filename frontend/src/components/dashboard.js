@@ -82,26 +82,39 @@ const DASHBOARD = ({setAuth}) => {
         } catch (error) {
             console.error(error.message);
         }
-    }
+    };
 
     const logout = (e) => {
         e.preventDefault();
+
+        console.log("Logging out" + user);
         try {
+            fetch("http://localhost:5000/auth/logout", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    token: localStorage.token 
+                },
+                body: JSON.stringify({id : user.customer_id}) // Add an empty object as the body
+            });                
+
             localStorage.removeItem("token");
             setAuth(false);
+
+
             console.log("Logged out successfully");
             window.location.reload();
         
         } catch (error) {
             console.error(error.message);
         }
-    }
+    };
 
     useEffect(() => {
         getProfile();
     }, []);
 
-    return (
+    return (    
         <div className="DASHBOARD">
             <Container fluid>            <h3 className='mt-5'>Dashboard</h3>
             <h4 style={{paddingT: '10px'}}>Welcome, {customer_name} !</h4>

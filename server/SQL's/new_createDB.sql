@@ -267,3 +267,12 @@ ALTER TABLE Orders
     ALTER COLUMN price TYPE NUMERIC(10,2);
 ALTER TABLE ORDER_HISTORY
     ALTER COLUMN price TYPE NUMERIC(10,2);
+
+
+---- added 8 march 2024 ----
+CREATE TABLE LOGIN_LOG(
+    log_id SERIAL PRIMARY KEY,
+    user_id UUID,
+    login_time DATE,
+    logout_time DATE
+);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Container } from "reactstrap";
 
 const VIEWUSERS = () => {
     const [userList, setuserList] = useState([]);
@@ -72,6 +73,7 @@ const VIEWUSERS = () => {
     }, [userList]);
 
     return (
+        <Container>
         <div className="VIEWUSERS">
             <div style={{ marginTop: '115px' }}></div>
             <h2 className="text-center mt-5"><u>All Users</u></h2>
@@ -119,6 +121,7 @@ const VIEWUSERS = () => {
                 window.location.href = "/";
             }}> Return to home page </button>
         </div>
+        </Container>
     );
 };
 

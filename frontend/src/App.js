@@ -96,10 +96,10 @@ function App() {
 
 
   return (
-    <div className="App" style={{ fontFamily: 'Roboto Mono, monospace', fontFamily: 'Roboto Slab, serif' }}>
+    <div className="App" style={{ fontFamily: 'Roboto Mono, monospace', fontFamily: 'Roboto Slab, serif', backgroundColor: '#f9fdff' }}>
       {/* <h1 className="text-center mt-5">NEXUSMEDS</h1> */}
       <br></br>
-      <NAVBAR isLoggedIn={isAuthenticated} setAuth={setAuth} searchResult={searchResults} />
+      <NAVBAR isLoggedIn={isAuthenticated} setAuth={setAuth} searchResult={searchResults}/>
 
 
       <div>
@@ -144,7 +144,7 @@ function App() {
 
 
             <Route path='/admin' element={<ADMIN />} />
-            <Route path='/researcher' element={<RESEARCHER />} />
+            <Route path='/researcher' element={<RESEARCHER setAuth={setAuth}/>} />
 
             <Route path="/" element={<HOMEPAGE />} />
             <Route

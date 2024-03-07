@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { Container } from "reactstrap";
 
 const VIEWRESEARCHERS = () => {
 
@@ -95,8 +96,9 @@ const VIEWRESEARCHERS = () => {
 
     
     return (
+            <Container>
         <div className="VIEWRESEARCHERS">
-            <div style={{ marginTop: '115px' }}></div>
+            {/* <div style={{ marginTop: '115px' }}></div> */}
             <h2 className="text-center mt-5"><u> All Verified Researchers</u></h2>
             <table className="table mt-5 text-center">
                 <thead>
@@ -104,6 +106,7 @@ const VIEWRESEARCHERS = () => {
                         <th>Profile Picture</th>
                         <th>Username</th>
                         <th>Email</th>
+                        <th>Spent Amount</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
@@ -145,8 +148,8 @@ const VIEWRESEARCHERS = () => {
             }
 
             }> Return to home page </button>
-
         </div>
+</Container>
     );
 };
 

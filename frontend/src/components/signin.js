@@ -128,9 +128,9 @@ const [loginChoice, setLoginChoice] = useState(null);
             }
 
             else {
-                console.log(parseRes);
-                setAuth(false);
                 toast.error(parseRes);
+                console.log(parseRes);  
+                setAuth(false);
             }
 
             // refresh the page

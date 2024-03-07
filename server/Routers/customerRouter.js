@@ -26,6 +26,7 @@ router.get('/get/:id',getCustomerById);
 router.post('/totalSpent',getTotalSpentByCustomer);
 
 
+
 router.post('/', authorize, async (req, res) => {
     try {
         

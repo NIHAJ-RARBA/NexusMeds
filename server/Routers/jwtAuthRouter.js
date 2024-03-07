@@ -13,6 +13,31 @@ router.get("/", (req, res) => {
 });
 
 
+router.post("/logout", async (req, res) => {
+    
+        try {
+            
+            
+            const { id } = req.body;
+            console.log("Logged out of " + id);
+
+            const temp = await client.query
+            (
+                `UPDATE LOGIN_LOG
+                SET LOGOUT_TIME = DATE_TRUNC('second', CURRENT_TIMESTAMP)
+                WHERE USER_ID = $1 AND LOGOUT_TIME IS NULL;`, [id]
+            );
+    
+        } catch (error) {
+            console.error(error.message);
+            res.status(500).send("Server error");
+        }
+    
+    }
+
+);
+
+
 router.post("/register/customer", validinfo, async (req, res) => {
 
     try {
@@ -57,6 +82,8 @@ router.post("/register/customer", validinfo, async (req, res) => {
 
         res.json({ token });
         console.log(temp.rows[0]);
+
+
 
 
     } catch (error) {
@@ -124,6 +151,17 @@ router.post("/login/customer", validinfo, async (req, res) => {
 
         // 4. give them the jwt token
 
+        // also log their login
+
+        const temp = await client.query
+        (`UPDATE LOGIN_LOG
+        SET LOGOUT_TIME = DATE_TRUNC('second', CURRENT_TIMESTAMP)
+        WHERE USER_ID = $1 AND LOGOUT_TIME IS NULL;`, [user.rows[0].customer_id]);
+
+        const temp2 = await client.query(`
+
+        INSERT INTO LOGIN_LOG (USER_ID, LOGIN_TIME) VALUES ($1, DATE_TRUNC('second', CURRENT_TIMESTAMP));`, [user.rows[0].customer_id]);
+
         const token = jwTokenGenerator(user.rows[0].customer_id);
 
         console.log(token);
@@ -135,6 +173,7 @@ router.post("/login/customer", validinfo, async (req, res) => {
     }
 
 });
+
 
 
 
@@ -240,9 +279,24 @@ router.post("/login/researcher", validinfo, async (req, res) => {
 
         // 4. give them the jwt token
 
+        // also log their login
+
+        const temp = await client.query
+        (`UPDATE LOGIN_LOG
+        SET LOGOUT_TIME = DATE_TRUNC('second', CURRENT_TIMESTAMP)
+        WHERE USER_ID = $1 AND LOGOUT_TIME IS NULL; `, [user.rows[0].researcher_id]);
+
+        const temp2 = await client.query(`
+
+        INSERT INTO LOGIN_LOG (USER_ID, LOGIN_TIME) VALUES ($1, DATE_TRUNC('second', CURRENT_TIMESTAMP));`, [user.rows[0].researcher_id]);
+
+        console.log("Login data in login log: " + temp.rows[0]);
+
         const token = jwTokenGenerator(user.rows[0].researcher_id);
 
         res.json({ token });
+
+
 
     } catch (error) {
         console.error(error.message);
