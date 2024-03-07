@@ -108,15 +108,23 @@ export const addToCart = async (req, res) => {
                 'SELECT * FROM cartChemical WHERE cart_id = $1',
                 [cart.rows[0].cart_id]
             );
+            
+        
 
+                
             for (const cartChemical of cartChemicals.rows) {
 
-                if (cartChemical.chemical_id === product_id) {
+            
+                if (parseInt(cartChemical.chemical_id) === parseInt(product_id)) {
+
+                    console.log('cart is there for the product ');
 
                     const updateCart = await client.query(
                         'UPDATE cartChemical SET quantity = quantity + $1 WHERE cart_id = $2 AND Chemical_id = $3 returning *',
                         [quantity, cartChemical.cart_id, product_id]
                     );
+
+
 
                     res.json(updateCart.rows[0]);
                     console.log(updateCart.rows[0]);
@@ -140,6 +148,18 @@ export const addToCart = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+
+        if (error.message.includes('13878')) {
+
+            console.log('Inventory error: 13878');
+            return res.status(400).json({ error: '13878' });
+
+        }else if (error.message.includes('13891')) {
+
+            console.log('Inventory error: 13891');
+            return res.status(400).json({ error: '13891' });
+
+        }
     }
 }
 

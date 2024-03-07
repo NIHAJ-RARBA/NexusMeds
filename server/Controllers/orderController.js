@@ -68,6 +68,9 @@ export const createOrder = async (req, res) => {
         //     return;
         // }
 
+
+        console.log('amit is here');
+
         const newOrder = await client.query
             ("INSERT INTO orders (cart_id, order_date, price,status, shipment_date,billing_address,prescription) VALUES ($1, $2, $3, $4,$5,$6,$7) RETURNING *",
                 [cart.rows[0].cart_id, postgresqlFormattedDate, price, false, postgresqlFormattedFutureDate, billing_address,prescription]);

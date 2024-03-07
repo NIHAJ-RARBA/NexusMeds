@@ -138,6 +138,9 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
         };
 
         try {
+
+
+
             const responseAddToCart = await fetch("http://localhost:5000/cart/add", {
                 method: "POST",
                 headers: {
@@ -145,18 +148,25 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
                 },
                 body: JSON.stringify(data)
             });
-
-            console.log(responseAddToCart);
-            toast.success("Added to cart successfully", { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
-
-            const parseRes = await responseAddToCart.json();
-            console.log(parseRes);
+            
 
             const responseGetInventory = await fetch(`http://localhost:5000/inventory/medicine/${id.id}`);
             const jsonData2 = await responseGetInventory.json();
             setInventory(jsonData2);
 
-            // console.log(jsonData2);
+
+
+
+            const parseRes = await responseAddToCart.json();
+            console.log(parseRes);
+
+            if (parseRes.error === '13878') {
+                
+                toast.error(`Available stock is ${jsonData2.stocked_amount}`, { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
+            }
+            else{
+                toast.success("Added to cart successfully", { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
+            }
 
             if (jsonData2.stocked_amount === "0") {
                 setAvailability("Not Available");
@@ -192,7 +202,7 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
                                             <p className="generes ml-0"><strong>Generics:</strong><span className="font-weight-bold" style={{ fontSize: '1rem' }}>{medicine.generic_name}</span></p>
                                         </div> */}
                                         {
-                                            !customer && chemicals.length>0 ? (
+                                            !customer && chemicals.length > 0 ? (
                                                 <div style={{ fontSize: '1.5rem' }}>
                                                     <b>Generics: </b>
                                                     {chemicals.map((chemical, index) => (

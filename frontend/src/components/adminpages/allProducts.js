@@ -39,6 +39,10 @@ const ALLPRODUCTS = () => {
         window.location = "/add-medicine";
     };
 
+    const handleAddChemical = () => {
+        window.location = "/add-chemical";
+    };
+
 
 
     useEffect(() => {
@@ -207,7 +211,7 @@ const ALLPRODUCTS = () => {
                 ))}
             </Slider>
 
-            <Button color="success" style={{ marginTop: "20px" }}>Add Chemical</Button>
+            <Button color="success" onClick={handleAddChemical} style={{ marginTop: "20px" }}>Add Chemical</Button>
 
 
         </Container>

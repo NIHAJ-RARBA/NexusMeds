@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Input, FormGroup, Label, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import OrderConfirmation from './OrderConfirmation'; // Import the OrderConfirmation component
@@ -12,6 +12,11 @@ const PlaceOrder = () => {
     let flag;
     const [prescriptionFile, setPrescriptionFile] = useState(null);
     const [deliveryCharge, setDeliveryCharge] = useState(0);
+    const [prescriptionUploaded, setPrescriptionUploaded] = useState(false);
+
+    useEffect(() => {
+        console.log("prescriptionUploaded: ", prescriptionUploaded);
+    }, [prescriptionUploaded]);
     
 
     const handlePrescriptionChange = async (e) => {
@@ -35,16 +40,22 @@ const PlaceOrder = () => {
             setPrescriptionFile(data.downloadURL);
             // console.log(data);
             // console.log(data.downloadURL);
-            console.log("Prescription uploaded successfully");
-            console.log(prescriptionFile);
+            // console.log("Prescription uploaded successfully");
+            // console.log(prescriptionFile);
 
+            setPrescriptionUploaded(true);
+            
         } catch (error) {
             console.error(error.message);
         }
 
-        
-
+    
     };
+
+    
+
+
+    
 
     for (let i = 0; i < medItems.length; i++) {
         if (medItems[i].isotc === false) {
@@ -84,14 +95,32 @@ const PlaceOrder = () => {
         setDeliveryDropdownOpen(false);
     };
 
+    // const handlePlaceOrder = () => {
+    //     if (flag && !prescriptionFile) {
+    //         // Prescription required but not uploaded
+    //         toast.error("Prescription is required for this order.");
+    //     } else {
+    //         setShowOrderConfirmation(true);
+    //     }
+    // };
+
     const handlePlaceOrder = () => {
-        if (flag && !prescriptionFile) {
+
+
+        if (flag && !prescriptionUploaded) {
             // Prescription required but not uploaded
             toast.error("Prescription is required for this order.");
         } else {
-            setShowOrderConfirmation(true);
+            // Check if payment method and delivery service are selected
+            if (!selectedPaymentMethod || !selectedDeliveryService) {
+                toast.error("Please select Payment Method and Delivery Service.");
+            } else {
+                setShowOrderConfirmation(true);
+            }
         }
     };
+
+    
 
     return (
         <Container>
