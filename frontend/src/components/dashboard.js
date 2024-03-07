@@ -1,6 +1,7 @@
 import React, {component, useEffect} from 'react';
 import { useState } from 'react';
 import EDITPROFILE from './editprofile';
+import { Button, Container, Row, Col, Card, CardTitle, CardText, CardImg, CardBody } from 'reactstrap';
 
 const DASHBOARD = ({setAuth}) => {
 
@@ -102,33 +103,56 @@ const DASHBOARD = ({setAuth}) => {
 
     return (
         <div className="DASHBOARD">
-            <div style={{ marginTop: '115px' }}></div>
-            {/* Displaying the variable values */}
-            <h3 className='mt-5'>Dashboard</h3>
+            <Container fluid>            <h3 className='mt-5'>Dashboard</h3>
             <h4 style={{paddingT: '10px'}}>Welcome, {customer_name} !</h4>
+            <Row>
+            {/* <div style={{  }}></div> */}
+                    <Col xs="auto" md={3} className="p-4" style={{height:'300px',backgroundColor: 'lightgray', marginLeft: '20px',marginTop: '115px'}}>
+                        {/* <h5>Menu</h5> */}
+                        <ul className="list-unstyled">
+                            <li><Button onClick={e => logout(e)} className="btn btn-primary mb-2">Logout</Button></li>
+                            <li><Button className="btn btn-warning mb-2" onClick={() => { window.location.href = "/"; }}>See Home Page</Button></li>
+                            <li><Button color="none" style={{ border: 'none' }}><EDITPROFILE user={user} /></Button></li>
+                        </ul>
+                    </Col>
+                    <Col xs="auto" md={9} className="p-4" style={{width:'700px'}}>
+            {/* Displaying the variable values */}
 
             
-            <div className="button-container">
-                <button onClick={e => logout(e)} className="btn btn-primary" style={{ marginRight: '10px' }}>Logout</button>
-                <button className="btn btn-warning" onClick={() => {
+            
+            {/* <div className="button-container">
+                <Button onClick={e => logout(e)} className="btn btn-primary" style={{ marginRight: '10px' }}>Logout</Button>
+                <Button className="btn btn-warning" onClick={() => {
                     window.location.href = "/";
-                }}>See Home Page</button>
-                <button style={{ border: 'none' }}><EDITPROFILE user={user}/></button>
-            </div>
+                }}>See Home Page</Button>
+                <Button color="none" style={{ border: 'none' }}><EDITPROFILE user={user}/></Button>
+            </div> */}
 
-            <p>Gender: {gender}</p>
-            <p>Email: {email}</p>
-            <p>Phone: {phone}</p>
-            <p>Date of Birth: {date_of_birth}</p>
-            <p>Profile Picture: </p>
+            <Card className="mt-3">
+                <CardTitle tag="h5"><b>Profile Information</b></CardTitle>
+                <CardBody>
+                    <CardText>Gender: {gender}</CardText>
+                    <CardText>Email: {email}</CardText>
+                    <CardText>Phone: {phone}</CardText>
+                    <CardText>Date of Birth: {date_of_birth}</CardText>
+                    <CardText>Profile Picture: </CardText>
+                    {image? (
+                        <a href={image} target="_blank" rel="noreferrer">
+                            <CardImg src={image} alt="Profile" style={{ maxWidth: '18%', height: 'auto' }} />
+                                    </a>
+                                ) : (
+                                    <CardImg src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" alt="Profile" style={{ maxWidth: '18%', height: 'auto' }} />
+                    )}
 
-            {/* Display the image */}
-            {image && <a href={image} target="_blank" rel="noopener noreferrer"><img src={image} alt="Profile" style={{ maxWidth: '18%', height: 'auto' }} /></a>}
+                    <CardText>Address: {address}</CardText>
+                    <CardText>Billing Address: {billing_address}</CardText>
 
-            <p>Address: {address}</p>
-            <p>Billing Address: {billing_address}</p>
+                            </CardBody>
+                        </Card>
+                </Col>
 
-
+            </Row>
+            </Container>
 
         </div>
     )

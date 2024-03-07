@@ -29,7 +29,7 @@ router.get('/get-Not-Verified', getNONVerifiedResearchers);
 // router.post('/create', createResearcher);
 router.get('/:email', getResearcherByEmail);
 router.put('/update/:id', updateResearcherById);
-router.delete('/delete/:id', deleteResearcherById);
+// router.delete('/delete/:id', deleteResearcherById);
 router.delete('/delete/:email', deleteResearcherByEmail);
 router.get('/getPermit/:email', getNONAPPROVEDResearcher);
 router.post('/approve-researcher', approveResearcher);

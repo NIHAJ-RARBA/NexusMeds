@@ -174,7 +174,10 @@ export const deleteResearcherById = async (req, res) => {
 
 export const deleteResearcherByEmail = async (req, res) => {
     try {
+
+        
         const { email } = req.params;
+        console.log(email);
         const deleteResearcher = await client.query("DELETE FROM Researcher WHERE email = $1", [email]);
 
         res.json({ message: "Researcher was deleted" });
