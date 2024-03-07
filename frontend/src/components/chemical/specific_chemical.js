@@ -86,7 +86,7 @@ const SpecificChemical = () => {
     };
 
     const addToCart = async () => {
-        
+
         //console.log(`Added ${quantity} ${chemical.chem_name}(s) to cart`);
 
         const data = {
@@ -94,6 +94,8 @@ const SpecificChemical = () => {
             product_id: id,
             quantity: quantity
         };
+
+        console.log(data);
 
         try {
             const responseAddToCart = await fetch("http://localhost:5000/cart/add", {
@@ -103,14 +105,32 @@ const SpecificChemical = () => {
                 },
                 body: JSON.stringify(data)
             });
-            toast.success("Added to cart successfully", { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
+
 
             const responseGetInventory = await fetch(`http://localhost:5000/inventory/chemical/${id}`);
             const jsonData2 = await responseGetInventory.json();
             setInventory(jsonData2);
 
-            if (jsonData2.stocked_amount === 0) {
+
+
+            const parseRes = await responseAddToCart.json();
+            console.log(parseRes);
+
+            if (parseRes.error === '13891') {
+
+                toast.error(`Available stock is ${jsonData2.stocked_amount}`, { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
+            } else {
+
+                toast.success("Added to cart successfully", { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
+            }
+
+
+            console.log(jsonData2.stocked_amount);
+
+            if (parseInt(jsonData2.stocked_amount) === 0) {
+
                 setAvailability("Not Available");
+
             } else {
                 setAvailability("Available");
             }
@@ -182,7 +202,7 @@ const SpecificChemical = () => {
                                     <p style={{ fontSize: '1.5rem' }}><b>molecular_weight :</b> {chemical.molecular_weight}</p>
                                     <p style={{ fontSize: '1.5rem' }}><b>description : </b>{chemical.description}</p>
                                     <p style={{ fontSize: '1.5rem' }}><b>chemical formula : </b>{chemical.chemical_formula}</p>
-                                    
+
                                 </div>
                             </div>
                         </Card>

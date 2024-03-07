@@ -15,6 +15,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER add_medicine_trigger
-AFTER ON medicine
+AFTER INSERT ON medicine
 FOR EACH ROW
 EXECUTE FUNCTION add_medicine_to_inventory();

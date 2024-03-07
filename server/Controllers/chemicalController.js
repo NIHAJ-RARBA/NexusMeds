@@ -18,7 +18,6 @@ export const createChemical = async (req, res) => {
             image,
             iupac_name,
             manufacturer_id,
-            parent_chemical_id,
             chemical_formula,
             description,
             molecular_weight,
@@ -26,8 +25,8 @@ export const createChemical = async (req, res) => {
         } = req.body;
 
         const newChemical = await client.query(
-            "INSERT INTO Chemical (chem_name, image, iupac_name, manufacturer_id, parent_chemical_id, chemical_formula, description, molecular_weight, price) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;",
-            [chem_name, image, iupac_name, manufacturer_id, parent_chemical_id, chemical_formula, description, molecular_weight, price]
+            "INSERT INTO Chemical (chem_name, image, iupac_name, manufacturer_id, chemical_formula, description, molecular_weight, price) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
+            [chem_name, image, iupac_name, manufacturer_id, chemical_formula, description, molecular_weight, price]
         );
 
         res.json(newChemical.rows[0]);
