@@ -14,7 +14,7 @@ BEGIN
         Message := 'Inventory updated.';
     ELSE
         
-        INSERT INTO inventory (medicine_id, stocked_amount,sold_amount)
+        INSERT INTO inventory (medicine_id, stocked_amount)
         VALUES (MID, QTY);
         Message := 'New record inserted into inventory.';
     END IF;

@@ -36,6 +36,7 @@ import VIEWRESEARCHERS from './components/adminpages/allResearchers';
 import ADMIN_APPROVE_RESEARCHERS from './components/admin/approve_researchers';
 import ADMIN_SPECIFICCHEM from './components/admin/admin_specificChem';
 import ADMIN_MEDSPECIFIC from './components/admin/admin_specificMed';
+import ADD_MEDICINE from './components/adminpages/addMedicine';
 
 import ALLPRODUCTS from './components/adminpages/allProducts';
 
@@ -134,6 +135,7 @@ function App() {
             <Route path="/researcher_order_confirmation" element={<RESEARCHER_ORDER_CONFIRMATION />} />
             <Route path='/admin_specificChem/:id' element={<ADMIN_SPECIFICCHEM />} />
             <Route path='/admin_specificMed/:id' element={<ADMIN_MEDSPECIFIC />} />
+            <Route path='/add-medicine' element={<ADD_MEDICINE />} />
 
 
             <Route path='/inventory' element={<INVENTORY />} />

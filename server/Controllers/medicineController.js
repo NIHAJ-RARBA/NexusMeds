@@ -33,10 +33,11 @@ export const getMedicineByIsOTC = async (req, res) => {
 
 export const createMedicine = async (req, res) => {
     try {
-        var image = req.body.image;
+
         const {
             med_name,
             price,
+            image,
             generic_name,
             package_type,
             med_form,
@@ -48,23 +49,26 @@ export const createMedicine = async (req, res) => {
             cautions
         } = req.body;
 
-        if (image === null || image === "" || image === undefined || image === '' || image === " ") {
-            image = "https://cdn.bcm.edu/sites/default/files/styles/full_width_component_image_standard/public/2022-06/pill.jpg?itok=ujCSjMfD"
-        }
-
         const newMedicine = await client.query(
             "INSERT INTO medicine (med_name, price, image, generic_name, package_type, med_form, isOTC, manufacturer_id, indication, dosage, dosageStrength, cautions) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *;",
             [med_name, price, image, generic_name, package_type, med_form, isOTC, manufacturer_id, indication, dosage, dosageStrength, cautions]
         );
-
-
-
+        
+        console.log('hello there amit');
         res.json(newMedicine.rows[0]);
         console.log(req.body);
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Internal Server Error");
+
+        // res.status(500).send("Internal Server Error");
+
+        if (error.message.includes('12407')) {
+
+            console.log('Manufacturar Error : 12407');
+            return res.status(400).json({ error: '12407' });
+
+        }
     }
 };
 
@@ -215,3 +219,20 @@ export const supplyMedicine = async (req, res) => {
         console.log(error.message);
     }
 };
+
+export const getLastAddedMedicine = async (req, res) => {
+    try {
+        const result = await client.query('SELECT * FROM medicine order by medicine_id desc limit 1');
+        res.status(200).json(result.rows);
+        
+
+        // console.log('amit saha is cringe');
+        // console.log(result.rows);
+        // console.log('abrar is cringe');
+
+
+    } catch (error) {
+        res.status(500).json({ error: error });
+        console.log(error.message);
+    }
+}
