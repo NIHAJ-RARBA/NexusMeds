@@ -20,6 +20,18 @@ const SpecificChemical = () => {
         getProfile();
     }, [id, chemical.researcher_id]);
 
+    useEffect(() => {
+        handleSetAvailability();
+    }, [inventory]);
+
+    const handleSetAvailability = () => {
+        if (parseInt(inventory.stocked_amount) === 0) {
+            setAvailability("Not Available");
+        } else {
+            setAvailability("Available");
+        }
+    }
+
     const getProfile = async () => {
         try {
             const res = await fetch(`http://localhost:5000/researcher/`, {
@@ -85,6 +97,7 @@ const SpecificChemical = () => {
         }
     };
 
+
     const addToCart = async () => {
 
         //console.log(`Added ${quantity} ${chemical.chem_name}(s) to cart`);
@@ -112,13 +125,12 @@ const SpecificChemical = () => {
             setInventory(jsonData2);
 
 
-
             const parseRes = await responseAddToCart.json();
             console.log(parseRes);
 
             if (parseRes.error === '13891') {
 
-                toast.error(`Available stock is ${jsonData2.stocked_amount}`, { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
+                toast.error(`Available stock is less than the Quantity`, { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
             } else {
 
                 toast.success("Added to cart successfully", { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
@@ -130,7 +142,6 @@ const SpecificChemical = () => {
             if (parseInt(jsonData2.stocked_amount) === 0) {
 
                 setAvailability("Not Available");
-
             } else {
                 setAvailability("Available");
             }

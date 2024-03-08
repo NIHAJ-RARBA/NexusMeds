@@ -13,6 +13,32 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
     const [customer, setCustomer] = useState(true);
     const [generics, setGenerics] = useState([]);
     const [chemicals, setChemicals] = useState([]);
+    //const [customer_cart, setCustomerCart] = useState([{}]);
+
+    // const getCustomerCartById = async () => {
+    //     try {
+
+    //         console.log('customer_id is here' + customer_id);
+
+    //         const response = await fetch(`http://localhost:5000/cart/get`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 token: localStorage.token
+    //             },
+    //             body: JSON.stringify({ user_id: customer_id })
+    //         });
+
+    //         const parseRes = await response.json();
+    //         setCustomerCart(parseRes);
+
+    //         // console.log('amit is here');
+    //         // console.log(parseRes);
+    //     } catch (error) {
+    //         console.error(error.message);
+    //     }
+    // }
+
 
 
 
@@ -26,7 +52,7 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
 
 
             const parseRes = await res.json();
-            // console.log(parseRes);
+            //console.log(parseRes);
             // console.log(parseRes.customer_id);
 
             if (parseRes === 'No user found' || parseRes === null || parseRes === undefined || parseRes === "") {
@@ -39,8 +65,8 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
 
 
 
-
         } catch (error) {
+
             console.error(error.message);
         }
     }
@@ -51,6 +77,8 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
     const [manufacturer, setManufacturer] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [inventory, setInventory] = useState({});
+
+
 
     const getInventory = async () => {
         try {
@@ -120,7 +148,27 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
         getProfile();
         getMedicine();
         getInventory();
+        // getCustomerCartById();
+        handleSetAvailability();
     }, []);
+
+    const handleSetAvailability = () => {
+        if (inventory.stocked_amount === "0") {
+            setAvailability("Not Available");
+        } else {
+            setAvailability("Available");
+        }
+    }
+
+
+
+    // useEffect(() => {
+    //     if (customer_id !== "") {
+    //         getCustomerCartById();
+    //     }
+    // }, [customer_id]);
+
+
 
     const addToCart = async () => {
         if (!loggedIn) {
@@ -140,7 +188,6 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
         try {
 
 
-
             const responseAddToCart = await fetch("http://localhost:5000/cart/add", {
                 method: "POST",
                 headers: {
@@ -148,23 +195,24 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
                 },
                 body: JSON.stringify(data)
             });
-            
+
+            const jsonData = await responseAddToCart.json();
+            console.log(jsonData);
 
             const responseGetInventory = await fetch(`http://localhost:5000/inventory/medicine/${id.id}`);
             const jsonData2 = await responseGetInventory.json();
             setInventory(jsonData2);
 
 
+            if (jsonData.error === '13878') {
 
+                toast.error(`Available stock is less than the Quantity`, { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
 
-            const parseRes = await responseAddToCart.json();
-            console.log(parseRes);
-
-            if (parseRes.error === '13878') {
-                
-                toast.error(`Available stock is ${jsonData2.stocked_amount}`, { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
             }
-            else{
+            else {
+
+                //iterate through the cart and check if the product is already in the cart
+
                 toast.success("Added to cart successfully", { autoClose: 2000, position: "top-center", hideProgressBar: true, pauseOnHover: false, draggable: true, progress: 0.00 });
             }
 
@@ -214,7 +262,7 @@ const MEDSPECIFIC = ({ isLoggedIn, setAuth }) => {
                                                         </span>
                                                     ))}
                                                 </div>
-                                            ) : chemicals.length === 0 ? (
+                                            ) : !customer && chemicals.length === 0 ? (
                                                 <div style={{ fontSize: '1.5rem' }}>
                                                     <b>Generics: </b>
                                                     {

@@ -318,6 +318,8 @@ export const getCart = async (req, res) => {
     try {
         const { user_id } = req.body;
 
+        console.log("amit saha is here " + user_id );
+
         const cart = await client.query(
             'SELECT * FROM CART WHERE cart_id = (\
                     SELECT cart_id FROM cart \
