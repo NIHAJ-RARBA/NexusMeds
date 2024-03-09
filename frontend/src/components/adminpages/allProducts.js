@@ -170,6 +170,7 @@ const ALLPRODUCTS = () => {
                     <div key={chemical.chemical_id} className="col mb-4">
                         <Card
                             className="h-100 medicine-box"
+                            onClick={() => gotoSpecificChemical(chemical.chemical_id)}
                             style={{
                                 borderRadius: "10px",
                                 boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.6)",

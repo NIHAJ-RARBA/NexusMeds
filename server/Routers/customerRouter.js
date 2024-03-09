@@ -12,7 +12,9 @@ import {
     deleteCustomerByEmail,
     getCustomerById,
     updateCustomerByEmail,
-    getTotalSpentByCustomer
+    getTotalSpentByCustomer,
+    getPendingOrders,
+    getOrderHistory
 } from '../Controllers/customerController.js';
 import { get } from 'http';
 
@@ -24,6 +26,10 @@ router.put('/update/:email', updateCustomerByEmail);
 router.delete('/delete/:email', deleteCustomerByEmail);
 router.get('/get/:id',getCustomerById);
 router.post('/totalSpent',getTotalSpentByCustomer);
+router.post('/pendingOrders',getPendingOrders);
+router.post('/orderHistory',getOrderHistory);
+
+
 
 
 

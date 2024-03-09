@@ -7,7 +7,7 @@ VALUES
     (5, 4, 'Active Ingredient'),  -- Optimox - Povidone-Iodine
     (6, 5, 'Active Ingredient'),  -- Orsaline-N - ORS
     (7, 7, 'Active Ingredient'),
-	  (7, 6, 'Active Ingredient'),		-- Savlon - Cetrimide
+	(7, 6, 'Active Ingredient'),		-- Savlon - Cetrimide
     (8, 4, 'Active Ingredient'),  -- Savlon - Chlorhexidine Gluconate
     (9, 8, 'Active Ingredient'), -- Methyphen - Methylphenidate
     (10, 9, 'Active Ingredient');

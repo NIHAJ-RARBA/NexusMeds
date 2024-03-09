@@ -58,5 +58,30 @@ export const getProductsInventory = async (req,res) =>{
 }
 
 
+export const checkAvailability = async (req, res) => {
+    try {
+        const { order_id, myCustomer } = req.body;
+
+        console.log('amit is here');
+        console.log(order_id, myCustomer);
+        const result = await client.query("SELECT * FROM checkInventory($1,$2)", [order_id, myCustomer]);
+
+        console.log(result.rows);
+        res.status(200).json({ message: 'Inventory checked successfully' });
+
+    } catch (error) {
+        
+        console.log(error.message);
+        
+        if (error.message.includes('56789')) {
+
+            console.log('Inventory error: 56789');
+            return res.status(400).json({ error: '56789' });
+
+        }
+    }
+}
+
+
 
 

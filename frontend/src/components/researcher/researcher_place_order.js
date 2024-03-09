@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Input, FormGroup, Label, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import OrderConfirmation from './researcher_order_confirmation.js'; // Import the OrderConfirmation component
@@ -8,8 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 const PlaceOrder = () => {
     const location = useLocation();
     const { chemItems, quantity, user_id } = location.state;
-    let discount = 10;
+    const [discount, setDiscount] = useState(0);
     const [deliveryCharge, setDeliveryCharge] = useState(0);
+    const [totalSpentByUser, setTotalSpentByUser] = useState(0);
     
 
     const paymentMethods = ["Cash", "bKash", "Nagad", "Bank Transfer"];
@@ -39,6 +40,40 @@ const PlaceOrder = () => {
             setDeliveryCharge(0);
         }
         setDeliveryDropdownOpen(false);
+    };
+
+    useEffect(() => {
+        getTotalSpentByUser();
+    }, [user_id]);
+
+    const getTotalSpentByUser = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/customer/totalSpent", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: user_id })
+            });
+
+            const parseRes = await response.json();
+            console.log(parseRes);
+            setTotalSpentByUser(parseRes.sum);
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
+    const calculateDiscount = (total) => {
+        
+        if(totalSpentByUser >= 10000) {
+            return total * 0.1;
+        }
+        else if (totalSpentByUser >= 5000) {
+            return total * 0.05;
+        } else if (totalSpentByUser >= 1000) {
+            return total * 0.01;
+        } else {
+            return 0;
+        }
     };
 
     const handlePlaceOrder = () => {
@@ -96,7 +131,7 @@ const PlaceOrder = () => {
                         </FormGroup>
                         <FormGroup>
                             <div style={{ border: '1px solid #ccc', borderRadius: '4px', textAlign: 'center', padding: '1px' }}>
-                                <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ fontWeight: 'bold', margin: 'auto', fontSize: '14px', color: '#333' }}>Discount : ৳{discount} </CardSubtitle>
+                                <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ fontWeight: 'bold', margin: 'auto', fontSize: '14px', color: '#333' }}>Discount : ৳{calculateDiscount(chemItems.reduce((acc, item) => acc + (item.price * quantity[item.chemical_id]), 0).toFixed(2))} </CardSubtitle>
                             </div>
                         </FormGroup>
                         <FormGroup>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Input, Form } from 'reactstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const CART = () => {
     const [customer_id, setCustomerId] = useState("");
@@ -107,8 +108,8 @@ const CART = () => {
 
             // Check if cart will be empty, if so, clear the cart
             if (newCartItems.length === 0) {
-                
-                
+
+
                 setMedItems([]);
                 setQuantity({});
                 setSubtotal(0);
@@ -130,6 +131,12 @@ const CART = () => {
 
     const handleQuantityChange = async (medicine_id, newQuantity) => {
         try {
+
+            if (newQuantity === 0) {
+                await removeFromCart(medicine_id);
+                return;
+            }
+            
             // Check the current quantity in the cart
             const currentQuantity = quantity[medicine_id];
             // Calculate the quantity difference
@@ -155,7 +162,7 @@ const CART = () => {
 
             // Add or remove items from the cart in the database based on quantity difference
             if (quantityDifference > 0) {
-                await fetch(`http://localhost:5000/cart/add`, {
+                const response = await fetch(`http://localhost:5000/cart/add`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -163,6 +170,28 @@ const CART = () => {
                     },
                     body: JSON.stringify({ user_id: customer_id, product_id: medicine_id, quantity: quantityDifference })
                 });
+
+                const jsonData = await response.json();
+
+                if (jsonData.error === '13878') {
+                    toast.error('Sorry, we are out of stock for this item');
+                    // Restore the previous quantity in the state
+                    setQuantity(prevQuantity => ({
+                        ...prevQuantity,
+                        [medicine_id]: currentQuantity
+                    }));
+                    // Restore the previous quantity in the cartItems state
+                    const restoredCartItems = cartItems.map(item => {
+                        if (item.medicine_id === medicine_id) {
+                            return {
+                                ...item,
+                                quantity: currentQuantity
+                            };
+                        }
+                        return item;
+                    });
+                    setCartItems(restoredCartItems);
+                }
             } else if (quantityDifference < 0) {
                 await fetch(`http://localhost:5000/cart/remove`, {
                     method: "POST",
@@ -173,6 +202,8 @@ const CART = () => {
                     body: JSON.stringify({ user_id: customer_id, product_id: medicine_id, quantity: -quantityDifference })
                 });
             }
+
+
         } catch (error) {
             console.error(error.message);
         }
