@@ -92,7 +92,7 @@ const ALLPRODUCTS = () => {
     };
 
     return (
-        <Container style={{ height: "500px" }}>
+        <Container style={{ height: "1300px" }}>
             <div style={{ marginTop: "60px" }}></div>
             {loading && (
                 <div className="text-center">

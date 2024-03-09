@@ -68,10 +68,10 @@ const Footer = () => {
                           <li onClick={() => handleClick('/viewmedicines')}>Medicines<br/></li>
                           {/* <li onClick={() => handleClick('/all-chemicals')}>Chemicals</li> */}
                           {/* <li onClick={() => handleClick('/viewotc')}>OTC Medicines</li> */}
-                          <li onClick={() => handleClick('/viewusers')}>Users<br/></li>
+                          {/* <li onClick={() => handleClick('/viewusers')}>Users<br/></li>
                           <li onClick={() => handleClick('/dashboard')}>Dashboard<br/></li>
                           <li onClick={() => handleClick('/researcher')}>Researcher<br/></li>
-                          <li onClick={() => handleClick('/admin')}>Admin<br/></li>
+                          <li onClick={() => handleClick('/admin')}>Admin<br/></li> */}
                       </ul>
                   </div>
                   <div className="col-md-6">
