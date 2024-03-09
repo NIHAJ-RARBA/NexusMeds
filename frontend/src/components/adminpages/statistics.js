@@ -435,7 +435,7 @@ const STATISTICS = () => {
 
 
     return (
-        <Container>
+        <Container style={{height: '1280px'}}>
             <div style={{ marginTop: '115px' }}></div>
             <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
                 <Button color="primary" onClick={() => handleGroupButtonClick('orders')}>Orders</Button>
