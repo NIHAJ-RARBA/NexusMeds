@@ -50,13 +50,13 @@ RETURNS TRIGGER AS $$
 DECLARE
     v_error_code INTEGER;
 BEGIN
-    -- Check if the medicine_id exists in the Inventory
+    
     IF NOT EXISTS (SELECT 1 FROM Inventory WHERE medicine_id = NEW.medicine_id) THEN
         v_error_code := 13877;
         RAISE EXCEPTION 'Error Code: %', v_error_code;
     END IF;
 
-    -- Check if stocked_amount is sufficient
+    
     IF (SELECT stocked_amount FROM Inventory WHERE medicine_id = NEW.medicine_id) < NEW.quantity THEN
         v_error_code := 13878;
         RAISE EXCEPTION 'Error Code: %', v_error_code;

@@ -44,9 +44,9 @@ DECLARE
     PRODUCT_ID INTEGER;
     QTY INTEGER;
 BEGIN
-    -- Check if the operation is DELETE
+    
     IF TG_OP = 'DELETE' THEN
-        -- If the status is already false, no need to insert into history
+        
 
         SELECT CUSTOMER_ID INTO USR_ID FROM CART WHERE OLD.CART_ID = cart_id AND researcher_id IS NULL;
 
@@ -68,14 +68,14 @@ BEGIN
             
         END IF;
 
-        -- Insert into ORDER_HISTORY
+        
         INSERT INTO ORDER_HISTORY (shipment_date, status, price, order_date, cart_id, USER_ID)
         VALUES (OLD.shipment_date, OLD.status, OLD.price, OLD.order_date, OLD.cart_id, USR_ID);
 
         RETURN OLD;
     END IF;
 
-    RETURN NULL; -- For other operations like INSERT or UPDATE
+    RETURN NULL; 
 END;
 $$ LANGUAGE plpgsql;
 
