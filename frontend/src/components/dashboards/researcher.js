@@ -166,8 +166,8 @@ const RESEARCHER = ({ setAuth }) => {
                             <li><Button onClick={e => logout(e)} className="btn btn-primary mb-2">Logout</Button></li>
                             <li><Button className="btn btn-warning mb-2" onClick={() => { window.location.href = "/"; }}>See Home Page</Button></li>
                             <li><Button color="none" style={{ border: 'none' }}><EDITPROFILE user={user} /></Button></li>
-                            <li><Button className="btn btn-success mb-2" onClick={toggleShowPendingOrders}>Pending Orders</Button></li>
-                            <li><Button className="btn btn-success mb-2" onClick={toggleShowOrderHistory}>Order History</Button></li>
+                            <li><Button className="btn btn-warning mb-2" onClick={toggleShowPendingOrders}>Pending Orders</Button></li>
+                            <li><Button className="btn btn-warning mb-2" onClick={toggleShowOrderHistory}>Order History</Button></li>
                         </ul>
                     </Col>
                     <Col xs="auto" md={9} className="p-4" style={{ width: '700px' }}>
