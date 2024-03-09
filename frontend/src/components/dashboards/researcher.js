@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardImg, CardText, CardTitle, Container, Row, Col } from 'reactstrap';
 import EDITPROFILE from './editprofile';
-import pfp from './images/Windows-10-user-icon-big.png';
+import pfp from '../images/Windows-10-user-icon-big.png';
 import { Table } from 'reactstrap';
 const moment = require('moment');
 

@@ -1,6 +1,6 @@
 import React, {component, useEffect} from 'react';
 import { useState } from 'react';
-import pfp from './images/Windows-10-user-icon-big.png';
+import pfp from '../images/Windows-10-user-icon-big.png'
 
 const ADMIN = ({setAuth}) => {
 
