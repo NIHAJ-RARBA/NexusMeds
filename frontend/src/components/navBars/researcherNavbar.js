@@ -1,6 +1,6 @@
 import React from 'react';
-import GREETINGS_DROPDOWN from './greetings_dropdown';
-import RESEARCHER from './researcher';
+import GREETINGS_DROPDOWN from '../greetings_dropdown';
+import RESEARCHER from '../dashboards/researcher';
 import { useState, useEffect } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 

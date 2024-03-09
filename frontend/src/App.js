@@ -7,16 +7,16 @@ import { useState, useEffect } from 'react';
 import HOMEPAGE from './components/homepage';
 import SIGNIN from './components/signin';
 import SIGNUP from './components/signup';
-import EDITPROFILE from './components/editprofile';
+import EDITPROFILE from './components/dashboards/editprofile';
 import VIEWUSERS from './components/adminpages/viewusers';
-import DASHBOARD from './components/dashboard';
-import NAVBAR from './components/navbar';
+import DASHBOARD from './components/dashboards/dashboard';
+import NAVBAR from './components/navBars/navbar';
 import MEDSPECIFIC from './components/medicine/specificMedicine';
 import VIEWOTC from './components/medicine/viewOTC';
 import INDICATIONS from './components/medicine/otcIndications';
-import CART from './components/cart';
-import PLACE_ORDER from './components/place_order';
-import ADMIN from './components/admin';
+import CART from './components/dashboards/cart';
+import PLACE_ORDER from './components/dashboards/place_order';
+import ADMIN from './components/dashboards/admin';
 import ADMIN_APPROVE_ORDERS from './components/admin/approve_orders';
 import ADMIN_APPROVE_SPECIFIC_ORDER from './components/admin/approve_specific_order';
 
@@ -29,7 +29,7 @@ import VIEWPRESCRIPTIONMEDS from './components/medicine/viewPrescriptionMeds';
 import SorryPage from './components/sorry';
 import SEARCHRESULTS from './components/medicine/medSearchResults';
 import CHEMRESULTSEARCH from './components/chemical/chemSearchResults';
-import RESEARCHER from './components/researcher';
+import RESEARCHER from './components/dashboards/researcher';
 import VIEWMEDICINES from './components/medicine/viewmedicines';
 import VIEWCHEMICALS from './components/chemical/viewchemical';
 import VIEWRESEARCHERS from './components/adminpages/allResearchers';
@@ -58,7 +58,7 @@ const Footer = () => {
   };
 
   return (
-      <footer style={{ backgroundColor: '#333', color: '#fff', padding: '20px 0', textAlign: 'center' }}>
+      <footer style={{ backgroundColor: '#333', color: '#fff', padding: '20px 0', textAlign: 'center', marginTop:'30px' }}>
           <div className="container">
               <div className="row">
                   <div className="col-md-6">
@@ -68,10 +68,10 @@ const Footer = () => {
                           <li onClick={() => handleClick('/viewmedicines')}>Medicines<br/></li>
                           {/* <li onClick={() => handleClick('/all-chemicals')}>Chemicals</li> */}
                           {/* <li onClick={() => handleClick('/viewotc')}>OTC Medicines</li> */}
-                          {/* <li onClick={() => handleClick('/viewusers')}>Users<br/></li>
-                          <li onClick={() => handleClick('/dashboard')}>Dashboard<br/></li>
-                          <li onClick={() => handleClick('/researcher')}>Researcher<br/></li>
-                          <li onClick={() => handleClick('/admin')}>Admin<br/></li> */}
+                          {/* <li onClick={() => handleClick('/viewusers')}>Users<br/></li> */}
+                          {/* <li onClick={() => handleClick('/dashboard')}>Dashboard<br/></li> */}
+                          {/* <li onClick={() => handleClick('/researcher')}>Researcher<br/></li> */}
+                          {/* <li onClick={() => handleClick('/admin')}>Admin<br/></li> */}
                       </ul>
                   </div>
                   <div className="col-md-6">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import GREETINGS_DROPDOWN from './greetings_dropdown';
+import GREETINGS_DROPDOWN from '../greetings_dropdown';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 let firstTime = true;
