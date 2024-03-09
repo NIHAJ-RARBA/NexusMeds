@@ -227,7 +227,7 @@ const ADD_MEDICINE = () => {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="dosageStrength">Dosage Strength</Label>
+                        <Label for="dosageStrength">Dosage Strength (mg)</Label>
                         <Input
                             type="number"
                             name="dosageStrength"

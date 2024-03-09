@@ -164,6 +164,7 @@ const NAVBAR = ({isLoggedIn, setAuth,  searchResult}) => {
             localStorage.removeItem("token");
             setAuth(false);
             console.log("Logged out successfully");
+            window.location = "/";
         
         } catch (error) {
             console.error(error.message);

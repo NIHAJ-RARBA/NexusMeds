@@ -225,7 +225,7 @@ const RESEARCHER_CART = () => {
                             <CardBody style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                 <div>
                                     <CardTitle tag="h5">{item.chem_name}</CardTitle>
-                                    <CardSubtitle tag="h6" className="mb-2 text-muted">Total Price: ${(item.price * quantity[item.chemical_id]).toFixed(2)}</CardSubtitle>
+                                    <CardSubtitle tag="h6" className="mb-2 text-muted">Total Price: ৳{(item.price * quantity[item.chemical_id]).toFixed(2)}</CardSubtitle>
                                 </div>
                                 <div className="d-flex justify-content-center align-items-center">
                                     <Button color="secondary" onClick={() => handleQuantityChange(item.chemical_id, quantity[item.chemical_id] - 1)}>-</Button>
