@@ -1,6 +1,7 @@
 import React from "react";
 import VIEWMEDICINES from "./medicine/viewmedicines";
 import DefaultSlider from "./defaultSlider";
+import { Alert, Container } from "reactstrap";
 
 
 const HOMEPAGE = () => {
@@ -39,6 +40,15 @@ const HOMEPAGE = () => {
     </div>
 </div>
 
+            
+            <div>
+                <Alert  style={{ textAlign: "center", marginTop: '20px'}}> <h1>WELCOME TO NEXUSMEDS</h1> </Alert>
+                {/* <Alert color="warning" style={{ textAlign: "center", marginTop: '20px' }}> <h3>One Stop Shop for all your Medical Needs</h3> </Alert> */}
+
+                <Container style={{ textAlign: "center", marginTop: '20px' }}>
+                <Alert color="warning" style={{ textAlign: "center", marginTop:'20px' }}> <h3>Some Featured Categories</h3> </Alert>
+                </Container>
+            </div>
 
             <DefaultSlider />
 
