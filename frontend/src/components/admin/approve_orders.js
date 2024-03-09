@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardBody, CardText, Button, Container } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from 'reactstrap';
-import PaginationBar from '../paginationBar';
 import moment from 'moment';
 
 const ApproveOrders = () => {
@@ -163,8 +162,6 @@ const ApproveOrders = () => {
                     </Card>
                 ))
             )}
-            {/* Pagination */}
-            <PaginationBar currentPage={currentPage} totalPages={Math.ceil(orders.length / ordersPerPage)} paginate={paginate} />
         </Container>
     );
 };

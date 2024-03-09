@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Container, Row, Col, Button } from 'reactstrap';
-import PaginationBar from '../paginationBar';
 
 const INVENTORY = () => {
 
     const [inventory, setInventory] = useState([]);
     const [isMedicine, setIsMedicine] = useState(false);
     const [quantityToBuy, setQuantityToBuy] = useState({});
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5);
+    const [sortAscending, setSortAscending] = useState(true);
 
     const getInventory = async () => {
         try {
@@ -75,14 +73,35 @@ const INVENTORY = () => {
         getInventory();
     }, [isMedicine]);
 
-    // Pagination logic
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = inventory.slice(indexOfFirstItem, indexOfLastItem);
+    
 
-    const handlePagination = (pageNumber) => {
-        setCurrentPage(pageNumber);
+    const handleClickStockedAmount = () => {
+        console.log('Stocked Amount clicked');
+        // Determine sorting direction based on current state
+        const newSortAscending = !sortAscending;
+        // Sort the inventory based on the new sorting direction
+        const sortedInventory = [...inventory].sort((a, b) => {
+            return newSortAscending ? a.stocked_amount - b.stocked_amount : b.stocked_amount - a.stocked_amount;
+        });
+        setInventory(sortedInventory);
+        setSortAscending(newSortAscending);
     };
+    
+    
+
+
+    const handleClickSoldAmount = () => {
+        console.log('Sold Amount clicked');
+        // Determine sorting direction based on current state
+        const newSortAscending = !sortAscending;
+        // Sort the inventory based on the new sorting direction
+        const sortedInventory = [...inventory].sort((a, b) => {
+            return newSortAscending ? a.sold_amount - b.sold_amount : b.sold_amount - a.sold_amount;
+        });
+        setInventory(sortedInventory);
+        setSortAscending(newSortAscending);
+    };
+    
 
     return (
         <Container>
@@ -130,13 +149,13 @@ const INVENTORY = () => {
                                     <th>Product ID</th>
                                     <th>Product Name</th>
                                     <th>Image</th>
-                                    <th>Stocked Amount</th>
-                                    <th>Sold Amount</th>
+                                    <th onClick={handleClickStockedAmount}>Stocked Amount &#11206;</th>
+                                    <th onClick={handleClickSoldAmount}>Sold Amount &#11206;</th>
                                     <th>Supply Request</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {currentItems.map((item) => (
+                                {inventory.map((item) => (
                                     <tr key={item.inventory_id}>
                                         {isMedicine ? (
                                             <>
@@ -186,12 +205,6 @@ const INVENTORY = () => {
                     </Card>
                 </Col>
             </Row>
-            {/* Pagination */}
-            <PaginationBar
-                currentPage={currentPage}
-                totalPages={Math.ceil(inventory.length / itemsPerPage)}
-                paginate={handlePagination}
-            />
         </Container>
     )
 };
