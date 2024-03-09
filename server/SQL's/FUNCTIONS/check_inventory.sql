@@ -26,12 +26,12 @@ BEGIN
             O.order_id = o_id
     LOOP
         IF isCustomer THEN
-            -- Get the stocked_amount for the current medicine_id
+            
             SELECT stocked_amount INTO stock_amnt
             FROM inventory
             WHERE medicine_id = product.product_id;
         ELSE
-            -- Get the stocked_amount for the current chemical_id
+            
             SELECT stocked_amount INTO stock_amnt
             FROM inventory
             WHERE chemical_id = product.product_id;
@@ -41,12 +41,12 @@ BEGIN
             v_error_code := 56789;
             RAISE EXCEPTION 'Error Code: %', v_error_code;
         ELSE
-            -- Return the product_id, product_quantity, stock_amnt, and v_error_code
+            
             RETURN NEXT;
         END IF;
     END LOOP;
 
-    -- If no exceptions raised, return an empty result
+    
     RETURN;
 END;
 $$ LANGUAGE plpgsql;
