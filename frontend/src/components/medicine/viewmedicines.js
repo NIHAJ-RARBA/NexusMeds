@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody, CardImg, CardText, CardTitle, Container, Button, Row, Col } from "reactstrap";
+import { Card, CardBody, CardImg, CardText, CardTitle, Container, Button, Row, Col, Alert } from "reactstrap";
 import PaginationBar from "../paginationBar";
 
 const VIEWMEDICINES = () => {
@@ -57,7 +57,7 @@ const VIEWMEDICINES = () => {
     return (
         <Container>
             <div style={{ marginTop: '115px' }}></div>
-            <h2 className="text-center mt-5"><u>Available Medicines</u></h2>
+            <Alert color='primary' style={{fontSize : '30px'}}>Available Medicines</Alert>
             <Row>
                 <Col md={12}>
                     <Row className="row-cols-1 row-cols-md-4">

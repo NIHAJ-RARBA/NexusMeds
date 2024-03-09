@@ -52,6 +52,44 @@ import STATISTICS from './components/adminpages/statistics';
 
 
 
+const Footer = () => {
+  const handleClick = (path) => {
+      window.location = path;
+  };
+
+  return (
+      <footer style={{ backgroundColor: '#333', color: '#fff', padding: '20px 0', textAlign: 'center' }}>
+          <div className="container">
+              <div className="row">
+                  <div className="col-md-6">
+                      <h5><b>Quick Links</b></h5>
+                      <ul className="list-unstyled">
+                          <li onClick={() => handleClick('/')}>Home<br/></li>
+                          <li onClick={() => handleClick('/viewmedicines')}>Medicines<br/></li>
+                          {/* <li onClick={() => handleClick('/all-chemicals')}>Chemicals</li> */}
+                          {/* <li onClick={() => handleClick('/viewotc')}>OTC Medicines</li> */}
+                          <li onClick={() => handleClick('/viewusers')}>Users<br/></li>
+                          <li onClick={() => handleClick('/dashboard')}>Dashboard<br/></li>
+                          <li onClick={() => handleClick('/researcher')}>Researcher<br/></li>
+                          <li onClick={() => handleClick('/admin')}>Admin<br/></li>
+                      </ul>
+                  </div>
+                  <div className="col-md-6">
+                      <h5><b>Contact Info</b></h5>
+                      <p>Address: BUET</p>
+                      <p>Email: <br/>altairahad001@gmail.com<br/>sahaamit20002@gmail.com</p>
+                      <p>Phone: 01555555555</p>
+                  </div>
+              </div>
+          </div>
+          <div className="text-center mt-3">
+              <p>&copy; {new Date().getFullYear()} NEXUSMEDS. ALL RIGHTS RESERVED</p>
+          </div>
+      </footer>
+  );
+};
+
+
 
 
 function App() {
@@ -96,7 +134,7 @@ function App() {
 
 
   return (
-    <div className="App" style={{ fontFamily: 'Roboto Mono, monospace', fontFamily: 'Roboto Slab, serif', backgroundColor: '#f9fdff' }}>
+    <div className="App" style={{ fontFamily: 'Roboto Mono, monospace', fontFamily: 'Roboto Slab, serif', backgroundColor: '#f9fdff'}}>
       {/* <h1 className="text-center mt-5">NEXUSMEDS</h1> */}
       <br></br>
       <NAVBAR isLoggedIn={isAuthenticated} setAuth={setAuth} searchResult={searchResults}/>
@@ -194,8 +232,9 @@ function App() {
         </Router>
 
 
-      </div>
 
+      </div>
+              <Footer />
     </div>
   );
 }

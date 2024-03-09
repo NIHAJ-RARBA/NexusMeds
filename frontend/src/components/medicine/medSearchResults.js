@@ -31,6 +31,7 @@ const SEARCHRESULTS = () => {
     // Change page
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
+        window.scrollTo(0, 0);
     };
 
     const gotoSpecificMedicine = (medicine_id) => {

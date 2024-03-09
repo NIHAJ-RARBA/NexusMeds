@@ -129,7 +129,7 @@ const [loginChoice, setLoginChoice] = useState(null);
 
             else {
                 toast.error(parseRes);
-                console.log(parseRes);  
+                console.log(parseRes);
                 setAuth(false);
             }
 

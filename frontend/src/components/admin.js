@@ -64,7 +64,7 @@ const ADMIN = ({setAuth}) => {
     }, []);
 
     return (
-        <div className="ADMIN">
+        <div className="ADMIN" style={{height:'100vh'}}>
             <div style={{ marginTop: '115px' }}></div>
             {/* Displaying the variable values */}
             <h3 className='mt-5'>Admin Dashboard</h3>

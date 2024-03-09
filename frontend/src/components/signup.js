@@ -115,7 +115,12 @@ const SIGNUP = ({ setAuth }) => {
                 // console.log(parseRes.token);
                 setAuth(false);
                 toast.success("Your application is now awaiting approval. Meanwhile, take a look around!");
-                window.location.reload();
+                
+                // when the toast is done, redirect to the homepage
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 5000);
+
             } else {
                 console.log(parseRes);
                 setAuth(false);

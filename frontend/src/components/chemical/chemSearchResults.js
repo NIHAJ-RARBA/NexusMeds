@@ -26,8 +26,12 @@ const CHEMRESULTSEARCH = () => {
     const gotoSpecificChem = (chemical_id) => {
         window.location.href = `/specific_chemical/${chemical_id}`;
     };
-
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    // Change page
+    const paginate = pageNumber => 
+    {
+        setCurrentPage(pageNumber);
+        window.scrollTo(0, 0);
+    }
 
     return (
         <Container>

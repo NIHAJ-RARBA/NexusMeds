@@ -222,7 +222,7 @@ const CART = () => {
     }
 
     return (
-        <Container>
+        <Container style={{height:'100vh'}}>
             {/* <div style={{ marginTop: '115px' }}></div> */}
             <h1 className="text-center mt-5">Your Cart</h1>
             <Col>

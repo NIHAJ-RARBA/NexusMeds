@@ -20,6 +20,7 @@ const DASHBOARD = ({ setAuth }) => {
     const [orderHistoryData, setOrderHistoryData] = useState([]);
 
     const [pendingOrdersData, setPendingOrdersData] = useState([]);
+    
 
     const getPendingOrders = async () => {
         try {

@@ -40,13 +40,13 @@ const ADD_MEDICINE = () => {
         console.log(e.target.files[0]);
         const file = e.target.files[0];
 
-        const formData = new FormData();
-        formData.append('product', file);
+        const formDataFile = new FormData();
+        formDataFile.append('product', file);
 
         try {
             const response = await fetch("http://localhost:5000/productUpload", {
                 method: "POST",
-                body: formData,
+                body: formDataFile,
             });
 
             if (!response.ok) {
@@ -66,11 +66,9 @@ const ADD_MEDICINE = () => {
         }
     };
 
-
-
-
     const sendMedicineData = async () => {
         try {
+            console.log('amit is here22', formData);
             const response = await fetch("http://localhost:5000/medicine/create", {
                 method: "POST",
                 headers: {
@@ -78,12 +76,14 @@ const ADD_MEDICINE = () => {
                 },
                 body: JSON.stringify(formData),
             });
+            console.log('amit is here22', formData);
 
             if (!response.ok) {
                 throw new Error("Something went wrong!");
             }
 
             const data = await response.json();
+            console.log(data);
             return data;
 
         } catch (error) {
@@ -93,6 +93,7 @@ const ADD_MEDICINE = () => {
 
     const handleSubmit = async () => {
         try {
+            
             // Check if any form item is empty
             for (const key in formData) {
                 if (key !== 'isOTC' && !formData[key]) {
@@ -101,10 +102,12 @@ const ADD_MEDICINE = () => {
                 }
             }
 
+            console.log('amit is here33');
+
             const addedMedicine = await sendMedicineData();
 
             toast.success("Medicine added successfully!");
-            window.location = `/specificmedicine/${addedMedicine.medicine_id}`;
+            window.location = `/admin_specificMed/${addedMedicine.medicine_id}`;
 
         } catch (error) {
             console.error("Error submitting form:", error.message);

@@ -32,6 +32,7 @@ const VIEWCHEMICALS = () => {
     // Handle page change
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
+        window.scrollTo(0, 0);
     };
 
     return (
