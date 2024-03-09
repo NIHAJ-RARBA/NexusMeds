@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Container } from "reactstrap";
+import PaginationBar from "../paginationBar";
 
 const VIEWRESEARCHERS = () => {
 
@@ -9,6 +10,11 @@ const VIEWRESEARCHERS = () => {
     const [userList, setuserList] = useState([]);
     const [userSpentList, setuserSpentList] = useState([]);
     const [userListWithSpent, setuserListWithSpent] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5);
+
+    // Get current posts
+
 
     const getUsers = async () => {
 
@@ -94,6 +100,16 @@ const VIEWRESEARCHERS = () => {
         getAllSpentAmounts();
     }, [userList]);
 
+    useEffect(() => {
+        getUsers();
+    }, [currentPage]);
+
+    const handlePagination = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+// Slice the userListWithSpent array to display the correct number of items per page
+const slicedUserListWithSpent = userListWithSpent.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
     
     return (
             <Container>
@@ -125,7 +141,7 @@ const VIEWRESEARCHERS = () => {
                         </tr>
                     ))} */}
 
-                    {userListWithSpent.map((user, index) => (
+                    {slicedUserListWithSpent.map((user, index) => (
                         <tr key={user.user.researcher_id}>
                             <td><img src={user.user.image} alt="User Icon" style={{ width: 'auto', height: '60px', marginLeft: '10px' }} /></td>
                             <td>{user.user.researcher_name}</td>
@@ -138,6 +154,9 @@ const VIEWRESEARCHERS = () => {
                     ))}
                 </tbody>
             </table>
+
+            <PaginationBar currentPage={currentPage} totalPages={Math.ceil(userList.length / itemsPerPage)} paginate={handlePagination} />
+            
                     
             <br />
             <br />

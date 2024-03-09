@@ -18,9 +18,10 @@ const HOMEPAGE = () => {
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     width: '100%',
-    height: '80vh',
+    height: '60vh',
     position: 'relative',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    zIndex: '1'
 }}> 
     <div style={{
         position: 'absolute',

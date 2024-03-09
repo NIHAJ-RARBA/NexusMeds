@@ -35,6 +35,39 @@ const ADD_MEDICINE = () => {
         });
     };
 
+    const handleProductUpload = async (e) => {
+        
+        console.log(e.target.files[0]);
+        const file = e.target.files[0];
+
+        const formData = new FormData();
+        formData.append('product', file);
+
+        try {
+            const response = await fetch("http://localhost:5000/productUpload", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error("Something went wrong!");
+            }
+
+            const data = await response.json();
+            console.log(data);
+            setFormData({
+                ...formData,
+                image: data.downloadURL,
+            });
+
+        } catch (error) {
+            console.error("Error uploading file:", error.message);
+            toast.error("Failed to upload file!");
+        }
+    };
+
+
+
 
     const sendMedicineData = async () => {
         try {
@@ -114,14 +147,13 @@ const ADD_MEDICINE = () => {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="image">Image URL</Label>
+                        <Label for="image">Image</Label>
                         <Input
-                            type="text"
-                            name="image"
-                            id="image"
-                            placeholder="Enter image URL"
-                            value={formData.image}
-                            onChange={handleChange}
+                            type="file"
+                            name="product"
+                            id="product"
+                            placeholder="Enter image"
+                            onChange={handleProductUpload}
                         />
                     </FormGroup>
                     <FormGroup>

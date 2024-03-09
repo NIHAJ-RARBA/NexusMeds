@@ -65,6 +65,31 @@ const SIGNUP = ({ setAuth }) => {
             console.error(error.message);
         }
     };
+
+    const handleProfileUpload = async (e) => {
+        console.log(e.target.files[0]);
+        const file = e.target.files[0];
+
+        // Create FormData object and append the file with the correct key
+        const formData = new FormData();
+        formData.append('profile', file);
+
+        try {
+            const res = await fetch('http://localhost:5000/profileUpload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await res.json();
+            setImage(data.downloadURL);
+            console.log(data);
+            console.log(data.downloadURL);
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+    
+
     
     const researcherSave = async (e) => {
         e.preventDefault();
@@ -345,12 +370,11 @@ const SIGNUP = ({ setAuth }) => {
                             <FormGroup>
                                 <Label for="image">Profile Picture</Label>
                                 <Input
-                                    type="text"
-                                    name="image"
-                                    id="image"
+                                    type="file"
+                                    name="profile"
+                                    id="profile"
                                     placeholder="Enter your profile picture"
-                                    value={image}
-                                    onChange={e => setImage(e.target.value)}
+                                    onChange={handleProfileUpload}
                                 />
                             </FormGroup>
 
@@ -487,12 +511,11 @@ const SIGNUP = ({ setAuth }) => {
                     <FormGroup>
                         <Label for="image">Profile Picture</Label>
                         <Input
-                            type="text"
-                            name="image"
-                            id="image"
+                            type="file"
+                            name="profile"
+                            id="profile"
                             placeholder="Enter your profile picture"
-                            value={image}
-                            onChange={e => setImage(e.target.value)}
+                            onChange={handleProfileUpload}
                         />
                     </FormGroup>
 
