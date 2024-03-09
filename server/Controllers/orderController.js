@@ -5,13 +5,7 @@ export const createOrder = async (req, res) => {
     try {
 
         const { user_id, price, billing_address, prescription } = req.body;
-        const order_date = new Date();
-        const future_date = new Date(order_date);
-        future_date.setDate(order_date.getDate() + 7);
         
-
-        const postgresqlFormattedDate = order_date.toISOString().slice(0, 10); // YYYY-MM-DD
-        const postgresqlFormattedFutureDate = future_date.toISOString().slice(0, 10); // YYYY-MM-DD
 
         //console.log(postgresqlFormattedDate);
 
@@ -72,8 +66,8 @@ export const createOrder = async (req, res) => {
         console.log('amit is here');
 
         const newOrder = await client.query
-            ("INSERT INTO orders (cart_id, order_date, price,status, shipment_date,billing_address,prescription) VALUES ($1, $2, $3, $4,$5,$6,$7) RETURNING *",
-                [cart.rows[0].cart_id, postgresqlFormattedDate, price, false, postgresqlFormattedFutureDate, billing_address,prescription]);
+            ("INSERT INTO orders (cart_id, order_date, price,status, shipment_date,billing_address,prescription) VALUES ($1,CURRENT_DATE, $2, $3,CURRENT_DATE+7,$4,$5) RETURNING *",
+                [cart.rows[0].cart_id, price, false,  billing_address, prescription]);
 
 
         // const newOrder = await client.query(
@@ -82,6 +76,12 @@ export const createOrder = async (req, res) => {
         //     [cart.rows[0].cart_id, order_date, order_total.rows[0].price, order_status, null ]
 
         // );
+
+        await client.query(
+            "CALL Populate_Payment($1, $2, $3)",
+            [newOrder.rows[0].cart_id, price, postgresqlFormattedDate]
+        );
+
 
         res.json(newOrder.rows[0]);
         console.log(newOrder.rows[0]);
@@ -116,7 +116,7 @@ export const setOrderStatus = async (req, res) => {
         // Update the order status to TRUE (assuming status is a boolean column)
         const updateOrderQuery = "UPDATE orders SET status = TRUE WHERE order_id = $1 RETURNING *";
         const updatedOrder = await client.query(updateOrderQuery, [order_id]);
-        
+
         console.log("Order updated:", updatedOrder.rows[0]);
 
         // Delete the order
@@ -140,6 +140,64 @@ export const deleteOrder = async (req, res) => {
         const { order_id } = req.body;
         const order = await client.query("DELETE FROM orders WHERE order_id = $1", [order_id]);
         res.json("Order was deleted");
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const delayOrder = async (req, res) => {
+    try {
+       
+        const {order_id,days} = req.body;
+        
+        await client.query("CALL DelayOrderShipment($1, $2)", [order_id,days]);
+
+        console.log(order_id, days);
+        res.json("Order was delayed");
+    }
+    catch (error) {
+        console.log(error.message);
+    }
+};
+
+export const getOrderById = async (req, res) => {
+    try {
+        const { order_id } = req.body;
+        const order = await client.query("SELECT * FROM orders WHERE order_id = $1", [order_id]);
+        res.json(order.rows[0]);
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const checkOrderIfCustomerOrder = async (req, res) => {
+    try {
+        const { order_id } = req.body;
+
+        let query = `SELECT 
+        CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM customer cus
+                WHERE cus.customer_id = (
+                    SELECT c.customer_id
+                    FROM cart c
+                    WHERE c.cart_id = (
+                        SELECT o.cart_id
+                        FROM orders o
+                        WHERE o.order_id = $1
+                    )
+                )
+            ) THEN true
+            ELSE false
+        END AS customer_order`;
+        
+        const order = await client.query(query, [order_id]);
+        res.json(order.rows[0]);
+
+        // console.log(order.rows[0]);
+
+        
     } catch (error) {
         console.log(error.message);
     }

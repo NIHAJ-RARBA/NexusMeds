@@ -186,3 +186,49 @@ export const deleteResearcherByEmail = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
+
+export const getPendingOrders = async (req, res) => {
+    try {
+
+        const { id } = req.body;
+        console.log(req.body);
+
+        console.log('id:', id );
+
+        const query = "SELECT * \
+        FROM orders\
+        WHERE cart_id in (select cart_id from cart where researcher_id = $1 and status = false)";
+
+        const result = await client.query(query, [id]);
+        res.status(200).json(result.rows);
+        
+        //console.log(result.rows);
+
+    } catch (error) {
+
+        res.status(500).json({ error: error });
+        console.log(error.message);
+    }
+}
+
+export const getOrderHistory = async (req, res) => {
+    try {
+        const { id } = req.body;
+        console.log(req.body);
+
+        const query = "SELECT * \
+        FROM order_history\
+        WHERE user_id = $1";
+
+        const result = await client.query(query, [id]);
+        res.status(200).json(result.rows);
+        
+        //console.log(result.rows);
+
+    } catch (error) {
+
+        res.status(500).json({ error: error });
+        console.log(error.message);
+    }
+}

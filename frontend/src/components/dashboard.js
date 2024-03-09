@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import EDITPROFILE from './editprofile';
 import { Button, Container, Row, Col, Card, CardTitle, CardText, CardImg, CardBody, Table } from 'reactstrap';
+import moment from 'moment';
 
 const DASHBOARD = ({ setAuth }) => {
     const [customer_id, setCustomerId] = useState("");
@@ -34,7 +35,13 @@ const DASHBOARD = ({ setAuth }) => {
             const parseRes = await res.json();
             console.log(parseRes);
 
-            setPendingOrdersData(parseRes);
+            const formattedOrders = parseRes.map(order => ({
+                ...order,
+                order_date: moment(order.order_date).format('YYYY-MM-DD'),
+                shipment_date: moment(order.shipment_date).format('YYYY-MM-DD'),
+            }));
+
+            setPendingOrdersData(formattedOrders);
         } catch (error) {
             console.error(error.message);
         }
@@ -55,7 +62,13 @@ const DASHBOARD = ({ setAuth }) => {
             console.log('orderhistory');
             console.log(parseRes);
 
-            setOrderHistoryData(parseRes);
+            const formattedOrders = parseRes.map(order => ({
+                ...order,
+                order_date: moment(order.order_date).format('YYYY-MM-DD'),
+                shipment_date: moment(order.shipment_date).format('YYYY-MM-DD'),
+            }));
+
+            setOrderHistoryData(formattedOrders);
         } catch (error) {
             console.error(error.message);
         }

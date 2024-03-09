@@ -13,6 +13,7 @@ const ADMIN_SPECIFICCHEM = () => {
     const [inventory, setInventory] = useState({});
     const [availability, setAvailability] = useState("");
     const [researcherId, setResearcherId] = useState(0);
+    const [quantityToBuy, setQuantityToBuy] = useState({});
 
     useEffect(() => {
         fetchChemicalData();
@@ -77,7 +78,7 @@ const ADMIN_SPECIFICCHEM = () => {
             if (jsonData.stocked_amount === 0) {
                 setAvailability("Not Available");
             } else {
-                setAvailability("Available");
+                setAvailability("Available" + " (" + jsonData.stocked_amount + " in stock)");
             }
         } catch (error) {
             console.error(error.message);
@@ -119,6 +120,36 @@ const ADMIN_SPECIFICCHEM = () => {
         }
     };
 
+    const buymoreProduct = async (isMedicine, productId, quantity) => {
+        try {
+
+            if (isMedicine && quantity > 0) {
+                await fetch(`http://localhost:5000/medicine/supply`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id: productId, quantity: quantity })
+                });
+            } else if(quantity > 0) {
+                await fetch(`http://localhost:5000/chemical/supply`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id: productId, quantity: quantity })
+                });
+            }
+            getInventory();
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
+    const handleQuantityChange = (itemId, e) => {
+        setQuantityToBuy(prevState => ({
+            ...prevState,
+            [itemId]: e.target.value
+        }));
+    };
+
     return (
         <div>
             <ToastContainer />
@@ -146,17 +177,25 @@ const ADMIN_SPECIFICCHEM = () => {
                                             <label className="price font-weight-bold" style={{ fontSize: '1.25rem' }}>{chemical.price}</label>
                                             {/* <span className="regular-price font-weight-bold" style={{ fontSize: '1rem' }}>{medicine.regular_price}</span> */}
                                         </label>
-                                        {researcher && (
-                                            <div className="d-flex align-items-center mt-2">
-                                                <Button onClick={addToCart} style={{ padding: '10px', margin: '10px', backgroundColor: 'rgb(226,135,67)' }}>Add to Cart</Button>
-                                                <div className="input-group" style={{ width: '150px' }}>
-                                                    <button className="btn btn-outline-secondary btn-lg" type="button" onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)} style={{ backgroundColor: 'rgb(6,57,112)' }}>-</button>
-                                                    <input type="text" className="form-control text-center" value={quantity} readOnly style={{ width: '50px', fontSize: '0.9rem' }} />
-                                                    <button className="btn btn-outline-secondary btn-lg" type="button" onClick={() => setQuantity(quantity + 1)} style={{ backgroundColor: 'rgb(6,57,112)' }}>+</button>
-                                                </div>
-                                            </div>
-                                        )}
+                                        
                                     </div>
+                                    {/* Add To Stock Section */}
+                                    <div className="d-flex flex-column align-items-start mt-3">
+                                        <h6 className="text-secondary font-weight-bold" style={{ fontSize: '1.25rem' }}>Add To Stock</h6>
+                                        <div className="d-flex align-items-center" style={{ width: '200px' }}> {/* Updated width to 200px */}
+                                            <input
+                                                type="text"
+                                                className="form-control text-center"
+                                                placeholder='Quantity'
+                                                value={quantityToBuy[inventory.inventory_id]}
+                                                onChange={(e) => handleQuantityChange(inventory.inventory_id, e)}
+                                                style={{ width: '100px', fontSize: '0.9rem', marginRight: '10px' }}
+                                            />
+                                            <Button onClick={() => buymoreProduct(false, inventory.chemical_id, quantityToBuy[inventory.inventory_id])}>Add</Button>
+                                        </div>
+                                    </div>
+
+                                    {/* End Add To Stock Section */}
                                 </div>
                                 {researcher && (
                                     <div className="d-flex flex-column align-items-start" style={{ marginLeft: '40px' }}>

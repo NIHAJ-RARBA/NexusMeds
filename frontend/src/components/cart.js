@@ -131,6 +131,12 @@ const CART = () => {
 
     const handleQuantityChange = async (medicine_id, newQuantity) => {
         try {
+
+            if (newQuantity === 0) {
+                await removeFromCart(medicine_id);
+                return;
+            }
+            
             // Check the current quantity in the cart
             const currentQuantity = quantity[medicine_id];
             // Calculate the quantity difference

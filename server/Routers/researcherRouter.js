@@ -18,7 +18,9 @@ import {
     approveResearcher,
 
     rejectResearcher,
-    getResearcherById
+    getResearcherById,
+    getOrderHistory,
+    getPendingOrders
 
 } from '../Controllers/researcherController.js';
 
@@ -34,6 +36,8 @@ router.delete('/delete/:email', deleteResearcherByEmail);
 router.get('/getPermit/:email', getNONAPPROVEDResearcher);
 router.post('/approve-researcher', approveResearcher);
 router.post('/reject-researcher', rejectResearcher);
+router.post('/PendingOrders', getPendingOrders);
+router.post('/OrderHistory', getOrderHistory);
 
 router.get('/:id', getResearcherById);
 

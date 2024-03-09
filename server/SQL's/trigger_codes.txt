@@ -8,3 +8,4 @@
 13890 cartChemical , medicine doesnt exist;
 13891 cartChemical , stock out in inventory
 12407 Medicine , manufacturar_id not found
+56789 inventory, admin order not possible
