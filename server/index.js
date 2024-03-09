@@ -113,6 +113,54 @@ app.post("/prescriptionUpload", upload.single("prescription"), async (req, res) 
   });
 
 
+app.post("/profileUpload", upload.single("profile"), async (req, res) => {
+    try {
+      // Get the file from req.file
+      const file = req.file;
+  
+      // Upload the file to Firebase Storage
+      const storageRef = ref(storage, `profiles/${file.originalname}`);
+      const snapshot = await uploadBytes(storageRef, file.buffer);
+    //   console.log("Uploaded", snapshot.totalBytes, "bytes");
+      console.log("File metadata:", snapshot.metadata);
+  
+      // Get the download URL for the uploaded file
+      const downloadURL = await getDownloadURL(storageRef);
+  
+      // Return the download URL in the response
+      console.log("File available at", downloadURL);
+      res.json({ downloadURL });
+    } catch (error) {
+      console.error("Upload failed", error);
+      res.status(500).json({ error: "Upload failed" });
+    }
+  });
+
+
+  app.post("/productUpload", upload.single("product"), async (req, res) => {
+    try {
+      // Get the file from req.file
+      const file = req.file;
+  
+      // Upload the file to Firebase Storage
+      const storageRef = ref(storage, `products/${file.originalname}`);
+      const snapshot = await uploadBytes(storageRef, file.buffer);
+    //   console.log("Uploaded", snapshot.totalBytes, "bytes");
+      console.log("File metadata:", snapshot.metadata);
+  
+      // Get the download URL for the uploaded file
+      const downloadURL = await getDownloadURL(storageRef);
+  
+      // Return the download URL in the response
+      console.log("File available at", downloadURL);
+      res.json({ downloadURL });
+    } catch (error) {
+      console.error("Upload failed", error);
+      res.status(500).json({ error: "Upload failed" });
+    }
+  }
+  );
+
 
 // create a task
 

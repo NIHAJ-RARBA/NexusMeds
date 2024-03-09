@@ -95,7 +95,7 @@ const DASHBOARD = ({setAuth}) => {
                     "Content-Type": "application/json",
                     token: localStorage.token 
                 },
-                body: JSON.stringify({id : user.customer_id}) // Add an empty object as the body
+                body: JSON.stringify({id : user.customer_id}) 
             });                
 
             localStorage.removeItem("token");

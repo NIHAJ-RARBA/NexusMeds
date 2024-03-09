@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Container, Row, Col, Button } from 'reactstrap';
+import PaginationBar from '../paginationBar';
 
 const INVENTORY = () => {
 
     const [inventory, setInventory] = useState([]);
     const [isMedicine, setIsMedicine] = useState(false);
     const [quantityToBuy, setQuantityToBuy] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5);
 
     const getInventory = async () => {
         try {
@@ -72,6 +75,15 @@ const INVENTORY = () => {
         getInventory();
     }, [isMedicine]);
 
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = inventory.slice(indexOfFirstItem, indexOfLastItem);
+
+    const handlePagination = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     return (
         <Container>
             <Row>
@@ -124,7 +136,7 @@ const INVENTORY = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {inventory.map((item) => (
+                                {currentItems.map((item) => (
                                     <tr key={item.inventory_id}>
                                         {isMedicine ? (
                                             <>
@@ -174,6 +186,12 @@ const INVENTORY = () => {
                     </Card>
                 </Col>
             </Row>
+            {/* Pagination */}
+            <PaginationBar
+                currentPage={currentPage}
+                totalPages={Math.ceil(inventory.length / itemsPerPage)}
+                paginate={handlePagination}
+            />
         </Container>
     )
 };

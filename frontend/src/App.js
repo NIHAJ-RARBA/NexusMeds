@@ -116,12 +116,13 @@ function App() {
             <Route path="/viewotc/:indication" element={<VIEWOTC />} />
             <Route path="/prescriptionmeds" element={<VIEWPRESCRIPTIONMEDS />} />
 
+            <Route path="/admin-home" element={<STATISTICS />} />
+            
             <Route path='/viewmedicines' element={<VIEWMEDICINES />} />
             <Route path='/all-chemicals' element={<VIEWCHEMICALS />} />
             <Route path="/approve/orders" element={<ADMIN_APPROVE_ORDERS />} />
             <Route path="/approveSpecificOrder" element={<ADMIN_APPROVE_SPECIFIC_ORDER />} />
             <Route path='/approve/researchers' element={<ADMIN_APPROVE_RESEARCHERS />} />
-            <Route path='/satistics-admin' element={<STATISTICS />} />
             <Route path='/all-products' element={<ALLPRODUCTS />} />
 
 

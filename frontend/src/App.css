@@ -89,3 +89,30 @@
   max-width: 100%;
   height: auto;
 }
+
+
+/* Add this CSS to your stylesheet */
+.most-active-list {
+  background-color: #d2d7dc;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.most-active-list h3 {
+  color: #1b232c;
+}
+
+.most-active-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.most-active-list ul li {
+  padding: 5px 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.most-active-list ul li:last-child {
+  border-bottom: none;
+}

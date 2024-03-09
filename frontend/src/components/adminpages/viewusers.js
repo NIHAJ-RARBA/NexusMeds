@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "reactstrap";
+import PaginationBar from "../paginationBar";
 
 const VIEWUSERS = () => {
     const [userList, setuserList] = useState([]);
     const [userSpentList, setuserSpentList] = useState([]);
     const [userListWithSpent, setuserListWithSpent] = useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5);
+
 
     const getUsers = async () => {
         try {
@@ -72,6 +77,18 @@ const VIEWUSERS = () => {
         getAllSpentAmounts();
     }, [userList]);
 
+    useEffect(() => {
+        getUsers();
+    }, [currentPage]);
+
+    const handlePagination = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+// Slice the userListWithSpent array to display the correct number of items per page
+const slicedUserListWithSpent = userListWithSpent.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    
+
     return (
         <Container>
         <div className="VIEWUSERS">
@@ -100,7 +117,7 @@ const VIEWUSERS = () => {
                         </tr>
                     ))} */}
 
-                    {userListWithSpent.map((user, index) => (
+                    {slicedUserListWithSpent.map((user, index) => (
                         <tr key={user.user.researcher_id}>
                             <td><img src={user.user.image} alt="User Icon" style={{ width: 'auto', height: '60px', marginLeft: '10px' }} /></td>
                             <td>{user.user.customer_name}</td>
@@ -114,6 +131,7 @@ const VIEWUSERS = () => {
 
                 </tbody>
             </table>
+            <PaginationBar currentPage={currentPage} totalPages={Math.ceil(userList.length / itemsPerPage)} paginate={handlePagination} />
             <br />
             <br />
             <button className="btn btn-warning" onClick={() => {
@@ -121,6 +139,7 @@ const VIEWUSERS = () => {
                 window.location.href = "/";
             }}> Return to home page </button>
         </div>
+
         </Container>
     );
 };
