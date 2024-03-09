@@ -6,6 +6,7 @@ const INVENTORY = () => {
     const [inventory, setInventory] = useState([]);
     const [isMedicine, setIsMedicine] = useState(false);
     const [quantityToBuy, setQuantityToBuy] = useState({});
+    const [sortAscending, setSortAscending] = useState(true);
 
     const getInventory = async () => {
         try {
@@ -72,6 +73,36 @@ const INVENTORY = () => {
         getInventory();
     }, [isMedicine]);
 
+    
+
+    const handleClickStockedAmount = () => {
+        console.log('Stocked Amount clicked');
+        // Determine sorting direction based on current state
+        const newSortAscending = !sortAscending;
+        // Sort the inventory based on the new sorting direction
+        const sortedInventory = [...inventory].sort((a, b) => {
+            return newSortAscending ? a.stocked_amount - b.stocked_amount : b.stocked_amount - a.stocked_amount;
+        });
+        setInventory(sortedInventory);
+        setSortAscending(newSortAscending);
+    };
+    
+    
+
+
+    const handleClickSoldAmount = () => {
+        console.log('Sold Amount clicked');
+        // Determine sorting direction based on current state
+        const newSortAscending = !sortAscending;
+        // Sort the inventory based on the new sorting direction
+        const sortedInventory = [...inventory].sort((a, b) => {
+            return newSortAscending ? a.sold_amount - b.sold_amount : b.sold_amount - a.sold_amount;
+        });
+        setInventory(sortedInventory);
+        setSortAscending(newSortAscending);
+    };
+    
+
     return (
         <Container>
             <Row>
@@ -118,8 +149,8 @@ const INVENTORY = () => {
                                     <th>Product ID</th>
                                     <th>Product Name</th>
                                     <th>Image</th>
-                                    <th>Stocked Amount</th>
-                                    <th>Sold Amount</th>
+                                    <th onClick={handleClickStockedAmount}>Stocked Amount &#11206;</th>
+                                    <th onClick={handleClickSoldAmount}>Sold Amount &#11206;</th>
                                     <th>Supply Request</th>
                                 </tr>
                             </thead>
