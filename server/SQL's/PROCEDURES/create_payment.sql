@@ -1,4 +1,4 @@
--- Create a procedure to populate the Payment table when provided with order_id, price, and order_date
+
 CREATE OR REPLACE PROCEDURE Populate_Payment(
     cart_id_param INTEGER,
     price_param NUMERIC(10,2),

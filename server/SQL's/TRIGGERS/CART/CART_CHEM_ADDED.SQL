@@ -42,13 +42,13 @@ RETURNS TRIGGER AS $$
 DECLARE
     v_error_code INTEGER;
 BEGIN
-    -- Check if the CHEMICAL_id exists in the Inventory
+    
     IF NOT EXISTS (SELECT 1 FROM Inventory WHERE CHEMICAL_id = NEW.CHEMICAL_id) THEN
         v_error_code := 13890;
         RAISE EXCEPTION 'Error Code: %', v_error_code;
     END IF;
 
-    -- Check if stocked_amount is sufficient
+    
     IF (SELECT stocked_amount FROM Inventory WHERE CHEMICAL_id = NEW.CHEMICAL_id) < NEW.quantity THEN
         v_error_code := 13891;
         RAISE EXCEPTION 'Error Code: %', v_error_code;
