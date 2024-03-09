@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const PlaceOrder = () => {
     const location = useLocation();
     const { chemItems, quantity, user_id } = location.state;
-    const [discount, setDiscount] = useState(0);
     const [deliveryCharge, setDeliveryCharge] = useState(0);
     const [totalSpentByUser, setTotalSpentByUser] = useState(0);
     
@@ -65,13 +64,17 @@ const PlaceOrder = () => {
     const calculateDiscount = (total) => {
         
         if(totalSpentByUser >= 10000) {
+            //setDiscount(total * 0.1);
             return total * 0.1;
         }
         else if (totalSpentByUser >= 5000) {
+            //setDiscount(total * 0.05);
             return total * 0.05;
         } else if (totalSpentByUser >= 1000) {
+            //setDiscount(total * 0.01);
             return total * 0.01;
         } else {
+            //setDiscount(0);
             return 0;
         }
     };
@@ -165,7 +168,7 @@ const PlaceOrder = () => {
                 </Col>
             </Row>
 
-            <OrderConfirmation isOpen={showOrderConfirmation} toggle={() => setShowOrderConfirmation(!showOrderConfirmation)} price={chemItems.reduce((acc, item) => acc + (item.price * quantity[item.chemical_id]), 0).toFixed(2) - discount + deliveryCharge} userId={user_id} />
+            <OrderConfirmation isOpen={showOrderConfirmation} toggle={() => setShowOrderConfirmation(!showOrderConfirmation)} price={chemItems.reduce((acc, item) => acc + (item.price * quantity[item.chemical_id]), 0).toFixed(2) - calculateDiscount(chemItems.reduce((acc, item) => acc + (item.price * quantity[item.chemical_id]), 0).toFixed(2)) + deliveryCharge} userId={user_id} />
 
             <ToastContainer />
         </Container>

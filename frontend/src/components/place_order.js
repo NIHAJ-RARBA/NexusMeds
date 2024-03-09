@@ -14,7 +14,7 @@ const PlaceOrder = () => {
     const [deliveryCharge, setDeliveryCharge] = useState(0);
     const [prescriptionUploaded, setPrescriptionUploaded] = useState(false);
     const [totalSpentByUser, setTotalSpentByUser] = useState(0);
-    const [discount, setDiscount] = useState(0);
+    //const [discount, setDiscount] = useState(0);
 
     useEffect(() => {
         console.log("prescriptionUploaded: ", prescriptionUploaded);
@@ -118,7 +118,7 @@ const PlaceOrder = () => {
             if (!selectedPaymentMethod || !selectedDeliveryService) {
                 toast.error("Please select Payment Method and Delivery Service.");
             } else {
-                setDiscount(calculateDiscount());
+                // setDiscount(calculateDiscount());
                 setShowOrderConfirmation(true);
             }
         }
@@ -173,7 +173,7 @@ const PlaceOrder = () => {
                         </FormGroup>
                         <FormGroup>
                             <div style={{ border: '1px solid #ccc', borderRadius: '4px', textAlign: 'center', padding: '1px' }}>
-                                <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ fontWeight: 'bold', margin: 'auto', fontSize: '14px', color: '#333' }}>Discount : ৳{calculateDiscount(medItems.reduce((acc, item) => acc + (item.price * quantity[item.medicine_id]), 0).toFixed(2))} </CardSubtitle>
+                                <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ fontWeight: 'bold', margin: 'auto', fontSize: '14px', color: '#333' }}>Discount : ৳{calculateDiscount(medItems.reduce((acc, item) => acc + (item.price * quantity[item.medicine_id]), 0)).toFixed(2)} </CardSubtitle>
                             </div>
                         </FormGroup>
                         <FormGroup>
@@ -207,7 +207,7 @@ const PlaceOrder = () => {
                 </Col>
             </Row>
 
-            <OrderConfirmation isOpen={showOrderConfirmation} toggle={() => setShowOrderConfirmation(!showOrderConfirmation)} price={medItems.reduce((acc, item) => acc + (item.price * quantity[item.medicine_id]), 0).toFixed(2) - discount + deliveryCharge} userId={user_id} prescription={prescriptionFile} discount={discount} />
+            <OrderConfirmation isOpen={showOrderConfirmation} toggle={() => setShowOrderConfirmation(!showOrderConfirmation)} price={medItems.reduce((acc, item) => acc + (item.price * quantity[item.medicine_id]), 0).toFixed(2) - calculateDiscount(medItems.reduce((acc, item) => acc + (item.price * quantity[item.medicine_id]), 0).toFixed(2)) + deliveryCharge} userId={user_id} prescription={prescriptionFile}  />
 
             <ToastContainer />
         </Container>

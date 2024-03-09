@@ -281,3 +281,38 @@ CREATE TABLE LOGIN_LOG(
 
 ALTER TABLE PAYMENT DROP COLUMN ORDER_ID;
 ALTER TABLE PAYMENT ADD COLUMN CART_ID INTEGER REFERENCES CART(CART_ID) ON DELETE CASCADE NOT NULL;
+
+
+--ADDED 9 MARCH AFTER----
+
+ALTER TABLE Order_History
+ALTER COLUMN cart_id DROP NOT NULL;
+
+UPDATE inventory SET stocked_amount = 50;
+
+UPDATE inventory SET sold_amount = 0;
+
+INSERT INTO inventory(chemical_id,stocked_amount,sold_amount)
+VALUES(-1,50,0);
+
+DELETE FROM order_history;
+
+DELETE FROM ORDERS;
+
+DELETE FROM cartmedicine;
+DELETE FROM cartchemical;
+
+DELETE FROM CART;
+
+DELETE FROM customer;
+
+DROP TABLE pending_approvals;
+
+CREATE TABLE PENDING_APPROVALS (
+    researcher_id UUID PRIMARY KEY,
+    photo TEXT,
+    FOREIGN KEY (researcher_id) REFERENCES Researcher(researcher_id) ON DELETE CASCADE
+);
+
+DELETE FROM researcher;
+

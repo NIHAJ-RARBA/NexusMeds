@@ -154,7 +154,7 @@ const [loginChoice, setLoginChoice] = useState(null);
         <div>
             <div style={{ marginTop: '115px' }}></div>
             {
-                firstTime ? reload() : null
+                //firstTime ? reload() : null
             }
 {(loginChoice === null || loginChoice === true) &&
         <div className="SIGNIN" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '80%', margin: '0 auto' }}>
@@ -176,7 +176,7 @@ const [loginChoice, setLoginChoice] = useState(null);
                 <FormGroup>
                     <Label for="password">Password</Label>
                     <Input
-                        type="text"
+                        type="password"
                         name="password"
                         id="password"
                         placeholder="Enter your password"
@@ -219,7 +219,7 @@ const [loginChoice, setLoginChoice] = useState(null);
                 <FormGroup>
                     <Label for="password">Password</Label>
                     <Input
-                        type="text"
+                        type="password"
                         name="password"
                         id="password"
                         placeholder="Enter your password"

@@ -34,13 +34,13 @@ const ADD_CHEMICAL = () => {
         console.log(e.target.files[0]);
         const file = e.target.files[0];
 
-        const formData = new FormData();
-        formData.append('product', file);
+        const formDataFile = new FormData();
+        formDataFile.append('product', file);
 
         try {
             const response = await fetch("http://localhost:5000/productUpload", {
                 method: "POST",
-                body: formData,
+                body: formDataFile,
             });
 
             if (!response.ok) {
@@ -96,7 +96,7 @@ const ADD_CHEMICAL = () => {
 
             toast.success("Chemical added successfully!");
             // Redirect to the chemical's page or do something else
-            window.location = `/specificChemical/${addedChemical.chemical_id}`;
+            window.location = `/admin_specificChem/${addedChemical.chemical_id}`;
 
         } catch (error) {
             console.error("Error submitting form:", error.message);

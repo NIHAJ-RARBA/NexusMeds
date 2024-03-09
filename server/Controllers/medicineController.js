@@ -49,6 +49,8 @@ export const createMedicine = async (req, res) => {
             cautions
         } = req.body;
 
+        console.log(req.body);
+
         const newMedicine = await client.query(
             "INSERT INTO medicine (med_name, price, image, generic_name, package_type, med_form, isOTC, manufacturer_id, indication, dosage, dosageStrength, cautions) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *;",
             [med_name, price, image, generic_name, package_type, med_form, isOTC, manufacturer_id, indication, dosage, dosageStrength, cautions]

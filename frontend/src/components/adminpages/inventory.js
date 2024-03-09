@@ -152,6 +152,7 @@ const INVENTORY = () => {
                                     <th onClick={handleClickStockedAmount}>Stocked Amount &#11206;</th>
                                     <th onClick={handleClickSoldAmount}>Sold Amount &#11206;</th>
                                     <th>Supply Request</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
