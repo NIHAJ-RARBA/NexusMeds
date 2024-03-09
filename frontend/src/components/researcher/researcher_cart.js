@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Input, Form } from 'reactstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const RESEARCHER_CART = () => {
     
@@ -155,7 +156,7 @@ const RESEARCHER_CART = () => {
 
             // Add or remove items from the cart in the database based on quantity difference
             if (quantityDifference > 0) {
-                await fetch(`http://localhost:5000/cart/add`, {
+                const response = await fetch(`http://localhost:5000/cart/add`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -163,6 +164,28 @@ const RESEARCHER_CART = () => {
                     },
                     body: JSON.stringify({ user_id: researcher_id, product_id: chemical_id, quantity: quantityDifference })
                 });
+
+                const jsonData = await response.json();
+
+                if (jsonData.error === '13891') {
+                    toast.error('Sorry, we are out of stock for this item');
+                    // Restore the previous quantity in the state
+                    setQuantity(prevQuantity => ({
+                        ...prevQuantity,
+                        [chemical_id]: currentQuantity
+                    }));
+                    // Restore the previous quantity in the cartItems state
+                    const restoredCartItems = cartItems.map(item => {
+                        if (item.chemical_id === chemical_id) {
+                            return {
+                                ...item,
+                                quantity: currentQuantity
+                            };
+                        }
+                        return item;
+                    });
+                    setCartItems(restoredCartItems);
+                }
             } else if (quantityDifference < 0) {
                 await fetch(`http://localhost:5000/cart/remove`, {
                     method: "POST",

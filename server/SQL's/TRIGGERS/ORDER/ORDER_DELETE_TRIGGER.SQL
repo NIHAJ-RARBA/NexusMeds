@@ -53,31 +53,19 @@ BEGIN
         IF USR_ID IS NULL THEN
             SELECT researcher_id INTO USR_ID FROM CART WHERE OLD.CART_ID = cart_id AND CUSTOMER_id IS NULL;
             
-            IF OLD.status = false THEN
                 FOR PRODUCT_ID, QTY IN SELECT CHEMICAL_ID, QUANTITY FROM cartchemical WHERE cart_id = OLD.cart_id
                 LOOP
-                    UPDATE inventory SET stocked_amount = stocked_amount + QTY WHERE chemical_id = PRODUCT_ID;
-                END LOOP;
-                RETURN OLD;
-            ELSE
-                FOR PRODUCT_ID, QTY IN SELECT CHEMICAL_ID, QUANTITY FROM cartchemical WHERE cart_id = OLD.cart_id
-                LOOP
+                    UPDATE INVENTORY SET STOCKED_AMOUNT = STOCKED_AMOUNT - QTY WHERE CHEMICAL_ID = PRODUCT_ID;
                     UPDATE inventory SET sold_amount = sold_amount + QTY WHERE chemical_id = PRODUCT_ID;
                 END LOOP;
-            END IF;
+            
         ELSE
-            IF OLD.status = false THEN
                 FOR PRODUCT_ID, QTY IN SELECT MEDICINE_ID, QUANTITY FROM cartMEDICINE WHERE cart_id = OLD.cart_id
                 LOOP
-                    UPDATE inventory SET stocked_amount = stocked_amount + QTY WHERE MEDICINE_id = PRODUCT_ID;
-                END LOOP;
-                RETURN OLD;
-            ELSE
-                FOR PRODUCT_ID, QTY IN SELECT MEDICINE_ID, QUANTITY FROM cartMEDICINE WHERE cart_id = OLD.cart_id
-                LOOP
+                    UPDATE INVENTORY SET STOCKED_AMOUNT = STOCKED_AMOUNT - QTY WHERE MEDICINE_ID = PRODUCT_ID;
                     UPDATE inventory SET sold_amount = sold_amount + QTY WHERE MEDICINE_id = PRODUCT_ID;
                 END LOOP;
-            END IF;
+            
         END IF;
 
         -- Insert into ORDER_HISTORY

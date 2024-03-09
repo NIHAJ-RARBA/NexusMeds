@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardBody, CardTitle, CardText, Button, CardImg, Col, Row, Container } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
+import { Input } from 'reactstrap';
+import { toast } from 'react-toastify';
+const moment = require('moment');
 
 const SpecificOrderPage = () => {
     const location = useLocation();
-    const order = location.state.order;
+    const { order: initialOrder, isCustomer } = location.state;
+    const [order, setOrder] = useState(initialOrder);
+
     const [imageSrc, setImageSrc] = useState(null);
 
     const [CART, setCART] = useState();
     const [cartItems, setCartItems] = useState([]);
     const [medItems, setMedItems] = useState([]);
     const [chemItems, setChemItems] = useState([]);
+    const [daysToDelay, setDaysToDelay] = useState();
 
     useEffect(() => {
         if (order.prescription) {
@@ -109,19 +115,45 @@ const SpecificOrderPage = () => {
 
     const approveOrder = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/order/setStatus`, {
+
+            const checkAvailability = await fetch(`http://localhost:5000/inventory/checkAvailability`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     token: localStorage.token
                 },
                 body: JSON.stringify({
-                    order_id: order.order_id
+                    order_id: order.order_id,
+                    myCustomer: isCustomer
                 })
             });
 
-            const jsonData = await response.json();
-            console.log(jsonData);
+            const parseCheckAvailability = await checkAvailability.json();
+
+            console.log(parseCheckAvailability);
+
+            if (parseCheckAvailability.error === '56789') {
+
+                toast.error('Product Stock is not enough to fulfill the order');
+                return;
+            } else {
+
+                const response = await fetch(`http://localhost:5000/order/setStatus`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        token: localStorage.token
+                    },
+                    body: JSON.stringify({
+                        order_id: order.order_id
+                    })
+                });
+
+                const jsonData = await response.json();
+                console.log(jsonData);
+
+                window.location.href = '/approve/orders'; // Redirect to admin orders page
+            }
 
         } catch (error) {
             console.error(error.message);
@@ -151,7 +183,6 @@ const SpecificOrderPage = () => {
 
     const handleApprove = () => {
         approveOrder();
-        window.location.href = '/approve/orders'; // Redirect to admin orders page
         console.log('Order Approved:', order);
     };
 
@@ -160,6 +191,62 @@ const SpecificOrderPage = () => {
         window.location.href = '/approve/orders';
         console.log('Order Rejected:', order);
     };
+
+    const handleDelay = async () => {
+        try {
+
+
+            if (daysToDelay === null || daysToDelay === undefined || daysToDelay === "") {
+                setDaysToDelay(0);
+            }
+
+            const response = await fetch(`http://localhost:5000/order/delay`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    token: localStorage.token
+                },
+                body: JSON.stringify({
+                    order_id: order.order_id,
+                    days: daysToDelay
+                })
+            });
+
+            if (daysToDelay > 0) {
+                toast.success(`Order delayed by ${daysToDelay} days`);
+            }
+
+            const updatedOrder = await fetch(`http://localhost:5000/order/getOrderById`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    token: localStorage.token
+                },
+                body: JSON.stringify({
+                    order_id: order.order_id
+                })
+            });
+
+            //format by moment the updated order date
+            const jsonData2 = await updatedOrder.json();
+            console.log(jsonData2);
+
+
+            const formattedUpdatedOrder = {
+                ...jsonData2,
+                order_date: moment(jsonData2.order_date).format('YYYY-MM-DD'),
+                shipment_date: moment(jsonData2.shipment_date).format('YYYY-MM-DD'),
+            };
+           
+            setOrder(formattedUpdatedOrder);
+
+            const jsonData = await response.json();
+            console.log(jsonData);
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
 
     return (
         <Container>
@@ -173,9 +260,25 @@ const SpecificOrderPage = () => {
                             <CardText>Price: {order.price}</CardText>
                             <CardText>Billing Address: {order.billing_address}</CardText>
                             <CardText>Order Date: {order.order_date}</CardText>
+                            <CardText>Delivery Date: {order.shipment_date}</CardText>
                             {imageSrc && <CardImg src={imageSrc} alt="Prescription" style={{ width: '500px', height: 'auto' }} />}
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
                                 <Button onClick={() => handleApprove()} style={{ marginRight: '10px' }}>Approve</Button>
+                                <Input
+                                    type="number"
+                                    value={daysToDelay}
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        // Ensure value is not negative
+                                        if (value < 0) {
+                                            value = 0;
+                                        }
+                                        setDaysToDelay(value);
+                                    }}
+                                    placeholder="Days"
+                                    style={{ marginRight: '10px', width: '100px' }}
+                                />
+                                <Button onClick={() => handleDelay()} style={{ marginRight: '10px' }}>Delay</Button>
                                 <Button onClick={() => handleReject()}>Reject</Button>
                             </div>
                         </CardBody>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Input, FormGroup, Label, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import OrderConfirmation from './OrderConfirmation'; // Import the OrderConfirmation component
@@ -8,54 +8,56 @@ import 'react-toastify/dist/ReactToastify.css';
 const PlaceOrder = () => {
     const location = useLocation();
     const { medItems, quantity, user_id } = location.state;
-    let discount = 10;
+
     let flag;
     const [prescriptionFile, setPrescriptionFile] = useState(null);
     const [deliveryCharge, setDeliveryCharge] = useState(0);
     const [prescriptionUploaded, setPrescriptionUploaded] = useState(false);
+    const [totalSpentByUser, setTotalSpentByUser] = useState(0);
+    const [discount, setDiscount] = useState(0);
 
     useEffect(() => {
         console.log("prescriptionUploaded: ", prescriptionUploaded);
     }, [prescriptionUploaded]);
-    
+
+    useEffect(() => {
+        getTotalSpentByUser();
+    }, [user_id]);
+
+    const getTotalSpentByUser = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/customer/totalSpent", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: user_id })
+            });
+
+            const parseRes = await response.json();
+            console.log(parseRes);
+            setTotalSpentByUser(parseRes.sum);
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
 
     const handlePrescriptionChange = async (e) => {
-        // console.log(e.target.files[0]);
-
         const file = e.target.files[0];
-
         const formData = new FormData();
         formData.append("prescription", file);
 
-        try 
-        {
+        try {
             const res = await fetch("http://localhost:5000/prescriptionUpload", {
                 method: "POST",
                 body: formData
             });
 
             const data = await res.json();
-            // console.log(data.downloadURL);
-            
             setPrescriptionFile(data.downloadURL);
-            // console.log(data);
-            // console.log(data.downloadURL);
-            // console.log("Prescription uploaded successfully");
-            // console.log(prescriptionFile);
-
             setPrescriptionUploaded(true);
-            
         } catch (error) {
             console.error(error.message);
         }
-
-    
     };
-
-    
-
-
-    
 
     for (let i = 0; i < medItems.length; i++) {
         if (medItems[i].isotc === false) {
@@ -95,32 +97,32 @@ const PlaceOrder = () => {
         setDeliveryDropdownOpen(false);
     };
 
-    // const handlePlaceOrder = () => {
-    //     if (flag && !prescriptionFile) {
-    //         // Prescription required but not uploaded
-    //         toast.error("Prescription is required for this order.");
-    //     } else {
-    //         setShowOrderConfirmation(true);
-    //     }
-    // };
+    const calculateDiscount = (total) => {
+        
+        if(totalSpentByUser >= 10000) {
+            return total * 0.1;
+        }
+        else if (totalSpentByUser >= 5000) {
+            return total * 0.05;
+        } else if (totalSpentByUser >= 1000) {
+            return total * 0.01;
+        } else {
+            return 0;
+        }
+    };
 
     const handlePlaceOrder = () => {
-
-
         if (flag && !prescriptionUploaded) {
-            // Prescription required but not uploaded
             toast.error("Prescription is required for this order.");
         } else {
-            // Check if payment method and delivery service are selected
             if (!selectedPaymentMethod || !selectedDeliveryService) {
                 toast.error("Please select Payment Method and Delivery Service.");
             } else {
+                setDiscount(calculateDiscount());
                 setShowOrderConfirmation(true);
             }
         }
     };
-
-    
 
     return (
         <Container>
@@ -171,7 +173,7 @@ const PlaceOrder = () => {
                         </FormGroup>
                         <FormGroup>
                             <div style={{ border: '1px solid #ccc', borderRadius: '4px', textAlign: 'center', padding: '1px' }}>
-                                <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ fontWeight: 'bold', margin: 'auto', fontSize: '14px', color: '#333' }}>Discount : ৳{discount} </CardSubtitle>
+                                <CardSubtitle tag="h6" className="mb-2 text-muted" style={{ fontWeight: 'bold', margin: 'auto', fontSize: '14px', color: '#333' }}>Discount : ৳{calculateDiscount(medItems.reduce((acc, item) => acc + (item.price * quantity[item.medicine_id]), 0).toFixed(2))} </CardSubtitle>
                             </div>
                         </FormGroup>
                         <FormGroup>
@@ -205,7 +207,7 @@ const PlaceOrder = () => {
                 </Col>
             </Row>
 
-            <OrderConfirmation isOpen={showOrderConfirmation} toggle={() => setShowOrderConfirmation(!showOrderConfirmation)} price={medItems.reduce((acc, item) => acc + (item.price * quantity[item.medicine_id]), 0).toFixed(2) - discount + deliveryCharge} userId={user_id} prescription = {prescriptionFile} />
+            <OrderConfirmation isOpen={showOrderConfirmation} toggle={() => setShowOrderConfirmation(!showOrderConfirmation)} price={medItems.reduce((acc, item) => acc + (item.price * quantity[item.medicine_id]), 0).toFixed(2) - discount + deliveryCharge} userId={user_id} prescription={prescriptionFile} discount={discount} />
 
             <ToastContainer />
         </Container>
