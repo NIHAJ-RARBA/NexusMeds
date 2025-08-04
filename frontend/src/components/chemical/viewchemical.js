@@ -30,7 +30,7 @@ const VIEWCHEMICALS = () => {
     const totalPages = Math.ceil(chemicalList.length / chemicalsPerPage);
 
     // Handle page change
-    const handlePageChange = (pageNumber) => {
+    const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
         window.scrollTo(0, 0);
     };
@@ -56,7 +56,7 @@ const VIEWCHEMICALS = () => {
                     </div>
                 ))}
             </div>
-            <PaginationBar currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
+            <PaginationBar currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
         </Container>
     );
 };

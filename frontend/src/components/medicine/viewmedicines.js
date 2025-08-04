@@ -32,9 +32,9 @@ const VIEWMEDICINES = () => {
     const currentMedicines = medicineList.slice(indexOfFirstMedicine, indexOfLastMedicine);
 
     // Change page
-    const paginate = pageNumber =>
-    { setCurrentPage(pageNumber);
-    window.scrollTo();
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        window.scrollTo();
     };
 
     // Calculate total pages

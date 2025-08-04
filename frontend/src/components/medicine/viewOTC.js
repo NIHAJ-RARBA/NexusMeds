@@ -35,11 +35,10 @@ const VIEWOTC = () => {
     const currentMedicines = medicineList.slice(indexOfFirstMedicine, indexOfLastMedicine);
 
     // Change page
-    const paginate = pageNumber => 
-    {
+    const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
         window.scrollTo(0, 0);
-    }
+    };
 
     // Calculate total pages
     const totalPages = Math.ceil(medicineList.length / medicinesPerPage);

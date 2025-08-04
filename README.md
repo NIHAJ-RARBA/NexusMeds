@@ -65,7 +65,7 @@ NexusMeds is a sophisticated pharmaceutical e-commerce platform that bridges the
 - **JWT (jsonwebtoken 9.0.2)** - Secure authentication tokens
 - **bcrypt 5.1.1** - Password hashing and encryption
 - **CORS 2.8.5** - Cross-origin resource sharing
-- **Multer 1.4.5** - Multipart form data handling
+- **Multer 1.4.4** - Multipart form data handling
 - **dotenv 16.3.1** - Environment variable management
 
 ### Cloud & Storage
@@ -238,7 +238,18 @@ psql -d nexusmeds -f server/SQL's/TRIGGERS/INVENTORY/inventory_update_trigger_fo
 ### 3. Backend Setup
 ```bash
 cd server
+
+# Clean install (if you encounter permission issues)
+# Delete node_modules folder and package-lock.json first
+# rmdir /s node_modules (Windows) or rm -rf node_modules (Linux/Mac)
+# del package-lock.json (Windows) or rm package-lock.json (Linux/Mac)
+
+# Install dependencies
 npm install
+
+# If permission errors occur, try running as administrator or use:
+# npm install --no-optional
+# npm cache clean --force
 
 # Create .env file
 echo "jwtSecret=your_jwt_secret_here" > .env
@@ -246,9 +257,28 @@ echo "jwtSecret=your_jwt_secret_here" > .env
 # Update database credentials in DB.js
 # Configure Firebase credentials in index.js
 
+# Start the server
 npm start
 # Server runs on http://localhost:5000
+
+# For development with auto-restart (optional)
+# npm install -g nodemon
+# npm run dev
 ```
+
+### Troubleshooting Installation Issues
+If you encounter permission errors during installation:
+
+1. **Windows**: Run PowerShell/Command Prompt as Administrator
+2. **Clear npm cache**: `npm cache clean --force`
+3. **Delete node_modules**: Remove the `node_modules` folder and `package-lock.json`
+4. **Reinstall**: Run `npm install` again
+5. **Alternative**: Use `npm install --no-optional` to skip optional dependencies
+
+**If you get "No matching version found" errors:**
+- Check available versions: `npm view package-name versions --json`
+- Example: `npm view multer versions --json`
+- Update package.json with correct version numbers
 
 ### 4. Frontend Setup
 ```bash
