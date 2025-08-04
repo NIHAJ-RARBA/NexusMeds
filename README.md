@@ -1,17 +1,17 @@
 ﻿# NexusMeds
 
-**A Comprehensive Pharmaceutical E-Commerce Platform**
+**A Comprehensive Pharmaceutical and Chemical E-Commerce Platform**
 
-A full-stack web application designed for online pharmaceutical sales, research chemical procurement, and healthcare management. Built as a Level 2 - Term 1 Database Management Systems project, showcasing enterprise-level architecture and advanced database operations.
+A full-stack web application designed for online pharmaceutical sales, research chemical procurement, and healthcare management. Built as a Level 2 - Term 1 Database Management Systems project. 
+
+NexusMeds is a sophisticated pharmaceutical and chemical e-commerce platform that bridges the gap between customers, researchers, and pharmaceutical suppliers. The system supports multiple user roles with distinct functionalities, real-time inventory management, and comprehensive order processing workflows.
 
 [![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-Express-green.svg)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue.svg)](https://postgresql.org/)
 [![Firebase](https://img.shields.io/badge/Firebase-Storage-orange.svg)](https://firebase.google.com/)
 
-## Project Overview
 
-NexusMeds is a sophisticated pharmaceutical e-commerce platform that bridges the gap between customers, researchers, and pharmaceutical suppliers. The system supports multiple user roles with distinct functionalities, real-time inventory management, and comprehensive order processing workflows.
 
 ### Key Features
 - **Multi-Role E-Commerce**: Separate interfaces for customers, researchers, and administrators
@@ -416,3 +416,4 @@ For support, email altairahad001@gmail.com or sahaamit20002@gmail.com
 ---
 
 *Built by the NexusMeds Development Team*
+
