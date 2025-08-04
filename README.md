@@ -46,6 +46,50 @@ NexusMeds is a sophisticated pharmaceutical and chemical e-commerce platform tha
                     └─────────────────┘
 ```
 
+
+## Usage Guide
+
+### For Customers
+1. **Registration**: Sign up with email, phone, and profile information
+2. **Browse Products**: Search medicines by name or browse categories
+3. **Shopping Cart**: Add medicines to cart with quantity selection
+4. **Checkout**: Provide billing address and upload prescription if required
+5. **Order Tracking**: Monitor order status and delivery progress
+
+### For Researchers
+1. **Registration**: Sign up and upload research permit for approval
+2. **Approval Process**: Wait for admin approval to access chemicals
+3. **Chemical Procurement**: Browse and order research chemicals
+4. **Order Management**: Track chemical orders and delivery status
+
+### For Administrators
+1. **User Management**: Approve researcher registrations
+2. **Order Management**: Review and approve orders
+3. **Inventory Control**: Monitor stock levels and manage supply requests
+4. **Analytics**: View business statistics and user analytics
+5. **Product Management**: Add new medicines and chemicals
+
+## Security Features
+
+### Authentication & Authorization
+- **JWT Tokens**: Secure stateless authentication
+- **Password Hashing**: bcrypt with salt rounds
+- **Role-Based Access**: Different permissions for user types
+- **Token Expiration**: Automatic session timeout
+
+### Data Protection
+- **SQL Injection Prevention**: Parameterized queries throughout
+- **Input Validation**: Frontend and backend validation
+- **File Upload Security**: Firebase integration with access controls
+- **CORS Configuration**: Controlled cross-origin access
+
+### Business Logic Security
+- **Inventory Validation**: Prevents overselling
+- **User Type Verification**: Restricts access to appropriate products
+- **Approval Workflows**: Researcher verification process
+- **Audit Logging**: Complete user activity tracking
+
+
 ## Technologies & Methodologies
 
 ### Frontend Technologies
@@ -301,48 +345,6 @@ const firebaseConfig = {
 };
 ```
 
-## Usage Guide
-
-### For Customers
-1. **Registration**: Sign up with email, phone, and profile information
-2. **Browse Products**: Search medicines by name or browse categories
-3. **Shopping Cart**: Add medicines to cart with quantity selection
-4. **Checkout**: Provide billing address and upload prescription if required
-5. **Order Tracking**: Monitor order status and delivery progress
-
-### For Researchers
-1. **Registration**: Sign up and upload research permit for approval
-2. **Approval Process**: Wait for admin approval to access chemicals
-3. **Chemical Procurement**: Browse and order research chemicals
-4. **Order Management**: Track chemical orders and delivery status
-
-### For Administrators
-1. **User Management**: Approve researcher registrations
-2. **Order Management**: Review and approve orders
-3. **Inventory Control**: Monitor stock levels and manage supply requests
-4. **Analytics**: View business statistics and user analytics
-5. **Product Management**: Add new medicines and chemicals
-
-## Security Features
-
-### Authentication & Authorization
-- **JWT Tokens**: Secure stateless authentication
-- **Password Hashing**: bcrypt with salt rounds
-- **Role-Based Access**: Different permissions for user types
-- **Token Expiration**: Automatic session timeout
-
-### Data Protection
-- **SQL Injection Prevention**: Parameterized queries throughout
-- **Input Validation**: Frontend and backend validation
-- **File Upload Security**: Firebase integration with access controls
-- **CORS Configuration**: Controlled cross-origin access
-
-### Business Logic Security
-- **Inventory Validation**: Prevents overselling
-- **User Type Verification**: Restricts access to appropriate products
-- **Approval Workflows**: Researcher verification process
-- **Audit Logging**: Complete user activity tracking
-
 ## Performance Optimizations
 
 ### Database Optimizations
@@ -417,5 +419,6 @@ For support, email altairahad001@gmail.com or sahaamit20002@gmail.com
 ---
 
 *Built by the NexusMeds Development Team*
+
 
 
