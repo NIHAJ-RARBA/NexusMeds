@@ -17,7 +17,8 @@ NexusMeds is a sophisticated pharmaceutical and chemical e-commerce platform tha
 - **Multi-Role E-Commerce**: Separate interfaces for customers, researchers, and administrators
 - **Advanced Search**: Fuzzy search with ranking algorithms for medicines and chemicals
 - **Real-Time Inventory**: Live stock tracking with automated supply management
-- **Secure Payments**: Integrated payment processing with order tracking
+- **Secure Payments**: Integrated payment processing with cart and order tracking
+- **Authority Verification for Chemical and Prescription Medicine Purchase**
 - **Analytics Dashboard**: Comprehensive statistics and business intelligence
 - **JWT Authentication**: Secure user authentication with role-based access control
 - **Responsive Design**: Mobile-friendly interface using Bootstrap and Reactstrap
@@ -416,4 +417,5 @@ For support, email altairahad001@gmail.com or sahaamit20002@gmail.com
 ---
 
 *Built by the NexusMeds Development Team*
+
 
